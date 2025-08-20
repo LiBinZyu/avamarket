@@ -167,57 +167,69 @@
 
 ---
 
-## 前端样式体系与类名速查表
+## Frontend Design Principles & Style Reference
 
-本项目采用 Tailwind CSS + 全局 CSS 变量的混合方案，所有主题色、圆角、阴影和常用组件样式均已预定义，便于统一管理和快速原型开发。
+### Design Principles
 
-### 主题变量与 Tailwind 类名
+- **Minimalist, Clean, Light**: The UI is primarily black, white, and gray. Blue is used only for highlights (buttons, links, tags).
+- **No Shadows, Minimal Borders**: All cards, buttons, and inputs have no box-shadow and only the thinnest gray border where necessary. Hover states use subtle background color, not shadow.
+- **Small, Refined Typography**: The global font size is reduced for a more elegant, modern look. All text uses a modern sans-serif font stack: Inter, Poppins, Montserrat, Nunito Sans, etc.
+- **Consistent Spacing & Radius**: All components use consistent border-radius and spacing for a unified feel.
+- **Accessible, Responsive**: All colors and contrasts are chosen for clarity and accessibility.
 
-| 变量/用途         | Tailwind 类名         | CSS 变量名             | 说明                |
-|------------------|----------------------|------------------------|---------------------|
-| 主背景色         | `bg-light-bg`        | `--light-bg`           | 页面主背景色        |
-| 侧边栏背景       | `bg-sidebar-bg`      | `--sidebar-bg`         | 侧边栏/卡片背景     |
-| 图标提示色       | `text-icon-hint`     | `--icon-hint`          | 图标/辅助文字       |
-| 次要字体色       | `text-secondary-font`| `--secondary-font`     | 次要文字            |
-| 主要字体色       | `text-primary-font`  | `--primary-font`       | 主文字/标题         |
-| 浅蓝             | `bg-LightBlue`       | `--LightBlue`          | 标签/高亮背景       |
-| 主蓝             | `bg-NormalBlue`      | `--NormalBlue`         | 主按钮/高亮         |
-| 品牌蓝           | `bg-DifyBlue`        | `--DifyBlue`           | 品牌色/主按钮       |
+### Theme Variables & Tailwind Class Reference
 
-### 圆角与阴影
+| Variable/Usage      | Tailwind Class         | CSS Variable         | Description                        |
+|---------------------|-----------------------|----------------------|-------------------------------------|
+| Main background     | `bg-light-bg`         | `--light-bg`         | Page background                     |
+| Secondary bg        | `bg-sidebar-bg`       | `--sidebar-bg`       | Card/section background             |
+| Icon color          | `text-icon-hint`      | `--icon-hint`        | Icon/secondary text                 |
+| Border color        | `border-[color]`      | `--border-color`     | Thin border for cards/inputs        |
+| Secondary text      | `text-secondary-font` | `--secondary-font`   | Secondary text                      |
+| Primary text        | `text-primary-font`   | `--primary-font`     | Main text/headings                  |
+| Light blue          | `bg-LightBlue`        | `--LightBlue`        | Tag/label highlight                 |
+| Blue (button)       | `bg-NormalBlue`       | `--NormalBlue`       | Primary button                      |
+| Deep blue           | `bg-DifyBlue`         | `--DifyBlue`         | Emphasis, active border, etc.       |
 
-| 用途             | Tailwind 类名         | CSS 变量名             |
-|------------------|----------------------|------------------------|
-| 页面容器圆角     | `rounded-page-container` | `--radius-page-container` |
-| 卡片圆角         | `rounded-card`        | `--radius-card`        |
-| 弹窗圆角         | `rounded-modal`       | `--radius-modal`       |
-| 按钮圆角         | `rounded-button`      | `--radius-button`      |
-| 输入框圆角       | `rounded-input`       | `--radius-input`       |
-| 标签圆角         | `rounded-tag`         | `--radius-tag`         |
-| 卡片阴影         | `shadow-card`         | `--shadow-card`        |
-| 输入聚焦阴影     | `shadow-input-focus`  | `--shadow-input-focus` |
+### Border Radius & Shadows
 
-### 常用组件类名
+| Usage               | Tailwind Class             | CSS Variable             | Note                        |
+|---------------------|---------------------------|--------------------------|-----------------------------|
+| Page container      | `rounded-page-container`  | `--radius-page-container`|                             |
+| Card                | `rounded-card`            | `--radius-card`          |                             |
+| Modal               | `rounded-modal`           | `--radius-modal`         |                             |
+| Button              | `rounded-button`          | `--radius-button`        |                             |
+| Input               | `rounded-input`           | `--radius-input`         |                             |
+| Tag                 | `rounded-tag`             | `--radius-tag`           |                             |
+| Card shadow         | `shadow-card`             | `--shadow-card`          | **Set to none**             |
+| Input focus shadow  | `shadow-input-focus`      | `--shadow-input-focus`   | **Set to none**             |
 
-| 组件/用途        | 类名                | 说明                    |
-|------------------|---------------------|-------------------------|
-| 主按钮           | `btn-primary`       | 高亮主按钮              |
-| 次按钮           | `btn-secondary`     | 次要操作按钮            |
-| 发布按钮         | `btn-post`          | 发布/操作按钮           |
-| 内容卡片         | `content-card`      | 主要内容卡片            |
-| 分类卡片         | `category-card`     | 分类/筛选卡片           |
-| 输入框           | `input-field`       | 表单输入                |
-| 技术标签         | `tech-tag`          | 技术/平台标签           |
-| 分类标签         | `category-tag`      | 分类/筛选标签           |
-| 导航链接         | `nav-link`          | 顶部/侧边导航           |
-| 激活导航         | `nav-link-active`   | 当前激活导航            |
-| 页面容器         | `page-container`    | 页面主内容区            |
-| 搜索栏           | `search-bar`        | 顶部搜索栏              |
-| 弹窗蒙层         | `modal-overlay`     | 全屏弹窗背景            |
-| 弹窗内容         | `modal-content`     | 弹窗内容区              |
+### Common Component Classes
 
-### 使用建议
+| Component/Usage     | Class Name           | Description                        |
+|---------------------|----------------------|-------------------------------------|
+| Primary button      | `btn-primary`        | Blue, no shadow, no border          |
+| Secondary button    | `btn-secondary`      | White, thin border, no shadow       |
+| Publish button      | `btn-post`           | Deep blue, no shadow, no border     |
+| Content card        | `content-card`       | White, thin border, no shadow       |
+| Category card       | `category-card`      | White, thin border, no shadow       |
+| Input field         | `input-field`        | Thin border, no shadow              |
+| Tech tag            | `tech-tag`           | Light blue background, blue text    |
+| Category tag        | `category-tag`       | Gray background, secondary text     |
+| Nav link            | `nav-link`           | Top/side navigation                 |
+| Active nav link     | `nav-link-active`    | Current active navigation           |
+| Page container      | `page-container`     | Main content area                   |
+| Search bar          | `search-bar`         | White, thin border, no shadow       |
+| Modal overlay       | `modal-overlay`      | Fullscreen modal background         |
+| Modal content       | `modal-content`      | Modal content area                  |
 
-- 组件开发时，优先用 Tailwind 类名（如 `bg-light-bg rounded-card shadow-card`），如需更复杂样式可用自定义类（如 `btn-primary`）。
-- 所有主题变量都集中在 `:root`，如需调整主题色或圆角，只需改一处即可全局生效。
-- 组件样式建议继续沿用当前命名规范，便于团队协作和维护。
+### Usage Guidelines
+
+- **Typography**: All text uses a small, modern sans-serif font. Headings and body text are refined and consistent.
+- **Color**: Use black/white/gray for most UI. Use blue only for primary actions, links, and highlights.
+- **Borders & Shadows**: Avoid box-shadow. Use only the thinnest gray border for separation where needed.
+- **Hover/Active**: Use subtle background color (sidebar-bg or LightBlue) for hover/active states, not shadow or strong border.
+- **Customization**: All theme variables are in `:root`. To adjust color or radius, change the variable for global effect.
+- **Component Classes**: Use the provided utility classes for all components to ensure consistency and maintainability.
+
+This style system ensures a clean, lightweight, and modern UI, perfect for rapid prototyping and high-end frontend design.
