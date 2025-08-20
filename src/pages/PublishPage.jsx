@@ -39,7 +39,7 @@ const PublishPage = () => {
   const renderTemplateForm = () => (
     <div className="space-y-6">
       <div>
-        <label className="block text-sm font-medium text-primary-font mb-2">类型</label>
+        <label className="block text-sm font-medium text-primary-font mb-2">Type</label>
         <select className="input-field">
           <option>AI</option>
           <option>Sales</option>
@@ -51,35 +51,35 @@ const PublishPage = () => {
         </select>
       </div>
       <div>
-        <label className="block text-sm font-medium text-primary-font mb-2">标题</label>
-        <input type="text" value={formData.title} onChange={(e) => handleInputChange('title', e.target.value)} className="input-field" placeholder="输入模板标题" />
+        <label className="block text-sm font-medium text-primary-font mb-2">Title</label>
+        <input type="text" value={formData.title} onChange={(e) => handleInputChange('title', e.target.value)} className="input-field" placeholder="Enter template title" />
       </div>
       <div>
-        <label className="block text-sm font-medium text-primary-font mb-2">标签 (用逗号分隔)</label>
-        <input type="text" value={formData.labels} onChange={(e) => handleInputChange('labels', e.target.value)} className="input-field" placeholder="例如: OpenAI, Discord, Google Sheets" />
+        <label className="block text-sm font-medium text-primary-font mb-2">Labels (comma separated)</label>
+        <input type="text" value={formData.labels} onChange={(e) => handleInputChange('labels', e.target.value)} className="input-field" placeholder="e.g. OpenAI, Discord, Google Sheets" />
       </div>
       <div>
-        <label className="block text-sm font-medium text-primary-font mb-2">SVG预览图</label>
+        <label className="block text-sm font-medium text-primary-font mb-2">SVG Preview</label>
         <div className="border-2 border-dashed border-gray-200 rounded-input p-6 text-center">
           <svg className="w-12 h-12 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
           </svg>
-          <p className="text-secondary-font">点击上传或拖拽文件到此处</p>
+          <p className="text-secondary-font">Click to upload or drag files here</p>
         </div>
       </div>
       <div>
-        <label className="block text-sm font-medium text-primary-font mb-2">DSL文件</label>
+        <label className="block text-sm font-medium text-primary-font mb-2">DSL Files</label>
         <div className="space-y-3">
           {formData.dslFiles.map((dsl, index) => (
             <div key={index} className="flex space-x-3">
-              <input type="text" value={dsl.platformName} onChange={(e) => handleDslFileChange(index, 'platformName', e.target.value)} className="input-field flex-1" placeholder="平台名称 (如: Dify, n8n)" />
+              <input type="text" value={dsl.platformName} onChange={(e) => handleDslFileChange(index, 'platformName', e.target.value)} className="input-field flex-1" placeholder="Platform name (e.g. Dify, n8n)" />
               <input type="file" className="input-field flex-1" accept=".json,.yaml,.yml" />
               {formData.dslFiles.length > 1 && (
-                <button type="button" onClick={() => removeDslFile(index)} className="px-4 py-3 bg-red-100 text-red-600 rounded-input hover:bg-red-200 transition-colors duration-200">删除</button>
+                <button type="button" onClick={() => removeDslFile(index)} className="px-4 py-3 bg-red-100 text-red-600 rounded-input hover:bg-red-200 transition-colors duration-200">Delete</button>
               )}
             </div>
           ))}
-          <button type="button" onClick={addDslFile} className="px-4 py-2 border border-gray-300 text-secondary-font rounded-button hover:bg-gray-50 transition-colors duration-200">+ 添加平台</button>
+          <button type="button" onClick={addDslFile} className="px-4 py-2 border border-gray-300 text-secondary-font rounded-button hover:bg-gray-50 transition-colors duration-200">+ Add Platform</button>
         </div>
       </div>
     </div>
@@ -88,15 +88,15 @@ const PublishPage = () => {
   const renderPlatformForm = () => (
     <div className="space-y-6">
       <div>
-        <label className="block text-sm font-medium text-primary-font mb-2">标题</label>
-        <input type="text" value={formData.title} onChange={(e) => handleInputChange('title', e.target.value)} className="input-field" placeholder="输入平台标题" />
+        <label className="block text-sm font-medium text-primary-font mb-2">Title</label>
+        <input type="text" value={formData.title} onChange={(e) => handleInputChange('title', e.target.value)} className="input-field" placeholder="Enter platform title" />
       </div>
       <div>
-        <label className="block text-sm font-medium text-primary-font mb-2">标签 (用逗号分隔)</label>
-        <input type="text" value={formData.labels} onChange={(e) => handleInputChange('labels', e.target.value)} className="input-field" placeholder="例如: OpenAI, Google Drive, Slack" />
+        <label className="block text-sm font-medium text-primary-font mb-2">Labels (comma separated)</label>
+        <input type="text" value={formData.labels} onChange={(e) => handleInputChange('labels', e.target.value)} className="input-field" placeholder="e.g. OpenAI, Google Drive, Slack" />
       </div>
       <div>
-        <label className="block text-sm font-medium text-primary-font mb-2">项目URL</label>
+        <label className="block text-sm font-medium text-primary-font mb-2">Project URL</label>
         <input type="url" value={formData.projectUrl} onChange={(e) => handleInputChange('projectUrl', e.target.value)} className="input-field" placeholder="https://example.com" />
       </div>
     </div>
@@ -106,9 +106,9 @@ const PublishPage = () => {
     <div className="min-h-screen bg-light-bg">
       <div className="page-container">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold text-primary-font text-center mb-8">发布内容</h1>
+          <h1 className="text-3xl font-bold text-primary-font text-center mb-8">Publish Content</h1>
           <div className="bg-white rounded-card shadow-card p-6 mb-8">
-            <h2 className="text-lg font-semibold text-primary-font mb-4">选择发布类型</h2>
+            <h2 className="text-lg font-semibold text-primary-font mb-4">Select Publish Type</h2>
             <div className="flex space-x-4">
               {['template', 'platform', 'mcp'].map((type) => (
                 <button
@@ -127,15 +127,15 @@ const PublishPage = () => {
               <label className="block text-sm font-medium text-primary-font mb-2">README</label>
               <div className="border border-gray-200 rounded-input">
                 <div className="flex border-b border-gray-200">
-                  <button type="button" className="px-4 py-2 text-sm font-medium text-DifyBlue border-b-2 border-DifyBlue">编辑</button>
-                  <button type="button" className="px-4 py-2 text-sm font-medium text-secondary-font hover:text-primary-font">预览</button>
+                  <button type="button" className="px-4 py-2 text-sm font-medium text-DifyBlue border-b-2 border-DifyBlue">Edit</button>
+                  <button type="button" className="px-4 py-2 text-sm font-medium text-secondary-font hover:text-primary-font">Preview</button>
                 </div>
-                <textarea value={formData.readme} onChange={(e) => handleInputChange('readme', e.target.value)} className="w-full p-4 outline-none resize-none h-64" placeholder="输入README内容，支持Markdown语法..." />
+                <textarea value={formData.readme} onChange={(e) => handleInputChange('readme', e.target.value)} className="w-full p-4 outline-none resize-none h-64" placeholder="Enter README content, supports Markdown..." />
               </div>
             </div>
             <div className="mt-8 flex justify-end space-x-4">
-              <button type="button" className="btn-secondary">取消</button>
-              <button type="submit" className="btn-primary">发布</button>
+              <button type="button" className="btn-secondary">Cancel</button>
+              <button type="submit" className="btn-primary">Publish</button>
             </div>
           </form>
         </div>

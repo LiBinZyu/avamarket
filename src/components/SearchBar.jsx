@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const SearchBar = ({ onSearch, placeholder = "搜索模板、平台或MCP..." }) => {
+const SearchBar = ({ onSearch, placeholder = "Search for templates, platforms or MCPs ..." }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSubmit = (e) => {

@@ -36,34 +36,37 @@ const ContentCard = ({ item, type = 'template', onClick }) => {
       )}
       {author.isOfficial && (
         <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-tag">
-          官方
+          Official
         </span>
       )}
     </div>
   );
 
   return (
-    <div className="content-card" onClick={() => onClick(item)}>
+    <div
+      className="content-card cursor-pointer transition-transform duration-200 hover:shadow-lg hover:-translate-y-1 hover:border-NormalBlue border border-transparent"
+      onClick={() => onClick(item)}
+    >
       {/* 技术栈标签 */}
       {renderLabels(item.labels)}
-      
+
       {/* 标题 */}
       <h3 className="text-lg font-semibold text-primary-font mb-3 line-clamp-2">
         {item.title}
       </h3>
-      
+
       {/* 作者信息 */}
       {renderAuthor(item.author)}
-      
-      {/* 下载量 */}
-      <div className="flex items-center justify-between">
+
+      {/* 下载量与类型 */}
+      <div className="flex items-center justify-between mt-2">
         <div className="flex items-center text-sm text-secondary-font">
           <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
           </svg>
           {item.downloads.toLocaleString()}
         </div>
-        
+
         {/* 类型标识 */}
         {type === 'platform' && (
           <svg className="w-5 h-5 text-icon-hint" fill="none" stroke="currentColor" viewBox="0 0 24 24">

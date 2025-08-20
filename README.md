@@ -22,7 +22,7 @@
 
 ### **2.1 主页 (Homepage)**
 
-  * **布局**: `顶部导航` -\> `搜索栏` -\> `筛选标签栏` -\> `内容卡片网格`
+  * **布局**: `顶部导航` -\> `搜索栏` -\> `筛选标签栏` -\> `内容分区`
   * **交互**:
       * **搜索**: 实时/异步筛选标题、标签。
       * **筛选标签**: 单选，点击后异步刷新下方内容列表。
@@ -37,18 +37,37 @@
         * **Other**: 其他相关二级分类
         * **Support**: 支持相关二级分类
       * **三级**: 根据不同的二级分类展示结果，这个就是具体的每个post
-  * **二级分类页面布局**:
-      * 每个二级分类以卡片布局展示
-      * 第一行显示一级分类标题
-      * 第一个卡片横向填充 (fill horizontally)
-      * 最多3个x2行的卡片网格布局
-      * 每个卡片都有label：Google Sheets, Feishu/Lark, OpenAI, Telegram, Gmall, MySQL, Postgres, Discord, Google Drive, Slack, Notion, Microsoft Outlook, Microsoft Excel 365, Google Calendar, AWS Bedrock Chat Model, AWS Certificate Manager 等。过多则显示前 4-5 个，剩余的用 +N 标签聚合展示。
-      * 底部显示 "explore more" 文字链接
-  * **三级分类结果页面**:
-      * 从二级目录进入或通过搜索栏筛选后展现
-      * 显示 "Results" 标题
-      * 以无填充的卡片列表形式展示，类似Google Scholar的搜索结果样式
-      > 点击卡片进入其内容详情页
+
+  * **首页分区排版格式**:
+      * 首页每个一级分类下，依次展示所有二级分类，每个二级分类为一个分区。
+      * 每个分区包含：
+        1. **标题**：二级分类名（如 Featured AI templates、AI Chatbot 等）
+        2. **卡片区**：展示该二级分类下最多 6 个内容卡片（ContentCard），卡片内容为 post 标题、标签、作者、下载量等
+        3. **explore more** 文字链接：跳转到该二级分类的完整列表或结果页
+      * 示例：
+        ```
+        标题：Featured AI templates
+        卡片：Angie, Personal AI Assistant with Telegram Voice and Text
+        卡片：Chat with local LLMs using n8n and Ollama
+        卡片：Chat with a database using AI
+        卡片：RAG Chatbot for Company Documents using Google Drive and Gemini
+        卡片：Basic Automatic Gmail Email Labelling with OpenAI and Gmail API
+        卡片：Analyze Landing Page with OpenAI and Get Optimization Tips
+        文字链接：explore more templates
+
+        标题：AI Chatbot
+        ...
+        ```
+      * 每个分区样式统一，卡片区为 3 列 x 2 行网格，底部 explore more 链接样式同上。
+      * 点击“explore more templates”后，跳转到该二级分类的完整列表页，保留搜索栏，展示所有属于该二级分类的卡片。
+
+  * **二级分类结果页面（explore more 跳转页）**:
+      * 页面顶部保留搜索栏，支持关键词筛选。
+      * 标题为“Results [数量]”，右上角有排序下拉菜单（如 Sort: Relevancy）。
+      * 下方为卡片列表，每个卡片横向排布，包含标题、摘要、作者、更新时间、标签等，样式参考下图（Google Scholar 风格）。
+      * 卡片间有分隔线，鼠标悬停有高亮。
+      * 点击卡片进入内容详情页。
+      * 支持返回首页或切换其他二级分类。
 
 ### **2.2 内容详情页 (Detail Page)**
 
@@ -145,3 +164,60 @@
       "readme": "markdown string"
     }
     ```
+
+---
+
+## 前端样式体系与类名速查表
+
+本项目采用 Tailwind CSS + 全局 CSS 变量的混合方案，所有主题色、圆角、阴影和常用组件样式均已预定义，便于统一管理和快速原型开发。
+
+### 主题变量与 Tailwind 类名
+
+| 变量/用途         | Tailwind 类名         | CSS 变量名             | 说明                |
+|------------------|----------------------|------------------------|---------------------|
+| 主背景色         | `bg-light-bg`        | `--light-bg`           | 页面主背景色        |
+| 侧边栏背景       | `bg-sidebar-bg`      | `--sidebar-bg`         | 侧边栏/卡片背景     |
+| 图标提示色       | `text-icon-hint`     | `--icon-hint`          | 图标/辅助文字       |
+| 次要字体色       | `text-secondary-font`| `--secondary-font`     | 次要文字            |
+| 主要字体色       | `text-primary-font`  | `--primary-font`       | 主文字/标题         |
+| 浅蓝             | `bg-LightBlue`       | `--LightBlue`          | 标签/高亮背景       |
+| 主蓝             | `bg-NormalBlue`      | `--NormalBlue`         | 主按钮/高亮         |
+| 品牌蓝           | `bg-DifyBlue`        | `--DifyBlue`           | 品牌色/主按钮       |
+
+### 圆角与阴影
+
+| 用途             | Tailwind 类名         | CSS 变量名             |
+|------------------|----------------------|------------------------|
+| 页面容器圆角     | `rounded-page-container` | `--radius-page-container` |
+| 卡片圆角         | `rounded-card`        | `--radius-card`        |
+| 弹窗圆角         | `rounded-modal`       | `--radius-modal`       |
+| 按钮圆角         | `rounded-button`      | `--radius-button`      |
+| 输入框圆角       | `rounded-input`       | `--radius-input`       |
+| 标签圆角         | `rounded-tag`         | `--radius-tag`         |
+| 卡片阴影         | `shadow-card`         | `--shadow-card`        |
+| 输入聚焦阴影     | `shadow-input-focus`  | `--shadow-input-focus` |
+
+### 常用组件类名
+
+| 组件/用途        | 类名                | 说明                    |
+|------------------|---------------------|-------------------------|
+| 主按钮           | `btn-primary`       | 高亮主按钮              |
+| 次按钮           | `btn-secondary`     | 次要操作按钮            |
+| 发布按钮         | `btn-post`          | 发布/操作按钮           |
+| 内容卡片         | `content-card`      | 主要内容卡片            |
+| 分类卡片         | `category-card`     | 分类/筛选卡片           |
+| 输入框           | `input-field`       | 表单输入                |
+| 技术标签         | `tech-tag`          | 技术/平台标签           |
+| 分类标签         | `category-tag`      | 分类/筛选标签           |
+| 导航链接         | `nav-link`          | 顶部/侧边导航           |
+| 激活导航         | `nav-link-active`   | 当前激活导航            |
+| 页面容器         | `page-container`    | 页面主内容区            |
+| 搜索栏           | `search-bar`        | 顶部搜索栏              |
+| 弹窗蒙层         | `modal-overlay`     | 全屏弹窗背景            |
+| 弹窗内容         | `modal-content`     | 弹窗内容区              |
+
+### 使用建议
+
+- 组件开发时，优先用 Tailwind 类名（如 `bg-light-bg rounded-card shadow-card`），如需更复杂样式可用自定义类（如 `btn-primary`）。
+- 所有主题变量都集中在 `:root`，如需调整主题色或圆角，只需改一处即可全局生效。
+- 组件样式建议继续沿用当前命名规范，便于团队协作和维护。

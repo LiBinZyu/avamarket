@@ -39,7 +39,7 @@ const DetailPage = ({ item, type = 'template', onBack }) => {
       )}
       
       <button className="btn-primary w-full">
-        获取模板
+        Get Template
       </button>
       
       {type === 'platform' && (
@@ -71,7 +71,7 @@ const DetailPage = ({ item, type = 'template', onBack }) => {
             )}
             {item.author.isOfficial && (
               <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-tag">
-                官方
+                Official
               </span>
             )}
           </div>
@@ -79,11 +79,11 @@ const DetailPage = ({ item, type = 'template', onBack }) => {
       </div>
       
       <div className="text-sm text-secondary-font">
-        最后更新于 {item.lastUpdate}
+        Last updated {item.lastUpdate}
       </div>
       
       <div className="text-sm text-secondary-font">
-        分类: {item.category} {'>'} {item.subcategory}
+        Category: {item.category} {'>'} {item.subcategory}
       </div>
     </div>
   );
@@ -92,7 +92,10 @@ const DetailPage = ({ item, type = 'template', onBack }) => {
     <div className="min-h-screen bg-light-bg">
       <div className="page-container">
         <div className="mb-6">
-          <button onClick={onBack} className="text-DifyBlue hover:text-NormalBlue font-medium">
+          <button
+            onClick={onBack}
+            className="text-DifyBlue hover:text-NormalBlue font-medium underline underline-offset-4 transition-colors duration-150"
+          >
             ← Back to Templates
           </button>
         </div>
@@ -108,19 +111,19 @@ const DetailPage = ({ item, type = 'template', onBack }) => {
           </div>
           
           <div className="lg:col-span-2">
-            <div className="bg-gray-50 rounded-card p-8 mb-6">
-              <div className="aspect-video bg-white rounded-card border-2 border-dashed border-gray-200 flex items-center justify-center">
+            <div className="bg-gray-50 rounded-card shadow-card p-8 mb-6">
+              <div className="aspect-video bg-white rounded-card border-2 border-dashed border-gray-200 flex items-center justify-center shadow-card">
                 <div className="text-center text-secondary-font">
                   <svg className="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  <p>预览图加载中...</p>
+                  <p>Preview loading...</p>
                 </div>
               </div>
             </div>
             
-            <div className="bg-white rounded-card p-6">
-              <h2 className="text-xl font-semibold text-primary-font mb-4">文档说明</h2>
+            <div className="bg-white rounded-card shadow-card p-6">
+              <h2 className="text-xl font-semibold text-primary-font mb-4">Documentation</h2>
               <div className="text-secondary-font whitespace-pre-line">
                 {item.readme}
               </div>

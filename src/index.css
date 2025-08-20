@@ -4,14 +4,15 @@
 @source "./**/*.{js,jsx,ts,tsx,html}";
 
 :root {
-  --light-bg: #F7FAFC;
-  --sidebar-bg: #F1F3F5;
-  --icon-hint: #9B9CAE;
-  --secondary-font: #616B7E;
-  --primary-font: #11142D;
-  --LightBlue: #E6E7F9;
-  --NormalBlue: #3879D3;
-  --DifyBlue: #193FB9;
+  --light-bg: #F7FAFC; /* 背景颜色 */
+  --sidebar-bg: #F1F3F5; /* 辅助背景颜色 */
+  --icon-hint: #9B9CAE; /* 图标颜色 */
+  --border-color: #E5E7EB; /* 边框颜色或者不重要的文字颜色 */
+  --secondary-font: #616B7E; /* 次要文字颜色 */
+  --primary-font: #11142D; /* 主文字颜色 */
+  --LightBlue: #E6E7F9; /* 需要特别强调的地方使用的浅蓝色，常作为蓝底的文字颜色 */
+  --NormalBlue: #3879D3; /* 需要特别强调的地方使用的蓝色，常作为按钮颜色 */
+  --DifyBlue: #193FB9; /* 需要特别强调的地方使用的深蓝色，常作为按钮颜色或者border */
 
   --radius-page-container: 1.5rem;
   --radius-card: 1rem;
@@ -28,8 +29,23 @@
 body {
   background-color: var(--light-bg);
   color: var(--primary-font);
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: 'Inter', 'Poppins', 'Montserrat', 'Nunito Sans', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   font-feature-settings: "rlig" 1, "calt" 1;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+h3 {
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 /* Custom token utilities to use in markup */
@@ -48,8 +64,8 @@ body {
 .rounded-button { border-radius: var(--radius-button); }
 .rounded-input { border-radius: var(--radius-input); }
 .rounded-tag { border-radius: var(--radius-tag); }
-.shadow-card { box-shadow: var(--shadow-card); }
-.shadow-input-focus { box-shadow: var(--shadow-input-focus); }
+.shadow-card { box-shadow: none; }
+.shadow-input-focus { box-shadow: none; }
 
 .hover\:bg-NormalBlue:hover { background-color: var(--NormalBlue); }
 .hover\:bg-DifyBlue:hover { background-color: var(--DifyBlue); }
@@ -60,69 +76,77 @@ body {
 .btn-primary {
   background-color: var(--NormalBlue);
   color: #fff;
-  padding: 0.75rem 1.5rem; /* py-3 px-6 */
+  padding: 0.5rem 1.2rem;
   border-radius: var(--radius-button);
   font-weight: 500;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
-  box-shadow: var(--shadow-card);
+  font-size: 0.95rem;
+  border: none;
+  box-shadow: none;
+  transition: background 0.2s, color 0.2s;
 }
 .btn-primary:hover { background-color: var(--DifyBlue); }
 
 .btn-secondary {
   background-color: #fff;
   color: var(--secondary-font);
-  padding: 0.75rem 1.5rem;
+  padding: 0.5rem 1.2rem;
   border-radius: var(--radius-button);
   font-weight: 500;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  box-shadow: var(--shadow-card);
-  border: 1px solid #e5e7eb; /* gray-200 */
+  font-size: 0.95rem;
+  border: 1px solid var(--border-color);
+  box-shadow: none;
+  transition: background 0.2s, color 0.2s;
 }
-.btn-secondary:hover { background-color: var(--light-bg); }
+.btn-secondary:hover { background-color: var(--sidebar-bg); }
 
 .btn-post {
   background-color: var(--DifyBlue);
   color: #fff;
-  padding: 0.5rem 1rem; /* py-2 px-4 */
+  padding: 0.4rem 1rem;
   border-radius: var(--radius-button);
   font-weight: 500;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  box-shadow: var(--shadow-card);
+  font-size: 0.95rem;
+  border: none;
+  box-shadow: none;
+  transition: background 0.2s, color 0.2s;
 }
 .btn-post:hover { background-color: var(--NormalBlue); }
 
 .content-card {
   background-color: #fff;
   border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
-  padding: 1.5rem; /* p-6 */
-  transition: box-shadow 0.2s ease;
+  border: 1px solid var(--border-color);
+  box-shadow: none;
+  padding: 1.2rem;
+  transition: background 0.2s;
   cursor: pointer;
 }
-.content-card:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+.content-card:hover { background: var(--sidebar-bg); box-shadow: none; }
 
 .category-card {
   background-color: #fff;
   border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
-  padding: 1rem; /* p-4 */
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid var(--border-color);
+  box-shadow: none;
+  padding: 0.8rem;
+  transition: background 0.2s, transform 0.2s;
   cursor: pointer;
-  border: 1px solid #f3f4f6; /* gray-100 */
 }
-.category-card:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+.category-card:hover { background: var(--sidebar-bg); box-shadow: none; }
 
 .input-field {
   width: 100%;
-  padding: 0.75rem 1rem; /* py-3 px-4 */
-  border: 1px solid #e5e7eb; /* gray-200 */
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-input);
   outline: none;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  font-size: 0.95rem;
+  box-shadow: none;
+  transition: border-color 0.2s;
 }
 .input-field:focus {
-  border-color: transparent;
-  box-shadow: var(--shadow-input-focus);
+  border-color: var(--DifyBlue);
+  box-shadow: none;
 }
 
 .tech-tag {
@@ -166,15 +190,15 @@ body {
 
 .search-bar {
   width: 100%;
-  max-width: 42rem; /* ~2xl */
-  padding: 1rem 1.5rem; /* py-4 px-6 */
+  max-width: 42rem;
+  padding: 0.7rem 1.2rem;
   background-color: #fff;
   border-radius: var(--radius-page-container);
-  box-shadow: var(--shadow-card);
-  border: 1px solid #f3f4f6; /* gray-100 */
-  transition: box-shadow 0.2s ease;
+  border: 1px solid var(--border-color);
+  box-shadow: none;
+  transition: background 0.2s;
 }
-.search-bar:focus-within { box-shadow: var(--shadow-input-focus); }
+.search-bar:focus-within { background: var(--sidebar-bg); box-shadow: none; }
 
 .modal-overlay {
   position: fixed; inset: 0;
