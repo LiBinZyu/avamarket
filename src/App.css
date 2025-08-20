@@ -1,0 +1,17 @@
+/* 移除默认样式，使用Tailwind CSS */
+.App {
+  text-align: left;
+}
+
+/* 添加一些自定义样式 */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 确保图标正确显示 */
+svg {
+  display: inline-block;
+}
