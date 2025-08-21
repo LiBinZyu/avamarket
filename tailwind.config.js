@@ -25,8 +25,8 @@ export default {
         'tag': '0.375rem',
       },
       boxShadow: {
-        'card': '0 4px 12px rgba(0, 0, 0, 0.05)',
-        'input-focus': '0 0 0 3px rgba(59, 130, 246, 0.2)',
+        'card': '0 4px 12px rgba(0, 0, 0, 0.5)',
+        'input-focus': '0 0 0 3px rgba(59, 130, 246, 0.7)',
       },
     },
   },

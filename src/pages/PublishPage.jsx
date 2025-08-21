@@ -41,13 +41,13 @@ const PublishPage = () => {
       <div>
         <label className="block text-sm font-medium text-primary-font mb-2">Type</label>
         <select className="input-field">
-          <option>AI</option>
-          <option>Sales</option>
-          <option>IT Ops</option>
-          <option>Marketing</option>
-          <option>Document Ops</option>
-          <option>Other</option>
-          <option>Support</option>
+          <option class = "dropdown-item">AI</option>
+          <option class = "dropdown-item">Sales</option>
+          <option class = "dropdown-item">IT Ops</option>
+          <option class = "dropdown-item">Marketing</option>
+          <option class = "dropdown-item">Document Ops</option>
+          <option class = "dropdown-item">Other</option>
+          <option class = "dropdown-item">Support</option>
         </select>
       </div>
       <div>
@@ -114,7 +114,7 @@ const PublishPage = () => {
                 <button
                   key={type}
                   onClick={() => setPublishType(type)}
-                  className={`px-6 py-3 rounded-button border transition-colors duration-200 ${publishType === type ? 'border-DifyBlue bg-DifyBlue text-white' : 'border-gray-200 text-secondary-font hover:border-gray-300'}`}
+                  className={`px-6 py-2 rounded-button border transition-colors duration-200 ${publishType === type ? 'border-DifyBlue bg-DifyBlue text-white' : 'border-gray-200 text-secondary-font hover:border-gray-300'}`}
                 >
                   {type === 'template' ? 'Template' : type === 'platform' ? 'Platform' : 'MCP'}
                 </button>
@@ -128,7 +128,7 @@ const PublishPage = () => {
               <div className="border border-gray-200 rounded-input">
                 <div className="flex border-b border-gray-200">
                   <button type="button" className="px-4 py-2 text-sm font-medium text-DifyBlue border-b-2 border-DifyBlue">Edit</button>
-                  <button type="button" className="px-4 py-2 text-sm font-medium text-secondary-font hover:text-primary-font">Preview</button>
+                  <button type="button" className="px-4 py-2 text-sm font-medium text-secondary-font hover:text-primary-font roboto-mono-medium">Preview</button>
                 </div>
                 <textarea value={formData.readme} onChange={(e) => handleInputChange('readme', e.target.value)} className="w-full p-4 outline-none resize-none h-64" placeholder="Enter README content, supports Markdown..." />
               </div>

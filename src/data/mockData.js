@@ -64,11 +64,11 @@ export const templates = [
   {
     id: "template-1",
     title: "Angie, Personal AI Assistant with Telegram Voice and Text",
-    author: { name: "Alice", avatar: "https://randomuser.me/api/portraits/women/1.jpg", isVerified: true, isOfficial: false },
+    author: { name: "Alice", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Alice", isVerified: true, isOfficial: false },
     downloads: 2345,
     category: "AI",
     subcategory: "Featured AI templates",
-    labels: ["Telegram", "OpenAI", "Feishu/Lark"],
+    labels: ["Telegram", "OpenAI", "Feishu","Lark","WeCom","Wechat","X"],
     svgPreview: "https://via.placeholder.com/300x200",
     description: "你的专属AI助理，支持语音与文本交互",
     lastUpdate: "1周前",
@@ -78,7 +78,7 @@ export const templates = [
   {
     id: "template-2",
     title: "Chat with local LLMs using n8n and Ollama",
-    author: { name: "Bob", avatar: "https://randomuser.me/api/portraits/men/2.jpg", isVerified: false, isOfficial: false },
+    author: { name: "Bob", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Bob", isVerified: false, isOfficial: false },
     downloads: 1987,
     category: "AI",
     subcategory: "Featured AI templates",
@@ -92,7 +92,7 @@ export const templates = [
   {
     id: "template-3",
     title: "Chat with a database using AI",
-    author: { name: "Carol", avatar: "https://randomuser.me/api/portraits/women/3.jpg", isVerified: true, isOfficial: true },
+    author: { name: "Carol", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Carol", isVerified: true, isOfficial: true },
     downloads: 1560,
     category: "AI",
     subcategory: "Featured AI templates",
@@ -106,7 +106,7 @@ export const templates = [
   {
     id: "template-4",
     title: "RAG Chatbot for Company Documents using Google Drive and Gemini",
-    author: { name: "David", avatar: "https://randomuser.me/api/portraits/men/4.jpg", isVerified: false, isOfficial: false },
+    author: { name: "David", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=David", isVerified: false, isOfficial: false },
     downloads: 1420,
     category: "AI",
     subcategory: "Featured AI templates",
@@ -120,7 +120,7 @@ export const templates = [
   {
     id: "template-5",
     title: "Basic Automatic Gmail Email Labelling with OpenAI and Gmail API",
-    author: { name: "Eve", avatar: "https://randomuser.me/api/portraits/women/5.jpg", isVerified: false, isOfficial: false },
+    author: { name: "Eve", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Eve", isVerified: false, isOfficial: false },
     downloads: 1200,
     category: "AI",
     subcategory: "Featured AI templates",
@@ -134,7 +134,7 @@ export const templates = [
   {
     id: "template-6",
     title: "Analyze Landing Page with OpenAI and Get Optimization Tips",
-    author: { name: "Frank", avatar: "https://randomuser.me/api/portraits/men/6.jpg", isVerified: true, isOfficial: false },
+    author: { name: "Frank", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Frank", isVerified: true, isOfficial: false },
     downloads: 1100,
     category: "AI",
     subcategory: "Featured AI templates",
@@ -150,7 +150,7 @@ export const templates = [
   {
     id: "template-7",
     title: "Enterprise Chatbot for Internal Q&A",
-    author: { name: "Grace", avatar: "https://randomuser.me/api/portraits/women/7.jpg", isVerified: true, isOfficial: true },
+    author: { name: "Grace", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Grace", isVerified: true, isOfficial: true },
     downloads: 2100,
     category: "AI",
     subcategory: "AI Chatbot",
@@ -164,7 +164,7 @@ export const templates = [
   {
     id: "template-8",
     title: "Customer Support Chatbot with Feishu",
-    author: { name: "Henry", avatar: "https://randomuser.me/api/portraits/men/8.jpg", isVerified: false, isOfficial: false },
+    author: { name: "Henry", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Henry", isVerified: false, isOfficial: false },
     downloads: 1800,
     category: "AI",
     subcategory: "AI Chatbot",
@@ -178,7 +178,7 @@ export const templates = [
   {
     id: "template-9",
     title: "Discord Community AI Chatbot",
-    author: { name: "Ivy", avatar: "https://randomuser.me/api/portraits/women/9.jpg", isVerified: false, isOfficial: false },
+    author: { name: "Ivy", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Ivy", isVerified: false, isOfficial: false },
     downloads: 1700,
     category: "AI",
     subcategory: "AI Chatbot",
@@ -192,7 +192,7 @@ export const templates = [
   {
     id: "template-10",
     title: "Multi-language Chatbot for Global Teams",
-    author: { name: "Jack", avatar: "https://randomuser.me/api/portraits/men/10.jpg", isVerified: true, isOfficial: false },
+    author: { name: "Jack", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Jack", isVerified: true, isOfficial: false },
     downloads: 1600,
     category: "AI",
     subcategory: "AI Chatbot",
@@ -206,7 +206,7 @@ export const templates = [
   {
     id: "template-11",
     title: "AI FAQ Bot for Websites",
-    author: { name: "Kate", avatar: "https://randomuser.me/api/portraits/women/11.jpg", isVerified: false, isOfficial: false },
+    author: { name: "Kate", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Kate", isVerified: false, isOfficial: false },
     downloads: 1500,
     category: "AI",
     subcategory: "AI Chatbot",
@@ -220,7 +220,7 @@ export const templates = [
   {
     id: "template-12",
     title: "AI Customer Service Bot",
-    author: { name: "John Doe", avatar: "https://via.placeholder.com/40", isVerified: true, isOfficial: false },
+    author: { name: "John Doe", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=JohnDoe", isVerified: true, isOfficial: false },
     downloads: 1247,
     category: "AI",
     subcategory: "AI Chatbot",
@@ -236,7 +236,7 @@ export const templates = [
   {
     id: "template-13",
     title: "RAG for Legal Document Search",
-    author: { name: "Leo", avatar: "https://randomuser.me/api/portraits/men/12.jpg", isVerified: true, isOfficial: false },
+    author: { name: "Leo", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Leo", isVerified: true, isOfficial: false },
     downloads: 1400,
     category: "AI",
     subcategory: "AI RAG",
@@ -250,7 +250,7 @@ export const templates = [
   {
     id: "template-14",
     title: "RAG Chatbot for HR Policies",
-    author: { name: "Mona", avatar: "https://randomuser.me/api/portraits/women/13.jpg", isVerified: false, isOfficial: false },
+    author: { name: "Mona", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Mona", isVerified: false, isOfficial: false },
     downloads: 1300,
     category: "AI",
     subcategory: "AI RAG",
@@ -264,7 +264,7 @@ export const templates = [
   {
     id: "template-15",
     title: "RAG for Product Manuals",
-    author: { name: "Nina", avatar: "https://randomuser.me/api/portraits/women/14.jpg", isVerified: false, isOfficial: false },
+    author: { name: "Nina", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Nina", isVerified: false, isOfficial: false },
     downloads: 1200,
     category: "AI",
     subcategory: "AI RAG",
@@ -278,7 +278,7 @@ export const templates = [
   {
     id: "template-16",
     title: "RAG for Academic Papers",
-    author: { name: "Oscar", avatar: "https://randomuser.me/api/portraits/men/15.jpg", isVerified: true, isOfficial: false },
+    author: { name: "Oscar", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Oscar", isVerified: true, isOfficial: false },
     downloads: 1100,
     category: "AI",
     subcategory: "AI RAG",
@@ -292,7 +292,7 @@ export const templates = [
   {
     id: "template-17",
     title: "RAG for Company Policies",
-    author: { name: "Paul", avatar: "https://randomuser.me/api/portraits/men/16.jpg", isVerified: false, isOfficial: false },
+    author: { name: "Paul", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Paul", isVerified: false, isOfficial: false },
     downloads: 1000,
     category: "AI",
     subcategory: "AI RAG",
@@ -306,7 +306,7 @@ export const templates = [
   {
     id: "template-18",
     title: "RAG for Marketing Materials",
-    author: { name: "Quinn", avatar: "https://randomuser.me/api/portraits/women/17.jpg", isVerified: false, isOfficial: false },
+    author: { name: "Quinn", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Quinn", isVerified: false, isOfficial: false },
     downloads: 900,
     category: "AI",
     subcategory: "AI RAG",
@@ -322,7 +322,7 @@ export const templates = [
   {
     id: "template-19",
     title: "Meeting Minutes Summarizer",
-    author: { name: "Rose", avatar: "https://randomuser.me/api/portraits/women/18.jpg", isVerified: true, isOfficial: false },
+    author: { name: "Rose", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Rose", isVerified: true, isOfficial: false },
     downloads: 1800,
     category: "AI",
     subcategory: "AI Summarization",
@@ -336,7 +336,7 @@ export const templates = [
   {
     id: "template-20",
     title: "Email Thread Summarizer",
-    author: { name: "Sam", avatar: "https://randomuser.me/api/portraits/men/19.jpg", isVerified: false, isOfficial: false },
+    author: { name: "Sam", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Sam", isVerified: false, isOfficial: false },
     downloads: 1700,
     category: "AI",
     subcategory: "AI Summarization",
@@ -350,7 +350,7 @@ export const templates = [
   {
     id: "template-21",
     title: "Document Summarizer for Google Drive",
-    author: { name: "Tina", avatar: "https://randomuser.me/api/portraits/women/20.jpg", isVerified: false, isOfficial: false },
+    author: { name: "Tina", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Tina", isVerified: false, isOfficial: false },
     downloads: 1600,
     category: "AI",
     subcategory: "AI Summarization",
@@ -364,7 +364,7 @@ export const templates = [
   {
     id: "template-22",
     title: "Slack Channel Summarizer",
-    author: { name: "Uma", avatar: "https://randomuser.me/api/portraits/women/21.jpg", isVerified: true, isOfficial: false },
+    author: { name: "Uma", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Uma", isVerified: true, isOfficial: false },
     downloads: 1500,
     category: "AI",
     subcategory: "AI Summarization",
@@ -378,7 +378,7 @@ export const templates = [
   {
     id: "template-23",
     title: "YouTube Video Summarizer",
-    author: { name: "Victor", avatar: "https://randomuser.me/api/portraits/men/22.jpg", isVerified: false, isOfficial: false },
+    author: { name: "Victor", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Victor", isVerified: false, isOfficial: false },
     downloads: 1400,
     category: "AI",
     subcategory: "AI Summarization",
@@ -392,7 +392,7 @@ export const templates = [
   {
     id: "template-24",
     title: "PDF Summarizer",
-    author: { name: "Wendy", avatar: "https://randomuser.me/api/portraits/women/23.jpg", isVerified: false, isOfficial: false },
+    author: { name: "Wendy", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Wendy", isVerified: false, isOfficial: false },
     downloads: 1300,
     category: "AI",
     subcategory: "AI Summarization",
@@ -408,7 +408,7 @@ export const templates = [
   {
     id: "template-25",
     title: "Image Captioning with Gemini",
-    author: { name: "Xander", avatar: "https://randomuser.me/api/portraits/men/24.jpg", isVerified: true, isOfficial: false },
+    author: { name: "Xander", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Xander", isVerified: true, isOfficial: false },
     downloads: 1700,
     category: "AI",
     subcategory: "Multimodal AI",
@@ -422,7 +422,7 @@ export const templates = [
   {
     id: "template-26",
     title: "Audio Transcription with OpenAI Whisper",
-    author: { name: "Yara", avatar: "https://randomuser.me/api/portraits/women/25.jpg", isVerified: false, isOfficial: false },
+    author: { name: "Yara", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Yara", isVerified: false, isOfficial: false },
     downloads: 1600,
     category: "AI",
     subcategory: "Multimodal AI",
@@ -436,7 +436,7 @@ export const templates = [
   {
     id: "template-27",
     title: "Video Scene Detection",
-    author: { name: "Zack", avatar: "https://randomuser.me/api/portraits/men/26.jpg", isVerified: false, isOfficial: false },
+    author: { name: "Zack", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Zack", isVerified: false, isOfficial: false },
     downloads: 1500,
     category: "AI",
     subcategory: "Multimodal AI",
@@ -450,7 +450,7 @@ export const templates = [
   {
     id: "template-28",
     title: "OCR Document Processing",
-    author: { name: "Amy", avatar: "https://randomuser.me/api/portraits/women/27.jpg", isVerified: true, isOfficial: false },
+    author: { name: "Amy", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Amy", isVerified: true, isOfficial: false },
     downloads: 1400,
     category: "AI",
     subcategory: "Multimodal AI",
@@ -464,7 +464,7 @@ export const templates = [
   {
     id: "template-29",
     title: "Multimodal Sentiment Analysis",
-    author: { name: "Ben", avatar: "https://randomuser.me/api/portraits/men/28.jpg", isVerified: false, isOfficial: false },
+    author: { name: "Ben", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Ben", isVerified: false, isOfficial: false },
     downloads: 1300,
     category: "AI",
     subcategory: "Multimodal AI",
@@ -478,7 +478,7 @@ export const templates = [
   {
     id: "template-30",
     title: "Image-to-Text for Accessibility",
-    author: { name: "Cathy", avatar: "https://randomuser.me/api/portraits/women/29.jpg", isVerified: false, isOfficial: false },
+    author: { name: "Cathy", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Cathy", isVerified: false, isOfficial: false },
     downloads: 1200,
     category: "AI",
     subcategory: "Multimodal AI",
@@ -495,7 +495,7 @@ export const platforms = [
   {
     id: "platform-1",
     title: "Dify AI Platform",
-    author: { name: "Dify Team", avatar: "https://via.placeholder.com/40", isVerified: true, isOfficial: true },
+    author: { name: "Dify Team", avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=DifyTeam", isVerified: true, isOfficial: true },
     downloads: 5678,
     category: "AI",
     subcategory: "Featured AI templates",

@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
-import SearchBar from '../components/SearchBar';
-import CategoryFilter from '../components/CategoryFilter';
-import SubcategoryCard from '../components/SubcategoryCard';
+import { Search, Sparkles, Image as ImageIcon, Video, Text, Mic, Code, ChartBar, Palette, User, Filter, SortAsc, Briefcase, Server, Mail, BookOpen, LucideArrowLeftRight, ArrowRight, ChevronRight } from 'lucide-react';
 import ContentCard from '../components/ContentCard';
 import { categories, templates, platforms } from '../data/mockData';
 
+const categoryIconMap = {
+  "AI": <Sparkles size={16} strokeWidth={1.5} />,
+  "Sales": <Briefcase size={16} strokeWidth={1.5}/>,
+  "IT Ops": <Server size={16} strokeWidth={1.5}/>,
+  "Marketing": <Mail size={16} strokeWidth={1.5}/>,
+  "Document Ops": <BookOpen size={16}strokeWidth={1.5} />,
+  "Other": <Palette size={16} strokeWidth={1.5}/>,
+  "Support": <User size={16} strokeWidth={1.5}/>,
+};
+
 const HomePage = ({ onOpenDetail }) => {
   const [selectedCategory, setSelectedCategory] = useState('AI');
-  const [selectedSubcategory, setSelectedSubcategory] = useState(null); // 新增：当前选中的二级分类
+  const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const [searchResults, setSearchResults] = useState(null);
   const [currentView, setCurrentView] = useState('categories');
 
@@ -83,15 +91,15 @@ const HomePage = ({ onOpenDetail }) => {
           return (
             <section key={subcategory.id}>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold text-primary-font">{subcategory.name}</h2>
+                <h2>{subcategory.name}</h2>
                 <button
-                  className="text-DifyBlue hover:text-NormalBlue font-medium underline underline-offset-4 transition-colors duration-150 text-base"
+                  className="nav-link"
                   onClick={() => handleExploreMore(subcategory.name)}
                 >
                   Explore more templates
                 </button>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {items.map((item) => (
                   <ContentCard
                     key={item.id}
@@ -122,8 +130,8 @@ const HomePage = ({ onOpenDetail }) => {
     filteredResults = [...filteredResults].sort((a, b) => b.downloads - a.downloads);
 
     return (
-      <div className="page-container">
-        <div className="flex items-center justify-between mb-6">
+      <div className="w-full max-w-7xl mx-auto px-4">
+        <div className="flex items-center justify-between mb-6 w-full">
           <h2 className="text-2xl font-bold text-primary-font">
             Results
             {selectedSubcategory && (
@@ -140,30 +148,22 @@ const HomePage = ({ onOpenDetail }) => {
             </select>
           </div>
         </div>
-        <div className="divide-y divide-gray-100 bg-white rounded-card shadow-card">
+        <div className="divide-y divide-gray-100 bg-white rounded-card shadow-card w-full">
           {filteredResults.length === 0 && (
-            <div className="text-center py-12">
+            <div className="text-center py-12 w-full">
               <p className="text-secondary-font">No results found</p>
             </div>
           )}
           {filteredResults.map((item) => (
             <div
               key={item.id}
-              className="flex flex-col md:flex-row items-start gap-4 px-6 py-6 hover:bg-LightBlue transition-colors duration-150 cursor-pointer"
+              className="px-6 py-6 hover:bg-LightBlue transition-colors duration-150 cursor-pointer"
               onClick={() => handleContentClick(item)}
             >
-              {/* 左侧缩略图/图标 */}
-              <div className="flex-shrink-0 w-16 h-16 bg-gray-50 rounded-card flex items-center justify-center overflow-hidden">
-                <img
-                  src={item.svgPreview || 'https://via.placeholder.com/64x64'}
-                  alt={item.title}
-                  className="object-cover w-12 h-12"
-                />
-              </div>
-              {/* 右侧内容 */}
-              <div className="flex-1 min-w-0">
+              {/* 内容区域 */}
+              <div className="w-full">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-lg font-semibold text-primary-font line-clamp-1">{item.title}</span>
+                  <span className="text-lg font-semibold text-primary-font line-clamp-1 card-title">{item.title}</span>
                   {item.labels && item.labels.slice(0, 3).map((label, idx) => (
                     <span key={idx} className="tech-tag text-xs">{label}</span>
                   ))}
@@ -179,7 +179,7 @@ const HomePage = ({ onOpenDetail }) => {
                   <span>{item.author.name}</span>
                   {item.author.isVerified && <span className="text-blue-500">✓</span>}
                   {item.author.isOfficial && (
-                    <span className="bg-yellow-100 text-yellow-800 px-1 rounded-tag ml-1">官方</span>
+                    <span className="bg-yellow-100 text-yellow-800 px-1 rounded-tag ml-1">Official</span>
                   )}
                   <span>·</span>
                   <span>{item.lastUpdate}</span>
@@ -196,19 +196,98 @@ const HomePage = ({ onOpenDetail }) => {
 
   return (
     <div className="min-h-screen bg-light-bg flex flex-col gap-0">
-      <div className="w-full flex flex-col items-center pt-8 pb-2">
-        <div className="w-full max-w-2xl">
-          <SearchBar onSearch={handleSearch} />
-        </div>
-        <div className="w-full max-w-4xl mt-4">
-          <CategoryFilter
-            categories={categories}
-            selectedCategory={selectedCategory}
-            onCategorySelect={handleCategorySelect}
-          />
+      {/* 顶部分类导航+搜索栏+分类按钮 */}
+      <div className="w-full flex flex-col items-center pt-8 pb-4">
+        {/* 搜索栏，左侧显示当前选中分类 */}
+        <div className="w-full max-w-3xl flex flex-col items-center">
+          <div className="flex gap-4 items-center bg-white border border-[var(--border-color)] rounded-page-container px-4 py-3 shadow-lg w-full">
+            {/* 面包屑区域：flex + gap-2 控制子元素间距 */}
+            <div className="flex items-center gap-2">
+              <span className="outline-none border rounded-lg bg-[var(--primary-font-a05)] border-[var(--border-color)] px-2 roboto-mono-light flex items-center gap-1">
+                {categoryIconMap[selectedCategory]}
+                {selectedCategory}
+              </span>
+              {selectedSubcategory && (
+                <>
+                  {/* <ChevronRight size={16} strokeWidth={1.2} className="text-primary-font-a40" /> */}
+                  <span className="outline-none border rounded-lg bg-[var(--primary-font-a05)] border-[var(--border-color)] px-2 roboto-mono-light flex items-center gap-1">
+                    {categories[selectedCategory].subcategories.find(s => s.name === selectedSubcategory)?.icon || ""}
+                    {selectedSubcategory}
+                  </span>
+                </>
+              )}
+            </div>
+            <input
+              type="text"
+              placeholder="Search anywhere..."
+              className="flex-1 bg-transparent outline-none border-none roboto-mono-regular"
+              onKeyDown={e => {
+                if (e.key === 'Enter') handleSearch(e.target.value);
+              }}
+            />
+            <Search size={20} className="text-icon-hint ml-2" />
+          </div>
+          {/* 一级分类横向icon导航 */}
+          <div className="w-full flex justify-center">
+            <div className="max-w-7xl overflow-x-auto flex gap-2 mb-2 pt-6">
+              {Object.keys(categories).map((cat) => (
+                <button
+                  key={cat}
+                  className={`nav-item flex flex-row items-center gap-1 min-w-[80px] px-3 py-2 rounded-card border-none ${
+                    selectedCategory === cat ? 'nav-item-active' : ''
+                  }`}
+                  style={{
+                    background: selectedCategory === cat ? 'var(--primary-font-a05)' : 'transparent',
+                    color: selectedCategory === cat ? 'var(--primary-font)' : 'var(--secondary-font)',
+                    fontWeight: selectedCategory === cat ? 700 : 400,
+                  }}
+                  onClick={() => {
+                    setSelectedCategory(cat);
+                    setSelectedSubcategory(null);
+                    setCurrentView('categories');
+                    setSearchResults(null);
+                  }}
+                >
+                  <span>{categoryIconMap[cat]}</span>
+                  <span className="text-sm">{cat}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          {/* 二级分类区，emoji+文字一排，紧凑 */}
+          <div className="w-full flex justify-center">
+            <div className="max-w-7xl flex flex-wrap gap-2">
+              {categories[selectedCategory].subcategories.map((subcat) => (
+                <button
+                  key={subcat.id}
+                  className={`nav-item flex flex-row items-center gap-1 min-w-[80px] px-3 py-2 rounded-card border-none ${
+                    selectedSubcategory === subcat.name ? 'nav-item-active' : ''
+                  }`}
+                  style={{
+                    background: selectedSubcategory === subcat.name ? 'var(--primary-font-a05)' : 'transparent',
+                    color: selectedSubcategory === subcat.name ? 'var(--primary-font)' : 'var(--secondary-font)',
+                    fontWeight: selectedSubcategory === subcat.name ? 700 : 400,
+                  }}
+                  onClick={() => {
+                    setSelectedSubcategory(subcat.name);
+                    setCurrentView('results');
+                    const results = [
+                      ...templates.filter(t => t.subcategory === subcat.name),
+                      ...platforms.filter(p => p.subcategory === subcat.name)
+                    ];
+                    setSearchResults(results);
+                  }}
+                >
+                  <span>{subcat.icon}</span>
+                  <span className="text-xs">{subcat.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-      <div className="flex-1 flex flex-col">
+      {/* 内容区，宽度自适应一致 */}
+      <div className="flex-1 flex flex-col w-full max-w-7xl mx-auto">
         {currentView === 'categories' ? renderCategoriesView() : renderResultsView()}
       </div>
     </div>
