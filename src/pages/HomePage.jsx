@@ -96,7 +96,7 @@ const HomePage = ({ onOpenDetail }) => {
                   className="nav-link"
                   onClick={() => handleExploreMore(subcategory.name)}
                 >
-                  Explore more templates
+                  Explore more templates <ArrowRight size={12} strokeWidth={1}/>
                 </button>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -203,7 +203,7 @@ const HomePage = ({ onOpenDetail }) => {
       <div className="w-full flex flex-col items-center pt-8 pb-4">
         {/* 搜索栏，左侧显示当前选中分类 */}
         <div className="w-full max-w-3xl flex flex-col items-center">
-          <div className="flex gap-4 items-center bg-white border border-[var(--border-color)] rounded-page-container px-4 py-3 shadow-[var(--shadow-lg)] w-full">
+          <div className="window-inner-glow flex gap-4 items-center bg-white border border-[var(--border-color)] rounded-page-container px-4 py-3 shadow-[var(--shadow-lg)] w-full">
             {/* 面包屑区域：flex + gap-2 控制子元素间距 */}
             <div className="flex items-center gap-2">
               <span className="category-tag gap-1">{/* 搜索框里面的 */}

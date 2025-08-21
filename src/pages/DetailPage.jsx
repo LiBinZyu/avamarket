@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { Workflow, ChevronRight, ShieldCheck, BadgeCheck, User as UserIcon, Download, Code, Eye } from 'lucide-react';
-import { Dify, N8n } from '@lobehub/icons';
-import { Flexbox } from 'react-layout-kit';
+import { Workflow, ArrowLeft, ChevronRight, ShieldCheck, BadgeCheck, User as UserIcon, Download, Code, Eye } from 'lucide-react';
 import MarkdownPreview from '@uiw/react-markdown-preview';
 
 const DetailPage = ({ item, type = 'template', onBack }) => {
@@ -43,7 +41,7 @@ const DetailPage = ({ item, type = 'template', onBack }) => {
           </div>
         </div>
       </div>
-      
+
       <div className="roboto-mono-regular text-sm text-[var(--secondary-font)]">
         Last updated: <span className="roboto-mono-light">{item.lastUpdate}</span>
       </div>
@@ -64,6 +62,7 @@ const DetailPage = ({ item, type = 'template', onBack }) => {
       </div>
     </div>
   );
+
 
   const [showRawReadme, setShowRawReadme] = useState(false);
 
@@ -89,38 +88,34 @@ const DetailPage = ({ item, type = 'template', onBack }) => {
             onClick={onBack}
             className="nav-link"
           >
-            Back to Templates
+            <ArrowLeft size={12} strokeWidth={1}/> Back to Templates
           </button>
           {/* toggler 平台切换器 */}
-          {item.dslFiles && item.dslFiles.length > 1 && (
-            <div className="toggler-group">
-              {item.dslFiles.map((dsl) => {
-                const isSelected = selectedPlatform === dsl.platformName;
-                const key = dsl.platformName.toLowerCase();
-                return (
-                  <button
-                    key={dsl.platformName}
-                    className={`toggler-btn${isSelected ? ' selected' : ''}`}
-                    onClick={() => setSelectedPlatform(dsl.platformName)}
-                    type="button"
-                    title={dsl.platformName}
-                  >
-                    {key === 'dify' ? (
-                      <Flexbox gap={0} align={'center'}>
-                        <Dify.Combine size={16} type={isSelected ? 'color' : 'gray'} />
-                      </Flexbox>
-                    ) : key === 'n8n' ? (
-                      <Flexbox gap={0} align={'center'}>
-                        <N8n.Combine size={16} type={isSelected ? 'color' : 'gray'} />
-                      </Flexbox>
-                    ) : (
-                      dsl.platformName
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          )}
+                      {item.dslFiles && item.dslFiles.length > 1 && (
+              <div className="toggler-group">
+                {item.dslFiles.map((dsl) => {
+                  const isSelected = selectedPlatform === dsl.platformName;
+                  const key = dsl.platformName.toLowerCase();
+                  return (
+                    <button
+                      key={dsl.platformName}
+                      className={`toggler-btn${isSelected ? ' selected' : ''}`}
+                      onClick={() => setSelectedPlatform(dsl.platformName)}
+                      type="button"
+                      title={dsl.platformName}
+                    >
+                      {key === 'dify' ? (
+                        <img src="/src/assets/dify.ai.svg"  style={{height: 12}}/>
+                      ) : key === 'n8n' ? (
+                        <img src="/src/assets/n8n.io.svg" style={{height: 12}}/>
+                      ) : (
+                        dsl.platformName
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -132,13 +127,16 @@ const DetailPage = ({ item, type = 'template', onBack }) => {
               {renderTechStack()}
             </div>
             {renderMetadata()}
+            <button className="btn-primary items-center gap-2 w-full">
+              <Download size={16}/> Download
+            </button>
           </div>
           
           <div className="lg:col-span-2 flex flex-col">
             {(type === 'template') && (
               <div className="window window-inner-glow mb-6 window-refreshing">
                 <div className="window-header">
-                  <h3 className="window-title">SVG Preview</h3>
+                  <h3 className="window-title">Preview</h3>
                 </div>
                 <div className="window-body">
                   <div className="text-center">

@@ -11,9 +11,7 @@
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.12",
-    "@lobehub/icons": "^1.27.0",
     "lucide-react": "^0.540.0",
-    "react-layout-kit": "^1.9.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-markdown": "^9.1.0",

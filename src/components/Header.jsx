@@ -24,7 +24,7 @@ const Header = ({ onNavigate, activeTab = 'template' }) => {
           <div className="flex items-center space-x-8">
             {/* Logo */}
             <div className="flex items-center select-none">
-              <div className="w-6 h-6 mr-2 bg-DifyBlue rounded-card flex items-center justify-center shadow-card">
+              <div className="w-7 h-7 mr-2 bg-[var(--primary-font)] rounded-card flex items-center justify-center shadow-card">
               </div>
               <span className="roboto-mono-bold text-lg text-primary-font tracking-tight">AvaMarket</span>
             </div>
