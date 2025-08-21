@@ -1,4 +1,5 @@
 import React from 'react';
+import { ShieldCheck, BadgeCheck, User as UserIcon, ArrowDownToLine } from 'lucide-react';
 
 const ContentCard = ({ item, type = 'template', onClick }) => {
   const renderLabels = (labels) => {
@@ -47,13 +48,18 @@ const ContentCard = ({ item, type = 'template', onClick }) => {
             className="w-6 h-6 rounded-full flex-shrink-0"
           />
           <span className="text-sm text-secondary-font truncate">{item.author.name}</span>
+          {item.author.isOfficial ? (
+            <span className="badge badge-official" title="Official"><ShieldCheck className="badge-icon" /></span>
+          ) : item.author.isVerified ? (
+            <span className="badge badge-verified" title="Verified"><BadgeCheck className="badge-icon" /></span>
+          ) : (
+            <span></span>
+          )}
         </div>
 
         {/* 下载量 */}
-        <div className="flex items-center text-sm text-secondary-font flex-shrink-0">
-          <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-          </svg>
+        <div className="flex items-center text-xs roboto-mono-light text-secondary-font flex-shrink-0">
+          <ArrowDownToLine size={12} color="var(--secondary-font)" />
           {item.downloads.toLocaleString()}
         </div>
 

@@ -41,7 +41,7 @@ const Header = ({ onNavigate, activeTab = 'template' }) => {
           <div className="flex items-center space-x-4">
             {/* Post按钮 */}
             <button
-              className="roboto-mono-light btn-post shadow-card hover:bg-NormalBlue focus:shadow-input-focus"
+              className="roboto-mono-light btn-post btn-shimmer"
               onClick={() => onNavigate('publish')}
             >
               Publish
@@ -78,6 +78,7 @@ const Header = ({ onNavigate, activeTab = 'template' }) => {
                   <button className="block w-full text-left px-4 py-2 dropdown-item">
                     My Posts
                   </button>
+                  
                   <hr className="my-2 border-t border-gray-100" />
                   <button className="block w-full text-left px-4 py-2 roboto-mono-semibold text-red-400 hover:text-red-500 hover:bg-red-50">
                     Logout

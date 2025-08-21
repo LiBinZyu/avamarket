@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Workflow } from 'lucide-react';
+import { Workflow, ChevronRight, ShieldCheck, BadgeCheck, User as UserIcon, Download, Code, Eye } from 'lucide-react';
+import { Dify, N8n } from '@lobehub/icons';
+import { Flexbox } from 'react-layout-kit';
+import MarkdownPreview from '@uiw/react-markdown-preview';
 
 const DetailPage = ({ item, type = 'template', onBack }) => {
   const [selectedPlatform, setSelectedPlatform] = useState(
@@ -20,37 +23,63 @@ const DetailPage = ({ item, type = 'template', onBack }) => {
   );
 
   const renderMetadata = () => (
-    <div className="space-y-4 mb-6">
+    <div className="space-y-4">
       <div className="flex items-center space-x-3">
         <img
           src={item.author.avatar}
           alt={item.author.name}
-          className="w-10 h-10 rounded-full"
+          className="w-10 h-10 rounded-full border border-[var(--border-color)]"
         />
         <div>
           <div className="flex items-center space-x-2">
-            <span className="font-medium text-primary-font">{item.author.name}</span>
-            {item.author.isVerified && (
-              <span className="text-blue-500 text-sm">✓</span>
-            )}
-            {item.author.isOfficial && (
-              <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-tag">
-                Official
-              </span>
+            <span className="text-primary-font text-md roboto-mono-regular">{item.author.name}</span>
+            {item.author.isOfficial ? (
+              <span className="badge badge-official"><ShieldCheck className="badge-icon" /></span>
+            ) : item.author.isVerified ? (
+              <span className="badge badge-verified"><BadgeCheck className="badge-icon" /></span>
+            ) : (
+              <span></span>
             )}
           </div>
         </div>
       </div>
       
-      <div className="text-sm text-secondary-font">
-        Last updated {item.lastUpdate}
+      <div className="roboto-mono-regular text-sm text-[var(--secondary-font)]">
+        Last updated: <span className="roboto-mono-light">{item.lastUpdate}</span>
+      </div>
+
+      <div className="roboto-mono-regular text-sm text-[var(--secondary-font)]">
+        Downloads: <span className="roboto-mono-light">{item.downloads.toLocaleString()}</span>
       </div>
       
-      <div className="text-sm text-secondary-font">
-        Category: {item.category} {'>'} {item.subcategory}
+      <div className="flex gap-1 items-center roboto-mono-regular text-sm text-[var(--secondary-font)]">
+        Category: 
+        <span className="category-tag">
+          {item.category}
+        </span>
+        <ChevronRight color="var(--primary-font-a80)" size={16} strokeWidth={1} />
+        <span className="category-tag">
+         {item.subcategory}
+         </span>
       </div>
     </div>
   );
+
+  const [showRawReadme, setShowRawReadme] = useState(false);
+
+  const handleDownloadReadme = () => {
+    try {
+      const blob = new Blob([item.readme || ''], { type: 'text/markdown;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${item.title?.replace(/\s+/g, '_') || 'README'}.md`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch {}
+  };
 
   return (
     <div className="min-h-screen bg-light-bg">
@@ -65,42 +94,58 @@ const DetailPage = ({ item, type = 'template', onBack }) => {
           {/* toggler 平台切换器 */}
           {item.dslFiles && item.dslFiles.length > 1 && (
             <div className="toggler-group">
-              {item.dslFiles.map((dsl) => (
-                <button
-                  key={dsl.platformName}
-                  className={`toggler-btn${selectedPlatform === dsl.platformName ? " selected" : ""}`}
-                  onClick={() => setSelectedPlatform(dsl.platformName)}
-                  type="button"
-                >
-                  {dsl.platformName}
-                </button>
-              ))}
+              {item.dslFiles.map((dsl) => {
+                const isSelected = selectedPlatform === dsl.platformName;
+                const key = dsl.platformName.toLowerCase();
+                return (
+                  <button
+                    key={dsl.platformName}
+                    className={`toggler-btn${isSelected ? ' selected' : ''}`}
+                    onClick={() => setSelectedPlatform(dsl.platformName)}
+                    type="button"
+                    title={dsl.platformName}
+                  >
+                    {key === 'dify' ? (
+                      <Flexbox gap={0} align={'center'}>
+                        <Dify.Combine size={16} type={isSelected ? 'color' : 'gray'} />
+                      </Flexbox>
+                    ) : key === 'n8n' ? (
+                      <Flexbox gap={0} align={'center'}>
+                        <N8n.Combine size={16} type={isSelected ? 'color' : 'gray'} />
+                      </Flexbox>
+                    ) : (
+                      dsl.platformName
+                    )}
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-1">
-            <h1 className="text-3xl font-bold text-primary-font mb-6">
-              {item.title}
-            </h1>
-            {renderTechStack()}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="lg:col-span-1 flex flex-col justify-between mb-10">
+            <div>
+              <h1 className="text-primary-font mb-6">
+                {item.title}
+              </h1>
+              {renderTechStack()}
+            </div>
             {renderMetadata()}
           </div>
           
           <div className="lg:col-span-2 flex flex-col">
             {(type === 'template') && (
-              <div className="bg-gradient-to-br from-blue-50 to-[var(--sidebar-bg) rounded-2xl shadow-lg border border-gray-200 mb-6 overflow-hidden">
-                <div className="px-6 py-4 border-b border-gray-200 bg-white/80">
-                  <h2 className="text-lg font-semibold text-gray-800">SVG Preview</h2>
+              <div className="window window-inner-glow mb-6 window-refreshing">
+                <div className="window-header">
+                  <h3 className="window-title">SVG Preview</h3>
                 </div>
-                <div className="p-8 flex items-center justify-center min-h-[400px]">
+                <div className="window-body">
                   <div className="text-center">
-                    <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[var(--sidebar-bg)] mb-6">
-                      <Workflow className="w-10 h-10 text-[var(--icon-hint)]" />
+                    <div className="inline-flex items-center justify-center w-20 h-20 rounded-full border border-[var(--border-color)] mb-6">
+                      <Workflow size={40} strokeWidth={1.5} color="var(--icon-hint)" />
                     </div>
-                    <h3 className="text-xl font-medium text-gray-800 mb-2">Workflow Preview</h3>
-                    <p className="text-gray-600 max-w-md mx-auto">
+                    <p className="window-loading max-w-md mx-auto roboto-mono-regular">
                       Interactive preview of the workflow is loading from server ...
                     </p>
                   </div>
@@ -110,11 +155,40 @@ const DetailPage = ({ item, type = 'template', onBack }) => {
           </div>
         </div>
         
-        <div className="mt-8 bg-white rounded-card shadow-card p-6 flex-grow">
-          <h2 className="text-xl font-semibold text-primary-font mb-4">Documentation</h2>
-          <div className="text-secondary-font whitespace-pre-line overflow-y-auto max-h-[500px] pr-2">
-            {item.readme}
+        <div className="mt-8 bg-white rounded-card flex-grow border-b border-[var(--border-color)]">
+          <div className="flex items-center justify-between border-b border-[var(--border-color)] px-6 py-2">
+            <h2 className="window-title">Documentation</h2>
+            <div className="flex items-center gap-2">
+              <div className="toggler-group">
+                <button
+                  type="button"
+                  className={`toggler-btn${!showRawReadme ? ' selected' : ''}`}
+                  onClick={() => setShowRawReadme(false)}
+                  title="Rendered"
+                >
+                  <Eye size={12} />
+                </button>
+                <button
+                  type="button"
+                  className={`toggler-btn${showRawReadme ? ' selected' : ''}`}
+                  onClick={() => setShowRawReadme(true)}
+                  title="View code"
+                >
+                  <Code size={12}/>
+                </button>
+              </div>
+              <button type="button" className="btn-secondary" onClick={handleDownloadReadme}>
+                <Download size={12}/> Download
+              </button>
+            </div>
           </div>
+          {!showRawReadme ? (
+            <div data-color-mode="light" className="p-12">
+              <MarkdownPreview source={item.readme || ''} style={{ background: 'transparent' }} />
+            </div>
+          ) : (
+            <pre className="text-sm text-secondary-font whitespace-pre-wrap leading-relaxed p-12">{item.readme || ''}</pre>
+          )}
         </div>
       </div>
     </div>

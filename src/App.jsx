@@ -30,6 +30,7 @@ function App() {
       {route.name === 'publish' && (
         <PublishPage />
       )}
+      
     </div>
   );
 }

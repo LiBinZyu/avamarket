@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Sparkles, Image as ImageIcon, Video, Text, Mic, Code, ChartBar, Palette, User, Filter, SortAsc, Briefcase, Server, Mail, BookOpen, LucideArrowLeftRight, ArrowRight, ChevronRight } from 'lucide-react';
+import { Search, Sparkles, Image as ImageIcon, Video, Text, Mic, Code, ChartBar, Palette, User, Filter, SortAsc, Briefcase, Server, Mail, BookOpen, LucideArrowLeftRight, ArrowRight, ChevronRight, ShieldCheck, BadgeCheck, User as UserIcon } from 'lucide-react';
 import ContentCard from '../components/ContentCard';
 import { categories, templates, platforms } from '../data/mockData';
 
@@ -177,9 +177,12 @@ const HomePage = ({ onOpenDetail }) => {
                 <div className="flex items-center gap-2 text-xs text-secondary-font">
                   <img src={item.author.avatar} alt={item.author.name} className="w-5 h-5 rounded-full" />
                   <span>{item.author.name}</span>
-                  {item.author.isVerified && <span className="text-blue-500">✓</span>}
-                  {item.author.isOfficial && (
-                    <span className="bg-yellow-100 text-yellow-800 px-1 rounded-tag ml-1">Official</span>
+                  {item.author.isOfficial ? (
+                    <span className="badge badge-official" title="Official"><ShieldCheck className="badge-icon" /></span>
+                  ) : item.author.isVerified ? (
+                    <span className="badge badge-verified" title="Verified"><BadgeCheck className="badge-icon" /></span>
+                  ) : (
+                    <span></span>
                   )}
                   <span>·</span>
                   <span>{item.lastUpdate}</span>
@@ -195,24 +198,24 @@ const HomePage = ({ onOpenDetail }) => {
   };
 
   return (
-    <div className="min-h-screen bg-light-bg flex flex-col gap-0">
+    <div className="min-h-screen bg-home-gradient flex flex-col gap-0">
       {/* 顶部分类导航+搜索栏+分类按钮 */}
       <div className="w-full flex flex-col items-center pt-8 pb-4">
         {/* 搜索栏，左侧显示当前选中分类 */}
         <div className="w-full max-w-3xl flex flex-col items-center">
-          <div className="flex gap-4 items-center bg-white border border-[var(--border-color)] rounded-page-container px-4 py-3 shadow-lg w-full">
+          <div className="flex gap-4 items-center bg-white border border-[var(--border-color)] rounded-page-container px-4 py-3 shadow-[var(--shadow-lg)] w-full">
             {/* 面包屑区域：flex + gap-2 控制子元素间距 */}
             <div className="flex items-center gap-2">
-              <span className="outline-none border rounded-lg bg-[var(--primary-font-a05)] border-[var(--border-color)] px-2 roboto-mono-light flex items-center gap-1">
-                {categoryIconMap[selectedCategory]}
-                {selectedCategory}
+              <span className="category-tag gap-1">{/* 搜索框里面的 */}
+                <span className="h-2 inline-flex items-center leading-none">{categoryIconMap[selectedCategory]}</span>
+                <span className="leading-none">{selectedCategory}</span>
               </span>
               {selectedSubcategory && (
                 <>
                   {/* <ChevronRight size={16} strokeWidth={1.2} className="text-primary-font-a40" /> */}
-                  <span className="outline-none border rounded-lg bg-[var(--primary-font-a05)] border-[var(--border-color)] px-2 roboto-mono-light flex items-center gap-1">
-                    {categories[selectedCategory].subcategories.find(s => s.name === selectedSubcategory)?.icon || ""}
-                    {selectedSubcategory}
+                  <span className="category-tag gap-1">
+                    <span className="leading-none">{categories[selectedCategory].subcategories.find(s => s.name === selectedSubcategory)?.icon || ""}</span>
+                    <span className="leading-none">{selectedSubcategory}</span>
                   </span>
                 </>
               )}
@@ -233,7 +236,7 @@ const HomePage = ({ onOpenDetail }) => {
               {Object.keys(categories).map((cat) => (
                 <button
                   key={cat}
-                  className={`nav-item flex flex-row items-center gap-1 min-w-[80px] px-3 py-2 rounded-card border-none ${
+                  className={`nav-item flex items-center gap-1 min-w-[80px] px-3 py-2 rounded-card ${
                     selectedCategory === cat ? 'nav-item-active' : ''
                   }`}
                   style={{
@@ -248,8 +251,8 @@ const HomePage = ({ onOpenDetail }) => {
                     setSearchResults(null);
                   }}
                 >
-                  <span>{categoryIconMap[cat]}</span>
-                  <span className="text-sm">{cat}</span>
+                  <span className="inline-flex items-center leading-none">{categoryIconMap[cat]}</span>
+                  <span className="text-sm leading-none">{cat}</span>
                 </button>
               ))}
             </div>
@@ -278,8 +281,8 @@ const HomePage = ({ onOpenDetail }) => {
                     setSearchResults(results);
                   }}
                 >
-                  <span>{subcat.icon}</span>
-                  <span className="text-xs">{subcat.name}</span>
+                  <span className="leading-none">{subcat.icon}</span>
+                  <span className="text-xs leading-none">{subcat.name}</span>
                 </button>
               ))}
             </div>
