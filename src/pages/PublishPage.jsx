@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Footer from '../components/Footer';
 
 const PublishPage = () => {
   const [publishType, setPublishType] = useState('template');
@@ -140,6 +141,7 @@ const PublishPage = () => {
           </form>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

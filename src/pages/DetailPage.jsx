@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Workflow, ArrowLeft, ChevronRight, ShieldCheck, BadgeCheck, User as UserIcon, Download, Code, Eye } from 'lucide-react';
 import MarkdownPreview from '@uiw/react-markdown-preview';
+import Footer from '../components/Footer';
 
 const DetailPage = ({ item, type = 'template', onBack }) => {
   const [selectedPlatform, setSelectedPlatform] = useState(
@@ -189,6 +190,7 @@ const DetailPage = ({ item, type = 'template', onBack }) => {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

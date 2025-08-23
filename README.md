@@ -1,235 +1,215 @@
 
-# **模板市场前端需求文档 (PRD)**
+# **AvaMarket - 模板市场前端系统**
 
+## **系统概述**
 
-## **1. 全局组件 (Global Components)**
+AvaMarket 是一个现代化的模板市场前端系统，专注于 AI 工作流模板、平台集成和 MCP 服务的展示与分发。系统采用 React + Vite 技术栈，具备响应式设计和现代化的用户界面。
 
-### **1.1 顶部导航栏 (Header)**
+## **核心功能特性**
 
-  * **靠左**: `Logo` `Template` `Platform` `MCP`
-  * **靠右**: `Post (按钮)` `个人中心 (头像下拉)`
-      * **个人中心下拉菜单**: `个人中心` `我的发布` `登出`
-      > post 按钮转到Publish Page 发布页
+### **1. 智能分类系统**
+- **7个主要分类**: AI、Sales、IT Ops、Marketing、Document Ops、Other、Support
+- **多级分类结构**: 每个主分类下包含多个二级分类，支持精确的内容组织
+- **动态内容展示**: 每个二级分类最多显示6个精选内容，支持"explore more"扩展查看
 
-### **1.2 内容卡片 (Content Card)**
+### **2. 内容类型支持**
+- **Template**: AI工作流模板，支持多平台DSL文件
+- **Platform**: 第三方平台集成服务
+- **MCP**: Model Context Protocol 服务
 
-  * **样式**: 参考 n8n.io/workflows 卡片网格布局。
-  * **构成**:
-      * **Template 卡片包含**: `SVG图标构成的label` `标题` `作者 (含认证/官方徽章)` `下载量`
-      * **Platform/MCP 卡片**: `项目Logo为外部链接图标` `标题` `作者 (含认证/官方徽章)` `下载量`
+### **3. 高级搜索与筛选**
+- **实时搜索**: 支持标题、标签的实时搜索
+- **分类筛选**: 点击分类标签快速筛选内容
+- **结果页面**: 搜索结果页面支持排序和完整列表展示
 
-## **2. 页面与功能 (Pages & Features)**
+## **页面结构与功能**
 
-### **2.1 主页 (Homepage)**
+### **1. 主页 (HomePage)**
+- **分类导航**: 顶部显示7个主要分类，支持切换
+- **分区展示**: 每个二级分类独立区块，包含标题、内容卡片、explore more链接
+- **内容卡片**: 3列×2行网格布局，展示模板/平台的核心信息
+- **搜索集成**: 顶部搜索栏，支持关键词搜索和分类筛选
 
-  * **布局**: `顶部导航` -\> `搜索栏` -\> `筛选标签栏` -\> `内容分区`
-  * **交互**:
-      * **搜索**: 实时/异步筛选标题、标签。
-      * **筛选标签**: 单选，点击后异步刷新下方内容列表。
-  * **内容目录结构**:
-      * **一级分类**: AI, Sales, IT Ops, Marketing, Document Ops, Other, Support
-      * **二级分类**: 针对每个一级分类显示对应的二级分类
-        * **AI**: Featured AI templates, AI Chatbot, AI RAG, AI Summarization, Multimodal AI
-        * **Sales**: 销售相关二级分类
-        * **IT Ops**: IT运维相关二级分类
-        * **Marketing**: 营销相关二级分类
-        * **Document Ops**: 文档操作相关二级分类
-        * **Other**: 其他相关二级分类
-        * **Support**: 支持相关二级分类
-      * **三级**: 根据不同的二级分类展示结果，这个就是具体的每个post
+### **2. 内容详情页 (DetailPage)**
+- **两栏布局**: 左栏(1/3)显示元数据，右栏(2/3)显示预览和文档
+- **平台切换器**: 支持Dify、n8n等平台的DSL文件切换
+- **SVG预览窗口**: 可交互的SVG预览，支持拖拽和缩放
+- **Markdown渲染**: 完整的README文档渲染，支持下载和代码/渲染视图切换
+- **元数据展示**: 作者信息、认证徽章、更新时间、下载量、分类信息
 
-  * **首页分区排版格式**:
-      * 首页每个一级分类下，依次展示所有二级分类，每个二级分类为一个分区。
-      * 每个分区包含：
-        1. **标题**：二级分类名（如 Featured AI templates、AI Chatbot 等）
-        2. **卡片区**：展示该二级分类下最多 6 个内容卡片（ContentCard），卡片内容为 post 标题、标签、作者、下载量等
-        3. **explore more** 文字链接：跳转到该二级分类的完整列表或结果页
-      * 示例：
-        ```
-        标题：Featured AI templates
-        卡片：Angie, Personal AI Assistant with Telegram Voice and Text
-        卡片：Chat with local LLMs using n8n and Ollama
-        卡片：Chat with a database using AI
-        卡片：RAG Chatbot for Company Documents using Google Drive and Gemini
-        卡片：Basic Automatic Gmail Email Labelling with OpenAI and Gmail API
-        卡片：Analyze Landing Page with OpenAI and Get Optimization Tips
-        文字链接：explore more templates
+### **3. 内容发布页 (PublishPage)**
+- **类型选择**: 支持Template、Platform、MCP三种类型
+- **动态表单**: 根据类型动态显示对应表单字段
+- **DSL文件管理**: 支持多平台DSL文件上传和管理
+- **README编辑器**: 支持Markdown格式的内容编辑
 
-        标题：AI Chatbot
-        ...
-        ```
-      * 每个分区样式统一，卡片区为 3 列 x 2 行网格，底部 explore more 链接样式同上。
-      * 点击“explore more templates”后，跳转到该二级分类的完整列表页，保留搜索栏，展示所有属于该二级分类的卡片。
+## **用户界面组件**
 
-  * **二级分类结果页面（explore more 跳转页）**:
-      * 页面顶部保留搜索栏，支持关键词筛选。
-      * 标题为“Results [数量]”，右上角有排序下拉菜单（如 Sort: Relevancy）。
-      * 下方为卡片列表，每个卡片横向排布，包含标题、摘要、作者、更新时间、标签等，样式参考下图（Google Scholar 风格）。
-      * 卡片间有分隔线，鼠标悬停有高亮。
-      * 点击卡片进入内容详情页。
-      * 支持返回首页或切换其他二级分类。
+### **1. 顶部导航栏 (Header)**
+- **品牌标识**: AvaMarket Logo和品牌名称
+- **主导航**: Templates、Platforms、MCP三个主要分类
+- **操作按钮**: Publish按钮（带发光效果）
+- **用户中心**: 头像下拉菜单，包含Profile、My Posts、Logout
 
-### **2.2 内容详情页 (Detail Page)**
+### **2. 内容卡片 (ContentCard)**
+- **信息展示**: 标题、作者、认证徽章、下载量、标签
+- **交互功能**: 点击进入详情页
+- **视觉设计**: 现代化卡片设计，支持悬停效果
 
-  * **Template 详情页**:
-    * **整体布局**:采用两栏响应式布局。**左栏**: 占页面宽度约 1/3，用于展示核心信息、元数据和操作按钮。**右栏**: 占页面宽度约 2/3，用于展示内容的可视化预览和详细的 Markdown 文档。
-    * **左栏详细构成 (自上而下)**:
-        1.  **返回链接**: `← Back to Templates`，引导用户返回列表页。
-        2.  **技术栈图标**: 一行展示该 Template 使用的核心技术/应用的小图标 (例如 Dify, Gemini, Google Drive 的 Logo)。若图标过多，则显示前3 个，剩余的用 `+N` 标签聚合展示。
-        3.  **H1 标题**: Template 的完整标题，字体较大，是视觉核心。
-        4.  **主要行动点 (Call to Action)**:
-            * **平台 DSL 切换器**: 一个下拉菜单或一组按钮，用于在不同的平台DSL之间切换 (如 `Dify`, `n8n`)。这是**核心功能**。
-            * **主按钮**: 一个色彩鲜艳、非常醒目的按钮，文案可以是 “获取模板” 或 “Use for free”。按钮的下载链接会根据上方切换器的选择而**动态改变**。
-        5.  **元数据区块 (Metadata Block)**:
-            * **CREATED BY**: 作者头像、昵称，以及 `认证作者`/`官方作者` 的认证徽章 ✓。
-            * **LAST UPDATE**: 显示“最后更新于 X 个月前”，提供内容时效性。
-            * **CATEGORIES**: 展现一级分类>二级分类>三级分类。
-            * **SHARE**: 提供社交媒体分享链接复制。
+### **3. 分类筛选器 (CategoryFilter)**
+- **分类标签**: 支持主分类和二级分类的快速切换
+- **视觉反馈**: 选中状态的高亮显示
+- **响应式设计**: 适配不同屏幕尺寸
 
-    * **右栏详细构成 (自上而下)**:
-        1.  `内容预览区`:一个带有圆角的、占据显著位置的大尺寸容器。**内部**: 默认显示Loading... 状态。加载完成后，在此区域内渲染可交互的 **SVG 预览图**，必须支持拖拽 (Pan) 和缩放 (Zoom)。
-        2. 渲染用户上传的 `README.md` 文件。需要支持完整的 Markdown 语法，包括：
-          * **段落**: 用于简短介绍。
-          * **多级标题**: 例如 `<h2>How it works</h2>`，用于构建清晰的文档结构。
-          * **有序/无序列表**: 用于分点说明。
-          * **代码块、引用** 等。
+## **技术架构**
 
-  * **Platform / MCP 详情页**:
-      * 跟template一致
-      * 左栏增加 `Visit Project`: 一个指向项目 URL 的 "Visit Project" 按钮。
+### **前端技术栈**
+- **框架**: React 18
+- **构建工具**: Vite
+- **样式系统**: Tailwind CSS + 自定义CSS变量
+- **图标库**: Lucide React
+- **Markdown渲染**: @uiw/react-markdown-preview
 
-### **2.3 内容发布页 (Publish Page)**
+### **状态管理**
+- **路由状态**: 基于useState的简单路由管理
+- **组件状态**: 各页面独立的状态管理
+- **数据流**: 从mockData到组件的单向数据流
 
-  * **流程**:
-    1.  选择发布类型 (`Template` / `Platform` / `MCP`)。
-    2.  根据选择动态显示对应表单。
-  * **表单字段**:
-      * **Template**: `类型 (下拉)` `标题` `label` `SVG预览图 (上传)` `DSL文件 (动态增减项)` `README`。
-          * **DSL文件**: 允许多组 `平台名称 (文本)` + `DSL文件 (上传)`。
-      * **Platform/MCP**: `标题` `label` `项目URL` `README`。
-  * **README.md 编辑器**:
-      * **功能要求**: `编辑/预览` 双 Tab 模式，工具栏支持图片/文件上传。
-      * **技术建议**: 采用 `MDXEditor` 或 `StackEdit` 等成熟组件。后端需提供文件上传接口。
+### **样式系统**
+- **CSS变量**: 统一的颜色、字体、间距、圆角定义
+- **组件类**: 预定义的按钮、卡片、输入框等组件样式
+- **响应式设计**: 支持不同屏幕尺寸的适配
+- **高级动画**: CSS keyframes动画，支持SVG预览刷新和按钮光效
+- **伪元素**: 使用::after伪元素实现复杂的视觉效果
+- **混合模式**: 支持mix-blend-mode等高级CSS特性
 
-## **3. 用户体系 (User System)**
+## **数据结构**
 
-### **3.1 认证与流程 (Auth & Flow)**
+### **分类数据结构**
+```javascript
+categories: {
+  "AI": {
+    name: "AI",
+    subcategories: [
+      { id: "ai-featured", name: "Featured AI templates" },
+      { id: "ai-chatbot", name: "AI Chatbot" },
+      // ... 更多二级分类
+    ]
+  }
+  // ... 更多主分类
+}
+```
 
-  * **登录**:
-    1.  用户提交凭据。
-    2.  登录成功后，后端返回用户信息及 `isSurveyCompleted: boolean` 标志。
-    3.  若为 `false`，前端**立即弹出不可关闭的全屏模态框**。
-    4.  模态框内用 `<iframe>` 嵌入飞书问卷。
-    5.  **后台**: 需配置接口接收飞书表单提交成功后的 Webhook 回调，用以更新用户的 `isSurveyCompleted` 状态。
-    6.  **前端**: 状态更新后，自动关闭模态框。
+### **内容数据结构**
+```javascript
+templates: [
+  {
+    id: "template-1",
+    title: "模板标题",
+    author: { name: "作者名", avatar: "头像URL", isVerified: true, isOfficial: false },
+    downloads: 2345,
+    category: "AI",
+    subcategory: "Featured AI templates",
+    labels: ["标签1", "标签2"],
+    dslFiles: [{ platformName: "Dify", fileUrl: "文件URL" }],
+    readme: "Markdown内容"
+  }
+]
+```
 
-### **3.2 角色与权限 (Roles & Permissions)**
+## **特色功能**
 
-| 角色         | 核心权限                                                                |
-| :----------- | :---------------------------------------------------------------------- |
-| **作者** | 发布/管理自己的内容。                                                   |
-| **认证/官方作者** | 拥有特殊徽章，内容在排序上可获优待。                                      |
-| **超级管理员** | **后台管理界面**: \<br\>- **用户管理**: 查看、修改用户角色。\<br\>- **内容管理**: 编辑/删除所有内容，设置置顶项及数量。 |
+### **1. SVG预览系统**
+- **交互式预览**: 支持拖拽和缩放操作
+- **加载状态**: 优雅的加载动画和状态提示
+- **刷新动画**: 左上到右下的对角线刷新效果
 
-### **3.3 个人中心 (Profile Center)**
+### **2. 认证徽章系统**
+- **官方认证**: 蓝色盾牌图标，表示官方内容
+- **用户认证**: 绿色对勾图标，表示认证用户
+- **社区用户**: 无特殊标识的普通用户
 
-  * **功能**: `编辑个人资料` `显示用户类型徽章` `查看/管理我的发布列表`。
+### **3. 平台集成支持**
+- **多平台DSL**: 支持Dify、n8n等平台的配置文件
+- **动态切换**: 用户可在不同平台间切换查看
+- **文件下载**: 支持DSL文件的直接下载
 
-## **4. 数据结构建议 (Data Schema Suggestion)**
+### **4. 高级UI组件**
+- **SVG预览窗口**: 自定义的window组件，包含标题、加载状态和刷新动画
+- **内发光效果**: 窗口组件支持内发光效果，增强视觉层次
+- **刷新动画**: 左上到右下的对角线白光扫过效果，支持循环播放
+- **按钮发光**: Publish按钮支持内发光和悬停时的光效动画
 
-  * **User**
-    ```json
-    {
-      "userId": "uuid", "nickname": "string", "role": "author",
-      "isSurveyCompleted": false
-    }
-    ```
-  * **Post (Template)**
-    ```json
-    {
-      "postId": "uuid", "authorId": "uuid", "title": "string",
-      "postType": "template", "svgPreviewUrl": "string",
-      "dslFiles": [
-        { "platformName": "Dify", "fileUrl": "url" },
-        { "platformName": "n8n", "fileUrl": "url" }
-      ],
-      "readme": "markdown string"
-    }
-    ```
-  * **Post (Platform / MCP)**
-    ```json
-    {
-      "postId": "uuid", "authorId": "uuid", "title": "string",
-      "postType": "platform", "projectUrl": "string",
-      "readme": "markdown string"
-    }
-    ```
+## **用户体验特性**
+
+### **1. 响应式设计**
+- **移动端适配**: 支持各种屏幕尺寸
+- **触摸友好**: 优化触摸设备的交互体验
+- **性能优化**: 基于Vite的快速构建和热更新
+
+### **2. 无障碍设计**
+- **语义化HTML**: 使用正确的HTML标签结构
+- **键盘导航**: 支持键盘操作和Tab导航
+- **颜色对比**: 确保足够的颜色对比度
+
+### **3. 国际化支持**
+- **多语言准备**: 代码结构支持多语言扩展
+- **文化适配**: 支持不同地区的日期和数字格式
+
+## **开发与部署**
+
+### **开发环境**
+```bash
+# 安装依赖
+npm install
+
+# 启动开发服务器
+npm run dev
+
+# 构建生产版本
+npm run build
+```
+
+### **项目结构**
+```
+src/
+├── components/          # 可复用组件
+│   ├── Header.jsx      # 顶部导航栏
+│   ├── ContentCard.jsx # 内容卡片组件
+│   ├── CategoryFilter.jsx # 分类筛选器
+│   └── SubcategoryCard.jsx # 二级分类卡片
+├── pages/              # 页面组件
+│   ├── HomePage.jsx    # 主页
+│   ├── DetailPage.jsx  # 内容详情页
+│   └── PublishPage.jsx # 内容发布页
+├── data/               # 模拟数据和配置
+│   ├── mockData.js     # 模拟数据
+│   └── mockReadme.md   # 示例README文件
+├── assets/             # 静态资源
+│   ├── dify.ai.svg     # Dify平台图标
+│   └── n8n.io.svg      # n8n平台图标
+└── index.css           # 全局样式和CSS变量
+```
+
+### **自定义配置**
+- **主题变量**: 在`:root`中定义的颜色、字体、间距等变量
+- **组件样式**: 预定义的按钮、卡片、输入框等样式类
+- **响应式断点**: 基于Tailwind CSS的响应式设计系统
+
+## **未来扩展计划**
+
+### **功能增强**
+- **用户认证系统**: 完整的登录注册流程
+- **内容管理**: 用户发布内容的编辑和删除
+- **评论系统**: 用户对内容的评价和讨论
+- **收藏功能**: 用户收藏感兴趣的内容
+
+### **技术升级**
+- **状态管理**: 引入Redux或Zustand进行状态管理
+- **路由系统**: 使用React Router进行更完善的路由管理
+- **API集成**: 连接后端API，替换模拟数据
+- **测试覆盖**: 添加单元测试和集成测试
 
 ---
 
-## Frontend Design Principles & Style Reference
-
-### Design Principles
-
-- **Minimalist, Clean, Light**: The UI is primarily black, white, and gray. Blue is used only for highlights (buttons, links, tags).
-- **No Shadows, Minimal Borders**: All cards, buttons, and inputs have no box-shadow and only the thinnest gray border where necessary. Hover states use subtle background color, not shadow.
-- **Small, Refined Typography**: The global font size is reduced for a more elegant, modern look. All text uses a modern sans-serif font stack: Inter, Poppins, Montserrat, Nunito Sans, etc.
-- **Consistent Spacing & Radius**: All components use consistent border-radius and spacing for a unified feel.
-- **Accessible, Responsive**: All colors and contrasts are chosen for clarity and accessibility.
-
-### Theme Variables & Tailwind Class Reference
-
-| Variable/Usage      | Tailwind Class         | CSS Variable         | Description                        |
-|---------------------|-----------------------|----------------------|-------------------------------------|
-| Main background     | `bg-light-bg`         | `--light-bg`         | Page background                     |
-| Secondary bg        | `bg-sidebar-bg`       | `--sidebar-bg`       | Card/section background             |
-| Icon color          | `text-icon-hint`      | `--icon-hint`        | Icon/secondary text                 |
-| Border color        | `border-[color]`      | `--border-color`     | Thin border for cards/inputs        |
-| Secondary text      | `text-secondary-font` | `--secondary-font`   | Secondary text                      |
-| Primary text        | `text-primary-font`   | `--primary-font`     | Main text/headings                  |
-| Light blue          | `bg-LightBlue`        | `--LightBlue`        | Tag/label highlight                 |
-| Blue (button)       | `bg-NormalBlue`       | `--NormalBlue`       | Primary button                      |
-| Deep blue           | `bg-DifyBlue`         | `--DifyBlue`         | Emphasis, active border, etc.       |
-
-### Border Radius & Shadows
-
-| Usage               | Tailwind Class             | CSS Variable             | Note                        |
-|---------------------|---------------------------|--------------------------|-----------------------------|
-| Page container      | `rounded-page-container`  | `--radius-page-container`|                             |
-| Card                | `rounded-card`            | `--radius-card`          |                             |
-| Modal               | `rounded-modal`           | `--radius-modal`         |                             |
-| Button              | `rounded-button`          | `--radius-button`        |                             |
-| Input               | `rounded-input`           | `--radius-input`         |                             |
-| Tag                 | `rounded-tag`             | `--radius-tag`           |                             |
-| Card shadow         | `shadow-card`             | `--shadow-card`          | **Set to none**             |
-| Input focus shadow  | `shadow-input-focus`      | `--shadow-input-focus`   | **Set to none**             |
-
-### Common Component Classes
-
-| Component/Usage     | Class Name           | Description                        |
-|---------------------|----------------------|-------------------------------------|
-| Primary button      | `btn-primary`        | Blue, no shadow, no border          |
-| Secondary button    | `btn-secondary`      | White, thin border, no shadow       |
-| Publish button      | `btn-post`           | Deep blue, no shadow, no border     |
-| Content card        | `content-card`       | White, thin border, no shadow       |
-| Category card       | `category-card`      | White, thin border, no shadow       |
-| Input field         | `input-field`        | Thin border, no shadow              |
-| Tech tag            | `tech-tag`           | Light blue background, blue text    |
-| Category tag        | `category-tag`       | Gray background, secondary text     |
-| Nav link            | `nav-link`           | Top/side navigation                 |
-| Active nav link     | `nav-link-active`    | Current active navigation           |
-| Page container      | `page-container`     | Main content area                   |
-| Search bar          | `search-bar`         | White, thin border, no shadow       |
-| Modal overlay       | `modal-overlay`      | Fullscreen modal background         |
-| Modal content       | `modal-content`      | Modal content area                  |
-
-### Usage Guidelines
-
-- **Typography**: All text uses a small, modern sans-serif font. Headings and body text are refined and consistent.
-- **Color**: Use black/white/gray for most UI. Use blue only for primary actions, links, and highlights.
-- **Borders & Shadows**: Avoid box-shadow. Use only the thinnest gray border for separation where needed.
-- **Hover/Active**: Use subtle background color (sidebar-bg or LightBlue) for hover/active states, not shadow or strong border.
-- **Customization**: All theme variables are in `:root`. To adjust color or radius, change the variable for global effect.
-- **Component Classes**: Use the provided utility classes for all components to ensure consistency and maintainability.
-
-This style system ensures a clean, lightweight, and modern UI, perfect for rapid prototyping and high-end frontend design.
+*本文档描述了AvaMarket系统的当前功能和架构，随着系统的发展会持续更新。*

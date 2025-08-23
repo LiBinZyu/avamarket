@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Search, Sparkles, Image as ImageIcon, Video, Text, Mic, Code, ChartBar, Palette, User, Filter, SortAsc, Briefcase, Server, Mail, BookOpen, LucideArrowLeftRight, ArrowRight, ChevronRight, ShieldCheck, BadgeCheck, User as UserIcon } from 'lucide-react';
 import ContentCard from '../components/ContentCard';
+import BentoGrid from '../components/BentoGrid';
 import { categories, templates, platforms } from '../data/mockData';
+import Footer from '../components/Footer';
 
 const categoryIconMap = {
   "AI": <Sparkles size={16} strokeWidth={1.5} />,
@@ -18,11 +20,13 @@ const HomePage = ({ onOpenDetail }) => {
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const [searchResults, setSearchResults] = useState(null);
   const [currentView, setCurrentView] = useState('categories');
+  const [showBentoGrid, setShowBentoGrid] = useState(true);
 
   const handleSearch = (searchTerm) => {
     if (!searchTerm.trim()) {
       setSearchResults(null);
       setCurrentView('categories');
+      setShowBentoGrid(true);
       return;
     }
 
@@ -39,6 +43,7 @@ const HomePage = ({ onOpenDetail }) => {
 
     setSearchResults(results);
     setCurrentView('results');
+    setShowBentoGrid(false);
   };
 
   const handleCategorySelect = (categoryKey) => {
@@ -46,6 +51,7 @@ const HomePage = ({ onOpenDetail }) => {
     setSelectedSubcategory(null);
     setSearchResults(null);
     setCurrentView('categories');
+    setShowBentoGrid(false);
   };
 
   const handleSubcategoryClick = (subcategory) => {
@@ -56,6 +62,7 @@ const HomePage = ({ onOpenDetail }) => {
     ];
     setSearchResults(results);
     setCurrentView('results');
+    setShowBentoGrid(false);
   };
 
   // 新增：点击 explore more 跳转到该二级分类完整列表
@@ -67,14 +74,17 @@ const HomePage = ({ onOpenDetail }) => {
     ];
     setSearchResults(results);
     setCurrentView('results');
+    setShowBentoGrid(false);
   };
 
   const handleContentClick = (item) => {
     onOpenDetail(item);
   };
 
+  
   // 首页分区式渲染：每个二级分类一个区块（标题+卡片+explore more）
   const renderCategoriesView = () => {
+    if (!selectedCategory) return null;
     const subcategories = categories[selectedCategory].subcategories;
 
     return (
@@ -206,16 +216,39 @@ const HomePage = ({ onOpenDetail }) => {
           <div className="window-inner-glow flex gap-4 items-center bg-white border border-[var(--border-color)] rounded-page-container px-4 py-3 shadow-[var(--shadow-lg)] w-full">
             {/* 面包屑区域：flex + gap-2 控制子元素间距 */}
             <div className="flex items-center gap-2">
-              <span className="category-tag gap-1">{/* 搜索框里面的 */}
-                <span className="h-2 inline-flex items-center leading-none">{categoryIconMap[selectedCategory]}</span>
-                <span className="leading-none">{selectedCategory}</span>
-              </span>
-              {selectedSubcategory && (
+              {selectedCategory && (
+                <span className="category-tag gap-1 flex items-center">
+                  <span className="h-2 inline-flex items-center leading-none">{categoryIconMap[selectedCategory]}</span>
+                  <span className="leading-none">{selectedCategory}</span>
+                  <button
+                    onClick={() => {
+                      setSelectedCategory(null);
+                      setSelectedSubcategory(null);
+                      setCurrentView('categories');
+                      setSearchResults(null);
+                      setShowBentoGrid(true);
+                    }}
+                    className="ml-2 text-gray-400 hover:text-gray-600 text-sm font-bold"
+                  >
+                    ×
+                  </button>
+                </span>
+              )}
+              {selectedSubcategory && selectedCategory && (
                 <>
-                  {/* <ChevronRight size={16} strokeWidth={1.2} className="text-primary-font-a40" /> */}
-                  <span className="category-tag gap-1">
+                  <span className="category-tag gap-1 flex items-center">
                     <span className="leading-none">{categories[selectedCategory].subcategories.find(s => s.name === selectedSubcategory)?.icon || ""}</span>
                     <span className="leading-none">{selectedSubcategory}</span>
+                    <button
+                      onClick={() => {
+                        setSelectedSubcategory(null);
+                        setCurrentView('categories');
+                        setSearchResults(null);
+                      }}
+                      className="ml-2 text-gray-400 hover:text-gray-600 text-sm font-bold"
+                    >
+                      ×
+                    </button>
                   </span>
                 </>
               )}
@@ -249,6 +282,7 @@ const HomePage = ({ onOpenDetail }) => {
                     setSelectedSubcategory(null);
                     setCurrentView('categories');
                     setSearchResults(null);
+                    setShowBentoGrid(false);
                   }}
                 >
                   <span className="inline-flex items-center leading-none">{categoryIconMap[cat]}</span>
@@ -258,41 +292,47 @@ const HomePage = ({ onOpenDetail }) => {
             </div>
           </div>
           {/* 二级分类区，emoji+文字一排，紧凑 */}
-          <div className="w-full flex justify-center">
-            <div className="max-w-7xl flex flex-wrap gap-2">
-              {categories[selectedCategory].subcategories.map((subcat) => (
-                <button
-                  key={subcat.id}
-                  className={`nav-item flex flex-row items-center gap-1 min-w-[80px] px-3 py-2 rounded-card border-none ${
-                    selectedSubcategory === subcat.name ? 'nav-item-active' : ''
-                  }`}
-                  style={{
-                    background: selectedSubcategory === subcat.name ? 'var(--primary-font-a05)' : 'transparent',
-                    color: selectedSubcategory === subcat.name ? 'var(--primary-font)' : 'var(--secondary-font)',
-                    fontWeight: selectedSubcategory === subcat.name ? 700 : 400,
-                  }}
-                  onClick={() => {
-                    setSelectedSubcategory(subcat.name);
-                    setCurrentView('results');
-                    const results = [
-                      ...templates.filter(t => t.subcategory === subcat.name),
-                      ...platforms.filter(p => p.subcategory === subcat.name)
-                    ];
-                    setSearchResults(results);
-                  }}
-                >
-                  <span className="leading-none">{subcat.icon}</span>
-                  <span className="text-xs leading-none">{subcat.name}</span>
-                </button>
-              ))}
+          {selectedCategory && (
+            <div className="w-full flex justify-center">
+              <div className="max-w-7xl flex flex-wrap gap-2">
+                {categories[selectedCategory].subcategories.map((subcat) => (
+                  <button
+                    key={subcat.id}
+                    className={`nav-item flex flex-row items-center gap-1 min-w-[80px] px-3 py-2 rounded-card border-none ${
+                      selectedSubcategory === subcat.name ? 'nav-item-active' : ''
+                    }`}
+                    style={{
+                      background: selectedSubcategory === subcat.name ? 'var(--primary-font-a05)' : 'transparent',
+                      color: selectedSubcategory === subcat.name ? 'var(--primary-font)' : 'var(--secondary-font)',
+                      fontWeight: selectedSubcategory === subcat.name ? 700 : 400,
+                    }}
+                    onClick={() => {
+                      setSelectedSubcategory(subcat.name);
+                      setCurrentView('results');
+                      const results = [
+                        ...templates.filter(t => t.subcategory === subcat.name),
+                        ...platforms.filter(p => p.subcategory === subcat.name)
+                      ];
+                      setSearchResults(results);
+                      setShowBentoGrid(false);
+                    }}
+                  >
+                    <span className="leading-none">{subcat.icon}</span>
+                    <span className="text-xs leading-none">{subcat.name}</span>
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
+      {/* BentoGrid 区块 - 只在没有选择分类时显示 */}
+      {showBentoGrid && <BentoGrid />}
       {/* 内容区，宽度自适应一致 */}
       <div className="flex-1 flex flex-col w-full max-w-7xl mx-auto">
         {currentView === 'categories' ? renderCategoriesView() : renderResultsView()}
       </div>
+      <Footer />
     </div>
   );
 };
