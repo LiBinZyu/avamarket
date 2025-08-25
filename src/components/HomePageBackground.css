@@ -27,7 +27,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../assets/background.png');
   background-repeat: repeat;
   background-size: 200px 200px; /* 调整tile大小 */
   z-index: 0;
