@@ -1,5 +1,5 @@
 import React from "react";
-import { Lock, GitBranch, GitMerge, Wand2, Sparkles, FileCode2, ChevronRight } from "lucide-react";
+import { Package, LayoutTemplate, ShoppingBag, Sparkles, FileCode2, ChevronRight, Workflow } from "lucide-react";
 import "./bentogrid.css";
 
 import difyLogo from "../assets/dify.ai.svg";
@@ -13,7 +13,7 @@ export default function HomeBento() {
         {/* 左上大卡（深色背景图 + 3个 logo） */}
         <article className="bento bg-bento-hero span-4x6">
           <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
-            <div className="icon-pill"><Lock size={16}/> Auth</div>
+            <div className="icon-pill"><Package size={18}/> All-in-one</div>
           </div>
           <h2 className="text-white">Seamless Cross-Platform Collaboration</h2>
           <p className="text-white opacity-60 text-sm">
@@ -28,10 +28,9 @@ export default function HomeBento() {
         </article>
 
         {/* 右上 - 冰蓝到杏桃 + dotted 线 + 工作流 SVG */}
-        <article className="bento grad-ice-to-peach span-4x3 text-[var(--primary-font-a80)] text-sm">
+        <article className="bento grad-ice-to-peach span-4x3 text-[var(--primary-font)] text-sm">
           <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
-            <GitBranch size={18} />
-            <h2>Preview and Download Workflows</h2>
+            <h2><Workflow size={18} />Preview and Download Workflows</h2>
           </div>
           <p className="pb-40">
           See your workflows come to life with interactive previews. Download nodes instantly for use in your favorite platforms.
@@ -60,9 +59,9 @@ export default function HomeBento() {
         </article>
 
         {/* 右上 - 柠黄到冰蓝 + 进度条 */}
-          <article className="bento grad-sun-to-sky span-4x3 text-[var(--primary-font-a80)] text-sm">
+          <article className="bento grad-sun-to-sky span-4x3 text-[var(--primary-font)] text-sm">
           <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
-            <Wand2 size={18}/> <h2>Welcome to the AI Market</h2>
+            <h2><ShoppingBag size={18}/> Welcome to the AI Market</h2>
           </div>
           <p>
           Discover AI workflows, platform integrations, and MCP services—all in one place. Your gateway to smarter automation and productivity.
@@ -70,9 +69,9 @@ export default function HomeBento() {
         </article>
 
         {/* 右下 - 青绿到冰蓝 + CTA */}
-        <article className="bento grad-teal-to-ice span-8x3 text-[var(--primary-font-a80)] text-sm">
+        <article className="bento grad-teal-to-ice span-8x3 text-[var(--primary-font)] text-sm">
           <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
-            <Sparkles size={18}/> <h2>Explore Our Categories</h2>
+            <h2><LayoutTemplate size={18}/>Explore Our Categories</h2>
           </div>
           <p>
           Templates for AI workflows, platform integrations, and MCP services—explore them all to boost your productivity.
