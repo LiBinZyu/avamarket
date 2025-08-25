@@ -51,7 +51,7 @@ const Header = ({ onNavigate, activeTab = 'template' }) => {
             <div className="relative">
               <button
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
-                className="nav-item flex items-center p-1 rounded-full"
+                className="dropdown-select flex items-center h-8.5"
               >
                 <span
                   className="truncate px-3 rounded-full text-sm"
@@ -71,16 +71,16 @@ const Header = ({ onNavigate, activeTab = 'template' }) => {
 
               {/* 下拉菜单 */}
               {isProfileOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-card shadow-card border border-gray-100 py-2 z-10">
+                <div className="absolute right-0 mt-2 w-48 content-card py-2 z-50">
                   <button className="block w-full text-left px-4 py-2 dropdown-item">
                     Profile
                   </button>
-                  <button className="block w-full text-left px-4 py-2 dropdown-item">
+                  <button className="dropdown-menu-item">
                     My Posts
                   </button>
                   
-                  <hr className="my-2 border-t border-gray-100" />
-                  <button className="block w-full text-left px-4 py-2 roboto-mono-semibold text-red-400 hover:text-red-500 hover:bg-red-50">
+                  <hr className="dropdown-menu-divider" />
+                  <button className="dropdown-menu-item roboto-mono-semibold text-red-400 hover:text-red-500 hover:bg-red-50">
                     Logout
                   </button>
                 </div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Footer from '../components/Footer';
 
+
 const PublishPage = () => {
   const [publishType, setPublishType] = useState('template');
   const [formData, setFormData] = useState({
@@ -41,15 +42,17 @@ const PublishPage = () => {
     <div className="space-y-6">
       <div>
         <label className="block text-sm font-medium text-primary-font mb-2">Type</label>
-        <select className="input-field">
-          <option class = "dropdown-item">AI</option>
-          <option class = "dropdown-item">Sales</option>
-          <option class = "dropdown-item">IT Ops</option>
-          <option class = "dropdown-item">Marketing</option>
-          <option class = "dropdown-item">Document Ops</option>
-          <option class = "dropdown-item">Other</option>
-          <option class = "dropdown-item">Support</option>
-        </select>
+        <div className="dropdown-container">
+          <select className="dropdown-select">
+            <option value="AI">AI</option>
+            <option value="Sales">Sales</option>
+            <option value="IT Ops">IT Ops</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Document Ops">Document Ops</option>
+            <option value="Other">Other</option>
+            <option value="Support">Support</option>
+          </select>
+        </div>
       </div>
       <div>
         <label className="block text-sm font-medium text-primary-font mb-2">Title</label>
@@ -76,11 +79,11 @@ const PublishPage = () => {
               <input type="text" value={dsl.platformName} onChange={(e) => handleDslFileChange(index, 'platformName', e.target.value)} className="input-field flex-1" placeholder="Platform name (e.g. Dify, n8n)" />
               <input type="file" className="input-field flex-1" accept=".json,.yaml,.yml" />
               {formData.dslFiles.length > 1 && (
-                <button type="button" onClick={() => removeDslFile(index)} className="px-4 py-3 bg-red-100 text-red-600 rounded-input hover:bg-red-200 transition-colors duration-200">Delete</button>
+                <button type="button" onClick={() => removeDslFile(index)} className="btn-secondary text-red-500 bg-red-50">Delete</button>
               )}
             </div>
           ))}
-          <button type="button" onClick={addDslFile} className="px-4 py-2 border border-gray-300 text-secondary-font rounded-button hover:bg-gray-50 transition-colors duration-200">+ Add Platform</button>
+          <button type="button" onClick={addDslFile} className="btn-secondary bg-LightBlue">+ Add Platform</button>
         </div>
       </div>
     </div>
@@ -104,25 +107,25 @@ const PublishPage = () => {
   );
 
   return (
-    <div className="min-h-screen bg-light-bg">
+    <div className="min-h-screen">
       <div className="page-container">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold text-primary-font text-center mb-8">Publish Content</h1>
-          <div className="bg-white rounded-card shadow-card p-6 mb-8">
-            <h2 className="text-lg font-semibold text-primary-font mb-4">Select Publish Type</h2>
-            <div className="flex space-x-4">
+          <h1 className="text-secondary-font text-center mb-8">Publish Content</h1>
+          <div className="window window-inner-glow p-6 mb-8">
+            <h2 className="text-lg font-semibold text-primary-font mb-4">Select Type</h2>
+            <div className="toggler-group">
               {['template', 'platform', 'mcp'].map((type) => (
                 <button
                   key={type}
                   onClick={() => setPublishType(type)}
-                  className={`px-6 py-2 rounded-button border transition-colors duration-200 ${publishType === type ? 'border-DifyBlue bg-DifyBlue text-white' : 'border-gray-200 text-secondary-font hover:border-gray-300'}`}
+                  className={`toggler-btn ${publishType === type ? 'selected' : ''}`}
                 >
                   {type === 'template' ? 'Template' : type === 'platform' ? 'Platform' : 'MCP'}
                 </button>
               ))}
             </div>
           </div>
-          <form onSubmit={handleSubmit} className="bg-white rounded-card shadow-card p-8">
+          <form onSubmit={handleSubmit} className="window window-inner-glow p-8">
             {publishType === 'template' ? renderTemplateForm() : renderPlatformForm()}
             <div className="mt-8">
               <label className="block text-sm font-medium text-primary-font mb-2">README</label>

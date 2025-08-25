@@ -1,0 +1,102 @@
+/* HomePage背景样式 - 包含tile背景图片和旋转渐变色效果 */
+
+/* 主容器背景样式 */
+.homepage-background {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* 视口背景容器 - 限制背景在可见区域内 */
+.viewport-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* 降低z-index，确保在Header之下 */
+  pointer-events: none;
+  overflow: hidden; /* 确保超出部分被裁剪 */
+}
+
+/* 背景图片tile效果 */
+.viewport-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/background.png');
+  background-repeat: repeat;
+  background-size: 200px 200px; /* 调整tile大小 */
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 蓝色圆形移动效果 */
+.viewport-background::after {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle at center, #E3EAFF,#ffffff, #193eb9);
+  border-radius: 50%;
+  animation: move-circle 10s linear infinite;
+  z-index: 1;
+  pointer-events: none;
+  filter: blur(100px);
+}
+
+/* 圆形移动动画 - 从左上到右上到右下到左下 */
+@keyframes move-circle {
+  0% {
+    /* 左上角 */
+    top: -400px;
+    left: -400px;
+  }
+  25% {
+    /* 右上角 */
+    top: -400px;
+    left: calc(100% - 200px);
+  }
+  50% {
+    /* 右下角 */
+    top: calc(100% - 200px);
+    left: calc(100% - 200px);
+  }
+  75% {
+    /* 左下角 */
+    top: calc(100% - 200px);
+    left: -400px;
+  }
+  100% {
+    /* 回到左上角 */
+    top: -400px;
+    left: -400px;
+  }
+}
+
+/* 内容层 - 确保内容在背景之上 */
+.homepage-content {
+  position: relative;
+  z-index: 10;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .viewport-background::before {
+    background-size: 150px 150px; /* 移动端减小tile大小 */
+  }
+  
+  .viewport-background::after {
+    animation-duration: 12s; /* 移动端减慢动画速度 */
+  }
+}
+
+/* 减少动画的媒体查询 */
+@media (prefers-reduced-motion: reduce) {
+  .viewport-background::after {
+    animation: none;
+  }
+}

@@ -5,6 +5,7 @@ import BentoGrid from '../components/BentoGrid';
 import PixelVignetteBackground from '../components/PixelVignetteBackground';
 import { categories, templates, platforms } from '../data/mockData';
 import Footer from '../components/Footer';
+import '../components/HomePageBackground.css';
 
 const categoryIconMap = {
   "AI": <Sparkles size={16} strokeWidth={1.5} />,
@@ -143,7 +144,7 @@ const HomePage = ({ onOpenDetail }) => {
     return (
       <div className="w-full max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between mb-6 w-full">
-          <h2 className="text-2xl font-bold text-primary-font">
+          <h2 className="text-primary-font">
             Results
             {selectedSubcategory && (
               <span className="ml-2 text-base text-secondary-font font-normal">
@@ -151,15 +152,16 @@ const HomePage = ({ onOpenDetail }) => {
               </span>
             )}
           </h2>
-          <div>
-            <select className="input-field w-40 text-sm" defaultValue="relevancy">
-              <option value="relevancy">Sort: Relevancy</option>
-              <option value="downloads">Sort: Downloads</option>
-              <option value="latest">Sort: Latest</option>
+          <div className="flex items-center gap-2">
+            <h3 className="roboto-mono-regular text-sm text-secondary-font">Sort</h3>
+            <select className="dropdown-select w-40 text-sm" defaultValue="relevancy">
+              <option value="relevancy">Relevancy</option>
+              <option value="downloads">Downloads</option>
+              <option value="latest">Latest</option>
             </select>
           </div>
         </div>
-        <div className="divide-y divide-gray-100 bg-white rounded-card shadow-card w-full">
+        <div className="divide-y divide-[var(--border-color)] content-card rounded-card shadow-card w-full">
           {filteredResults.length === 0 && (
             <div className="text-center py-12 w-full">
               <p className="text-secondary-font">No results found</p>
@@ -335,7 +337,7 @@ const HomePage = ({ onOpenDetail }) => {
         {currentView === 'categories' ? renderCategoriesView() : renderResultsView()}
       </div>
       <Footer />
-    </div>
+      </div>
   );
 };
 
