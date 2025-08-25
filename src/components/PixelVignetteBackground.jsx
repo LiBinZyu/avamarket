@@ -139,8 +139,8 @@ function getEffectiveSpeed(value, reducedMotion) {
 
 const VARIANTS = {
   default: {
-    gap: 4,
-    speed: 35,
+    gap: 8,
+    speed: 10,
     colors: "#193FB9,#F2EDFB,#B5A6F6,#6383EA"
   },
   blue: {

@@ -190,10 +190,19 @@ h3 {
   100% { transform: translateX(400%) rotate(180deg); opacity: 0; }
 }
 
+.header-bg {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  font-family: "Roboto Mono", monospace;
+}
+
 .content-card {
   background-color: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-radius: var(--radius-card);
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-sm);

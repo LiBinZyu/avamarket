@@ -17,7 +17,7 @@ const Header = ({ onNavigate, activeTab = 'template' }) => {
   );
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-100" style={{ position: 'relative', zIndex: 9 }}>
+    <header className="header-bg border-b border-gray-100" style={{ position: 'relative', zIndex: 9 }}>
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* 左侧导航 */}
