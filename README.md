@@ -1,4 +1,3 @@
-
 # **AvaMarket - 模板市场前端系统**
 
 ## **系统概述**
@@ -116,6 +115,111 @@ templates: [
   }
 ]
 ```
+
+---
+
+## **前端接口设计（生产环境）**
+
+AvaMarket 前端页面所需的主要接口如下，便于后端开发和联调：
+
+### 1. 分类与子分类接口
+
+- **用途**：首页分类导航、二级分类展示
+- **接口**：`GET /api/categories`
+- **返回示例**：
+  ```json
+  [
+    {
+      "name": "AI",
+      "subcategories": [
+        { "id": "ai-featured", "name": "Featured AI templates", "description": "精选AI模板", "icon": "🤖" }
+        // ...
+      ]
+    }
+    // ...
+  ]
+  ```
+
+### 2. 内容列表（模板/平台）检索接口
+
+- **用途**：首页内容卡片、搜索、分类/子分类筛选
+- **接口**：`GET /api/contents`
+- **请求参数**：
+  - `category`（可选）：一级分类名，如 "AI"
+  - `subcategory`（可选）：二级分类名，如 "AI Chatbot"
+  - `search`（可选）：搜索关键词
+  - `type`（可选）："template" 或 "platform"
+  - `sort`（可选）："relevancy"、"downloads"、"latest"
+  - `page`、`pageSize`（可选）：分页
+- **返回示例**：
+  ```json
+  [
+    {
+      "id": "template-1",
+      "title": "Angie, Personal AI Assistant with Telegram Voice and Text",
+      "author": { "name": "Alice", "avatar": "...", "isVerified": true, "isOfficial": false },
+      "downloads": 2345,
+      "category": "AI",
+      "subcategory": "Featured AI templates",
+      "labels": ["Telegram", "OpenAI", ...],
+      "svgPreview": "...",
+      "description": "...",
+      "lastUpdate": "1 week ago",
+      "dslFiles": [{ "platformName": "Dify", "fileUrl": "..." }, ...],
+      "readme": "..." // 可选，详情页用
+    }
+    // ...
+  ]
+  ```
+
+### 3. 内容详情接口
+
+- **用途**：详情页展示模板/平台详细信息
+- **接口**：`GET /api/contents/{id}`
+- **返回示例**：同上单条内容结构，包含所有字段（如 dslFiles、readme、author、downloads、labels、category、subcategory、lastUpdate 等）
+
+### 4. 发布内容接口
+
+- **用途**：发布模板/平台（PublishPage.jsx）
+- **接口**：`POST /api/contents`
+- **请求体**（以模板为例）：
+  ```json
+  {
+    "type": "template", // 或 "platform"
+    "title": "xxx",
+    "labels": ["OpenAI", "Google Sheets"],
+    "category": "AI",
+    "subcategory": "AI Chatbot",
+    "svgPreview": "...", // 可选
+    "dslFiles": [{ "platformName": "Dify", "fileUrl": "..." }],
+    "projectUrl": "", // 平台类型时必填
+    "readme": "markdown内容"
+  }
+  ```
+- **返回**：新建内容的 id 或完整内容对象
+
+### 5. 技术标签接口（可选）
+
+- **用途**：标签选择器自动补全
+- **接口**：`GET /api/tech-labels`
+- **返回**：`["Google Sheets", "OpenAI", ...]`
+
+#### 接口清单表格
+
+| 接口路径              | 方法 | 说明         | 主要参数/字段         |
+|----------------------|------|--------------|----------------------|
+| /api/categories      | GET  | 获取分类     | -                    |
+| /api/contents        | GET  | 内容检索     | category, subcategory, search, type, sort, page, pageSize |
+| /api/contents/{id}   | GET  | 内容详情     | id                   |
+| /api/contents        | POST | 发布内容     | type, title, labels, category, subcategory, dslFiles, projectUrl, readme |
+| /api/tech-labels     | GET  | 技术标签     | -                    |
+
+> 所有内容（模板/平台）结构字段以 mockData.js 为准，生产环境需后端返回一致结构。  
+> dslFiles 字段为数组，支持多平台（如 Dify、n8n），fileUrl 为文件下载地址。  
+> readme 字段为 markdown 文本，支持详情页渲染和下载。  
+> 分类、子分类、标签等建议由后端统一维护，前端仅做展示和选择。
+
+---
 
 ## **特色功能**
 
