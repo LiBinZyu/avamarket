@@ -17,7 +17,7 @@ const Header = ({ onNavigate, activeTab = 'template' }) => {
   );
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-100">
+    <header className="bg-white shadow-sm border-b border-gray-100" style={{ position: 'relative', zIndex: 9 }}>
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* 左侧导航 */}
@@ -71,7 +71,7 @@ const Header = ({ onNavigate, activeTab = 'template' }) => {
 
               {/* 下拉菜单 */}
               {isProfileOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-card shadow-card border border-gray-100 py-2 z-50">
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-card shadow-card border border-gray-100 py-2 z-10">
                   <button className="block w-full text-left px-4 py-2 dropdown-item">
                     Profile
                   </button>

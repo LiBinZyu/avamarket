@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Search, Sparkles, Image as ImageIcon, Video, Text, Mic, Code, ChartBar, Palette, User, Filter, SortAsc, Briefcase, Server, Mail, BookOpen, LucideArrowLeftRight, ArrowRight, ChevronRight, ShieldCheck, BadgeCheck, User as UserIcon } from 'lucide-react';
 import ContentCard from '../components/ContentCard';
 import BentoGrid from '../components/BentoGrid';
+import PixelVignetteBackground from '../components/PixelVignetteBackground';
 import { categories, templates, platforms } from '../data/mockData';
 import Footer from '../components/Footer';
 
@@ -208,7 +209,8 @@ const HomePage = ({ onOpenDetail }) => {
   };
 
   return (
-    <div className="min-h-screen bg-home-gradient flex flex-col gap-0">
+    <div className="min-h-screen bg-home-gradient flex flex-col gap-0" style={{ position: "relative", zIndex: 1 }}>
+      <PixelVignetteBackground variant="default" />
       {/* 顶部分类导航+搜索栏+分类按钮 */}
       <div className="w-full flex flex-col items-center pt-8 pb-4">
         {/* 搜索栏，左侧显示当前选中分类 */}
