@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Footer from '../components/Footer';
+import { ImageUp, FileText } from 'lucide-react';
 
 
 const PublishPage = () => {
@@ -8,12 +9,28 @@ const PublishPage = () => {
     title: '',
     labels: '',
     readme: '',
-    dslFiles: [{ platformName: '', fileUrl: '' }],
+    dslFiles: [{ platformName: '', fileUrl: '', svgPreview: '' }],
     projectUrl: ''
   });
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  // 单个平台的 SVG 文件上传处理
+  const handleDslSvgPreviewUpload = (index, e) => {
+    const file = e.target.files[0];
+    if (file && file.type === 'image/svg+xml') {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        setFormData(prev => {
+          const newDslFiles = [...prev.dslFiles];
+          newDslFiles[index].svgPreview = ev.target.result;
+          return { ...prev, dslFiles: newDslFiles };
+        });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleDslFileChange = (index, field, value) => {
@@ -23,7 +40,7 @@ const PublishPage = () => {
   };
 
   const addDslFile = () => {
-    setFormData(prev => ({ ...prev, dslFiles: [...prev.dslFiles, { platformName: '', fileUrl: '' }] }));
+    setFormData(prev => ({ ...prev, dslFiles: [...prev.dslFiles, { platformName: '', fileUrl: '', svgPreview: '' }] }));
   };
 
   const removeDslFile = (index) => {
@@ -35,7 +52,17 @@ const PublishPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    // labels 字符串转数组
+    const labelsArray = formData.labels
+      .split(',')
+      .map(l => l.trim())
+      .filter(l => l);
+    const submitData = {
+      ...formData,
+      labels: labelsArray,
+      // dslFiles: [{ platformName, fileUrl, svgPreview }]
+    };
+    console.log('Form submitted:', submitData);
   };
 
   const renderTemplateForm = () => (
@@ -63,24 +90,45 @@ const PublishPage = () => {
         <input type="text" value={formData.labels} onChange={(e) => handleInputChange('labels', e.target.value)} className="input-field" placeholder="e.g. OpenAI, Discord, Google Sheets" />
       </div>
       <div>
-        <label className="block text-sm font-medium text-primary-font mb-2">SVG Preview</label>
-        <div className="border-2 border-dashed border-gray-200 rounded-input p-6 text-center">
-          <svg className="w-12 h-12 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-          </svg>
-          <p className="text-secondary-font">Click to upload or drag files here</p>
-        </div>
-      </div>
-      <div>
         <label className="block text-sm font-medium text-primary-font mb-2">DSL Files</label>
         <div className="space-y-3">
           {formData.dslFiles.map((dsl, index) => (
-            <div key={index} className="flex space-x-3">
-              <input type="text" value={dsl.platformName} onChange={(e) => handleDslFileChange(index, 'platformName', e.target.value)} className="input-field flex-1" placeholder="Platform name (e.g. Dify, n8n)" />
-              <input type="file" className="input-field flex-1" accept=".json,.yaml,.yml" />
-              {formData.dslFiles.length > 1 && (
-                <button type="button" onClick={() => removeDslFile(index)} className="btn-secondary text-red-500 bg-red-50">Delete</button>
-              )}
+            <div key={index} className="flex flex-col gap-2 border-2 border-[var(--border-color)] shadow-[var(--shadow-sm)] rounded-lg p-3">
+              <div className="flex space-x-3">
+                <select
+                  value={dsl.platformName}
+                  onChange={e => handleDslFileChange(index, 'platformName', e.target.value)}
+                  className="dropdown-select flex-1"
+                >
+                  <option value="">Platform</option>
+                  {['Dify', 'n8n', 'Coze'].filter(
+                    p => p === dsl.platformName || !formData.dslFiles.some((f, i) => f.platformName === p && i !== index)
+                  ).map(platform => (
+                    <option key={platform} value={platform}>{platform}</option>
+                  ))}
+                </select>
+                <input type="file" className="btn-secondary bg-LightBlue flex-1" accept=".json,.yaml,.yml" />
+                {formData.dslFiles.length > 1 && (
+                  <button type="button" onClick={() => removeDslFile(index)} className="btn-secondary text-red-500 bg-red-50">Delete</button>
+                )}
+              </div>
+              <div className="flex items-center gap-3">
+              <span className="block text-xs text-secondary-font">SVG:</span>
+                <input
+                  type="file"
+                  accept=".svg"
+                  onChange={e => handleDslSvgPreviewUpload(index, e)}
+                  className="btn-secondary bg-LightBlue"
+                  title="Upload SVG Preview"
+                />
+                <span className="block text-xs text-secondary-font">Preview</span>
+                {dsl.svgPreview ? (
+                  <img src={dsl.svgPreview} alt="Preview" className="w-12 h-12" />
+                ) : (
+                  <span className="text-xs text-secondary-font">none</span>
+                )}
+                
+              </div>
             </div>
           ))}
           <button type="button" onClick={addDslFile} className="btn-secondary bg-LightBlue">+ Add Platform</button>
@@ -130,9 +178,34 @@ const PublishPage = () => {
             <div className="mt-8">
               <label className="block text-sm font-medium text-primary-font mb-2">README</label>
               <div className="border border-gray-200 rounded-input">
-                <div className="flex border-b border-gray-200">
+                <div className="flex border-b border-gray-200 items-center">
                   <button type="button" className="px-4 py-2 text-sm font-medium text-DifyBlue border-b-2 border-DifyBlue">Edit</button>
                   <button type="button" className="px-4 py-2 text-sm font-medium text-secondary-font hover:text-primary-font roboto-mono-medium">Preview</button>
+                  <div className="flex-1"></div>
+                  <input
+                    type="file"
+                    id="readme-upload"
+                    accept=".md,.markdown,.txt"
+                    style={{ display: 'none' }}
+                    onChange={e => {
+                      const file = e.target.files[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = ev => {
+                          handleInputChange('readme', ev.target.result);
+                        };
+                        reader.readAsText(file);
+                      }
+                    }}
+                  />
+                  <button
+                    type="button"
+                    className="btn-secondary mx-2 flex items-center gap-2"
+                    onClick={() => document.getElementById('readme-upload').click()}
+                  >
+                    <FileText size={16} strokeWidth={1.5} color="var(--icon-hint)" />
+                    Upload
+                  </button>
                 </div>
                 <textarea value={formData.readme} onChange={(e) => handleInputChange('readme', e.target.value)} className="w-full p-4 outline-none resize-none h-64" placeholder="Enter README content, supports Markdown..." />
               </div>

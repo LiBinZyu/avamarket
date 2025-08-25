@@ -39,8 +39,8 @@ AvaMarket 是一个现代化的模板市场前端系统，专注于 AI 工作流
 ### **3. 内容发布页 (PublishPage)**
 - **类型选择**: 支持Template、Platform、MCP三种类型
 - **动态表单**: 根据类型动态显示对应表单字段
-- **DSL文件管理**: 支持多平台DSL文件上传和管理
-- **README编辑器**: 支持Markdown格式的内容编辑
+- **DSL文件管理**: 支持多平台 DSL 文件上传和管理，每个平台（Dify/n8n/Coze）只能选择一次，且每个平台成套上传 DSL 文件和 SVG 预览图
+- **README编辑器**: 支持 Markdown 格式内容编辑，并支持本地 .md 文件上传自动填充
 
 ## **用户界面组件**
 
@@ -110,7 +110,11 @@ templates: [
     category: "AI",
     subcategory: "Featured AI templates",
     labels: ["标签1", "标签2"],
-    dslFiles: [{ platformName: "Dify", fileUrl: "文件URL" }],
+    dslFiles: [
+      // 支持多平台，每个平台一个对象，三者成套
+      { platformName: "Dify", fileUrl: "Dify平台DSL文件URL", svgPreview: "Dify平台SVG预览图URL" },
+      { platformName: "n8n", fileUrl: "n8n平台DSL文件URL", svgPreview: "n8n平台SVG预览图URL" }
+    ],
     readme: "Markdown内容"
   }
 ]
@@ -215,8 +219,9 @@ AvaMarket 前端页面所需的主要接口如下，便于后端开发和联调�
 | /api/tech-labels     | GET  | 技术标签     | -                    |
 
 > 所有内容（模板/平台）结构字段以 mockData.js 为准，生产环境需后端返回一致结构。  
-> dslFiles 字段为数组，支持多平台（如 Dify、n8n），fileUrl 为文件下载地址。  
-> readme 字段为 markdown 文本，支持详情页渲染和下载。  
+> **dslFiles 字段为数组，支持多平台（如 Dify、n8n、Coze），每个平台一个对象，包含 platformName（平台名，限定可选）、fileUrl（DSL 文件）、svgPreview（SVG 预览图，三者成套）。**  
+> 内容卡片和详情页根据 dslFiles[0]?.svgPreview 或当前平台 svgPreview 展示预览图。  
+> readme 字段为 markdown 文本，支持详情页渲染和下载，发布页支持本地 .md 文件上传自动填充。  
 > 分类、子分类、标签等建议由后端统一维护，前端仅做展示和选择。
 
 ---

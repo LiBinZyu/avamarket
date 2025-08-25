@@ -141,9 +141,18 @@ const DetailPage = ({ item, type = 'template', onBack }) => {
                 </div>
                 <div className="window-body">
                   <div className="text-center">
-                    <div className="inline-flex items-center justify-center w-20 h-20 rounded-full border border-[var(--border-color)] mb-6">
-                      <Workflow size={40} strokeWidth={1.5} color="var(--icon-hint)" />
-                    </div>
+                    {item.dslFiles &&
+                    item.dslFiles.find(dsl => dsl.platformName === selectedPlatform)?.svgPreview ? (
+                      <img
+                        src={item.dslFiles.find(dsl => dsl.platformName === selectedPlatform)?.svgPreview}
+                        alt="SVG Preview"
+                        className="inline-block w-20 h-20 rounded-full border border-[var(--border-color)] mb-6 object-contain"
+                      />
+                    ) : (
+                      <div className="inline-flex items-center justify-center w-20 h-20 rounded-full border border-[var(--border-color)] mb-6">
+                        <Workflow size={40} strokeWidth={1.5} color="var(--icon-hint)" />
+                      </div>
+                    )}
                     <p className="window-loading max-w-md mx-auto roboto-mono-regular">
                       Interactive preview of the workflow is loading from server ...
                     </p>
