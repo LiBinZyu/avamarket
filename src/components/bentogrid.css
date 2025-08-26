@@ -9,9 +9,6 @@
   @media (max-width: 1024px) {
     .bento-grid { grid-template-columns: repeat(6, 1fr); }
   }
-  @media (max-width: 640px) {
-    .bento-grid { grid-template-columns: repeat(1, 1fr); }
-  }
   
   .bento {
     position: relative;
@@ -26,12 +23,6 @@
     gap: 2rem;
   }
 
-  /* 首屏大卡背景图 */
-  .bg-bento-hero {
-    background: url('../assets/bentobg001.png') center/cover no-repeat !important;
-    opacity: 0.94;
-  }
-  
   .bento h2 {
     font-family: "Roboto Mono", monospace;
     font-size: 1.1rem;
@@ -63,31 +54,27 @@
   }
   .bento .cta:hover { opacity: 1; transform: translateY(-1px); }
   
-  /* 轻磨砂蒙层，让文字更清晰 */
-  .bento::before {
-    content: "";
-    position: absolute; inset: 0;
-    backdrop-filter: blur(0.2px);
-    pointer-events: none;
-    z-index: -1;
+    /* 大卡背景图 */
+  .bg-bento-hero {
+    background: url('../assets/bentobg001.png') center bottom/cover no-repeat !important;
+    opacity: 0.9;
   }
   
-  /* ====== 渐变（按截图还原） ====== */
-  
   .grad-ice-to-peach {
-    background: url('../assets/bentobg002.png') center/cover no-repeat !important;
-    opacity: 0.94;
+    background: url('../assets/bentobg002.png') center bottom/cover no-repeat !important;
+    opacity: 0.9;
+  }
+    
+  .grad-teal-to-ice {
+    background: url('../assets/bentobg003.png') center bottom/cover no-repeat !important;
+    opacity: 0.9;
   }
 
   .grad-sun-to-sky {
-    background: url('../assets/bentobg004.png') center/cover no-repeat !important;
-    opacity: 0.94;
+    background: url('../assets/bentobg004.png') center bottom/cover no-repeat !important;
+    opacity: 0.9;
   }
-  
-  .grad-teal-to-ice {
-    background: url('../assets/bentobg003.png') center/cover no-repeat !important;
-    opacity: 0.94;
-  }
+
   
   /* 辅助：右上卡的「进度条」 */
   .progress-stack {
@@ -121,18 +108,16 @@
     color: rgba(17, 20, 45, 0.75);
   }
   
-  /* 卡片尺寸与位置（跟截图网格接近） */
-  .span-6x6 { grid-column: span 6; grid-row: span 6; min-height: 540px; }
-  .span-6x3 { grid-column: span 6; grid-row: span 3; min-height: 260px; }
-  .span-3x3 { grid-column: span 3; grid-row: span 3; min-height: 240px; }
-  .span-4x6 { grid-column: span 4; grid-row: span 6; min-height: 540px; }
-  .span-4x3 { grid-column: span 4; grid-row: span 3; min-height: 240px; }
-  .span-8x3 { grid-column: span 8; grid-row: span 3; min-height: 240px; }
   
-  @media (max-width: 1024px) {
-    .span-6x6, .span-6x3 { grid-column: span 6; }
-    .span-3x3 { grid-column: span 6; }
+  /* Utilities for fixed-aspect items */
+  .col-span-4 { grid-column: span 4; }
+  @media (max-width: 800px) {
+    .col-span-4 {
+      display: none !important;
+    }
   }
+  .lock-4x3 { aspect-ratio: 1 / 1; }
+  
   
   /* 小徽章/图标容器 */
   .icon-pill {

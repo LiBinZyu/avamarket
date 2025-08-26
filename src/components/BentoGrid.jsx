@@ -11,7 +11,7 @@ export default function HomeBento() {
     <section className="page-container">
       <div className="bento-grid">
         {/* 左上大卡（深色背景图 + 3个 logo） */}
-        <article className="bento bg-bento-hero span-4x6">
+        <article className="bento bg-bento-hero col-span-8">
           <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
             <div className="icon-pill"><Package size={18}/> All-in-one</div>
           </div>
@@ -28,7 +28,7 @@ export default function HomeBento() {
         </article>
 
         {/* 右上 - 冰蓝到杏桃 + dotted 线 + 工作流 SVG */}
-        <article className="bento grad-ice-to-peach span-4x3 text-[var(--primary-font)] text-sm">
+        <article className="bento grad-ice-to-peach col-span-4 lock-1x1 text-[var(--primary-font)] text-sm">
           <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
             <h2><Workflow size={18} />Preview and Download Workflows</h2>
           </div>
@@ -59,7 +59,7 @@ export default function HomeBento() {
         </article>
 
         {/* 右上 - 柠黄到冰蓝 + 进度条 */}
-          <article className="bento grad-sun-to-sky span-4x3 text-[var(--primary-font)] text-sm">
+          <article className="bento grad-sun-to-sky col-span-4 lock-1x1 text-[var(--primary-font)] text-sm">
           <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
             <h2><ShoppingBag size={18}/> Welcome to the AI Market</h2>
           </div>
@@ -69,7 +69,7 @@ export default function HomeBento() {
         </article>
 
         {/* 右下 - 青绿到冰蓝 + CTA */}
-        <article className="bento grad-teal-to-ice span-8x3 text-[var(--primary-font)] text-sm">
+        <article className="bento grad-teal-to-ice col-span-8 text-[var(--primary-font)] text-sm">
           <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
             <h2><LayoutTemplate size={18}/>Explore Our Categories</h2>
           </div>

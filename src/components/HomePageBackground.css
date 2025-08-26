@@ -39,7 +39,7 @@
   position: absolute;
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle at center, #E3EAFF,#ffffff, #193eb9);
+  background: radial-gradient(circle at center, #193eb9,#ffffff, #193eb9);
   border-radius: 50%;
   animation: move-circle 10s linear infinite;
   z-index: 1;

@@ -37,7 +37,7 @@
 body {
   background-color: var(--light-bg);
   color: var(--primary-font);
-  font-family: 'Inter', 'Poppins', 'Montserrat', 'Nunito Sans', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: 'Roboto Mono', 'Inter', 'Poppins', 'Montserrat', 'Nunito Sans', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   font-feature-settings: "rlig" 1, "calt" 1;
   font-size: 14px;
   line-height: 1.6;
@@ -114,7 +114,6 @@ h3 {
 }
 .btn-primary:hover {background-color: var(--primary-font-a80);
   backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
   box-shadow:
     inset 0 0 2px 2px rgba(255,255,255,0.4),
     inset 0 0 16px rgba(255, 255, 255, 0.8),
@@ -193,23 +192,21 @@ h3 {
 .header-bg {
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-sm);
   font-family: "Roboto Mono", monospace;
 }
 
 .content-card {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   border-radius: var(--radius-card);
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-sm);
   padding: 1.2rem;
   font-family: "Roboto Mono", monospace;
-  transition: background 0.2s, box-shadow 0.2s;
   cursor: pointer;
+  transition-duration: 0.2s;
 }
 .content-card:hover {
   box-shadow:
@@ -220,7 +217,6 @@ h3 {
     inset 0 0 60px rgba(255, 255, 255, 0.15);
   background-color: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 .category-card {
@@ -230,7 +226,7 @@ h3 {
   box-shadow: none;
   padding: 0.8rem;
   font-family: "Roboto Mono", monospace;
-  transition: background 0.2s, transform 0.2s;
+  transition-duration: 0.2s;
   cursor: pointer;
 }
 .category-card:hover { background: var(--sidebar-bg); box-shadow: none; }
@@ -289,7 +285,6 @@ h3 {
   font-size: medium;
   font-weight: 300;
   backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
   cursor: pointer;
 }
 .nav-item:hover,
@@ -297,13 +292,13 @@ h3 {
   background: var(--primary-font-a05);
   color: var(--primary-font-a80);
   font-weight: 700;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(8px);
 }
 .nav-item-active {
-  background: transparent;
-  color:  var(--primary-font);
+  /* background: var(--primary-font-a05); */
+  color: var(--primary-font-a80);
   font-weight: 700;
+  backdrop-filter: blur(8px);
 }
 
 
@@ -375,12 +370,10 @@ h3 {
   background-position: right 0.75rem center;
   background-size: 1.25rem;
   backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
 }
 
 .dropdown-select:hover {
   backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
   box-shadow:
     var(--shadow-sm),
     inset 0 0 0 1px rgba(255, 255, 255, 0.6),
@@ -391,7 +384,6 @@ h3 {
 
 .dropdown-select:focus {
   backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
   outline: none;
   box-shadow:
     var(--shadow-sm),
@@ -463,16 +455,54 @@ h3 {
 }
 
 .search-bar {
-  width: 100%;
-  max-width: 42rem;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
   padding: 0.7rem 1.2rem;
-  background-color: #fff;
+  min-height: 3rem;
+  max-height: 7rem;
+  background-color: rgba(255,255,255,0.8);
+  color: var(--primary-font);
+  backdrop-filter: blur(8px);
   border-radius: var(--radius-page-container);
   border: 1px solid var(--border-color);
-  box-shadow: none;
-  transition: background 0.2s;
+  display: flex; 
+  align-items: center; /* 竖向居中 */
+  justify-content: space-between;
+  font-family: "Roboto Mono", monospace;  
+  box-shadow: var(--shadow-lg);
+  transition-duration: 0.3s;
 }
-.search-bar:focus-within { background: var(--sidebar-bg); box-shadow: none; }
+.search-bar:focus-within { 
+  background: var(--light-bg);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow:
+    var(--shadow-lg),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.6),
+    inset 0 0 6px 6px rgba(255, 255, 255, 0.6),
+    inset 0 -10px 30px rgba(25, 63, 185, 0.08),
+    inset 0 0 60px rgba(255, 255, 255, 0.15);
+  transition-duration: 0.3s;
+}
+
+.search-bar textarea {
+  line-height: 1.5;
+  overflow-y: scroll;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  flex: 1 1 auto;
+  min-width: 0;
+  /* 隐藏滚动条 */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
 
 .modal-overlay {
   position: fixed; inset: 0;
@@ -510,11 +540,8 @@ svg { display: block; }
 
 /* Elegant home gradient background */
 .bg-home-gradient {
-  background-color: var(--light-bg);
   background-image:
-    radial-gradient(1200px 800px at -10% -20%, rgba(25, 62, 185, 0.174) 0%, rgba(25, 63, 185, 0.00) 60%),
-    radial-gradient(1000px 700px at 110% -10%, rgba(17, 20, 45, 0.03) 50%, rgba(17, 17, 45, 0) 100%),
-    linear-gradient(180deg, #FFFFFF 0%, #F7FAFC 100%);
+    linear-gradient(180deg, var(--light-bg) 0%, var(--sidebar-bg) 100%);
   background-repeat: no-repeat;
   background-attachment: fixed, fixed, scroll;
 }
@@ -740,6 +767,8 @@ svg { display: block; }
   transition: color 0.18s ease, font-size 0.25s ease;
   position: relative;
   display: inline-block;
+  backdrop-filter: blur(4px);
+  background: rgba(1,1,1,0);
 }
 
 .footer-link::after {

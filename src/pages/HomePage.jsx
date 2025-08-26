@@ -215,12 +215,13 @@ const HomePage = ({ onOpenDetail }) => {
     <div className="min-h-screen bg-home-gradient flex flex-col gap-0" style={{ position: "relative", zIndex: 1 }}>
       <PixelVignetteBackground variant="default" />
       {/* 顶部分类导航+搜索栏+分类按钮 */}
-      <div className="w-full flex flex-col items-center pt-8 pb-4">
+      <div className="w-full flex flex-col items-center pt-8 pb-4 px-6">
         {/* 搜索栏，左侧显示当前选中分类 */}
-        <div className="w-full max-w-3xl flex flex-col items-center">
-          <div className="flex gap-4 items-center bg-white border border-[var(--border-color)] rounded-page-container px-4 py-3 shadow-[var(--shadow-lg)] w-full">
+        <div className="w-full max-w-4xl align-center">
+          <div className="search-bar">
             {/* 面包屑区域：flex + gap-2 控制子元素间距 */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-1 min-w-0">
+              {/* 第一个分类 */}
               {selectedCategory && (
                 <span className="category-tag gap-1 flex items-center">
                   <span className="h-2 inline-flex items-center leading-none">{categoryIconMap[selectedCategory]}</span>
@@ -233,14 +234,13 @@ const HomePage = ({ onOpenDetail }) => {
                       setSearchResults(null);
                       setShowBentoGrid(true);
                     }}
-                    className="ml-2 text-gray-400 hover:text-gray-600 text-sm font-bold"
                   >
                     ×
                   </button>
                 </span>
               )}
+              {/* 第2个分类 */}
               {selectedSubcategory && selectedCategory && (
-                <>
                   <span className="category-tag gap-1 flex items-center">
                     <span className="leading-none">{categories[selectedCategory].subcategories.find(s => s.name === selectedSubcategory)?.icon || ""}</span>
                     <span className="leading-none">{selectedSubcategory}</span>
@@ -250,38 +250,49 @@ const HomePage = ({ onOpenDetail }) => {
                         setCurrentView('categories');
                         setSearchResults(null);
                       }}
-                      className="ml-2 text-gray-400 hover:text-gray-600 text-sm font-bold"
                     >
                       ×
                     </button>
                   </span>
-                </>
               )}
-            </div>
-            <input
-              type="text"
+            <textarea
               placeholder="Search anywhere..."
-              className="flex-1 bg-transparent outline-none border-none roboto-mono-regular"
+              rows={1}
+              maxLength={100}
+              onInput={e => {
+                const el = e.target;
+                el.style.height = 'auto';
+                const max = 48; // 2 lines x 24px line-height ~ 1.5rem -> using px cap
+                const newH = Math.min(el.scrollHeight, max);
+                el.style.height = newH + 'px';
+                // hard cap to two lines by trimming extra newlines
+                if (el.scrollHeight > max) {
+                  const lines = el.value.split('\n');
+                  if (lines.length > 2) {
+                    el.value = lines.slice(0, 2).join('\n');
+                  }
+                }
+              }}
               onKeyDown={e => {
-                if (e.key === 'Enter') handleSearch(e.target.value);
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSearch(e.target.value);
+                }
               }}
             />
-            <Search size={20} className="text-icon-hint ml-2" />
-          </div>
+            </div>
+            <Search size={20} className="text-icon-hint" />
+        </div>
           {/* 一级分类横向icon导航 */}
           <div className="w-full flex justify-center">
-            <div className="max-w-7xl overflow-x-auto flex gap-2 mb-2 pt-6">
+            <div className="max-w-7xl overflow-x-auto flex gap-2 mb-2 pt-6" style={{
+                scrollbarWidth: 'none', msOverflowStyle: 'none', }} >
               {Object.keys(categories).map((cat) => (
                 <button
                   key={cat}
                   className={`nav-item flex items-center gap-1 min-w-[80px] px-3 py-2 rounded-card ${
                     selectedCategory === cat ? 'nav-item-active' : ''
                   }`}
-                  style={{
-                    background: selectedCategory === cat ? 'var(--primary-font-a05)' : 'transparent',
-                    color: selectedCategory === cat ? 'var(--primary-font)' : 'var(--secondary-font)',
-                    fontWeight: selectedCategory === cat ? 700 : 400,
-                  }}
                   onClick={() => {
                     setSelectedCategory(cat);
                     setSelectedSubcategory(null);
@@ -306,11 +317,6 @@ const HomePage = ({ onOpenDetail }) => {
                     className={`nav-item flex flex-row items-center gap-1 min-w-[80px] px-3 py-2 rounded-card border-none ${
                       selectedSubcategory === subcat.name ? 'nav-item-active' : ''
                     }`}
-                    style={{
-                      background: selectedSubcategory === subcat.name ? 'var(--primary-font-a05)' : 'transparent',
-                      color: selectedSubcategory === subcat.name ? 'var(--primary-font)' : 'var(--secondary-font)',
-                      fontWeight: selectedSubcategory === subcat.name ? 700 : 400,
-                    }}
                     onClick={() => {
                       setSelectedSubcategory(subcat.name);
                       setCurrentView('results');
