@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { Menu, Circle } from 'lucide-react';
 
 const Header = ({ onNavigate, activeTab = 'template' }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const NavLink = ({ id, children }) => (
     <button
@@ -22,31 +24,38 @@ const Header = ({ onNavigate, activeTab = 'template' }) => {
         <div className="flex items-center justify-between h-16">
           {/* 左侧导航 */}
           <div className="flex items-center space-x-8">
-            {/* Logo */}
+            {/* Logo + 圆球按钮 */}
             <div className="flex items-center select-none">
-              <div className="w-7 h-7 mr-2 bg-[var(--primary-font)] rounded-card flex items-center justify-center shadow-card">
-              </div>
+              <button
+                className="w-7 h-7 mr-2 flex items-center justify-center rounded-card shadow-card bg-[var(--primary-font)] text-white md:hidden"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                aria-label="Open menu"
+                style={{ minWidth: 28, minHeight: 28 }}
+              >
+                <Circle size={20} />
+              </button>
               <span className="roboto-mono-bold text-lg text-primary-font tracking-tight">AvaMarket</span>
             </div>
             
             {/* 主导航 */}
-            <nav className="flex items-center space-x-2">
+            {/* 桌面端导航 */}
+            <nav className="hidden md:flex items-center space-x-2">
               <NavLink id="template">Templates</NavLink>
               <NavLink id="platform">Platforms</NavLink>
               <NavLink id="mcp">MCP</NavLink>
             </nav>
+            {/* 移动端汉堡按钮已由圆球按钮替代 */}
           </div>
 
           {/* 右侧操作 */}
           <div className="flex items-center space-x-4">
-            {/* Post按钮 */}
+            {/* 桌面端 Publish 按钮 */}
             <button
-              className="roboto-mono-light btn-post btn-shimmer"
+              className="roboto-mono-light btn-post btn-shimmer hidden md:inline-flex"
               onClick={() => onNavigate('publish')}
             >
               Publish
             </button>
-            
             {/* 个人中心 */}
             <div className="relative">
               <button
@@ -71,7 +80,7 @@ const Header = ({ onNavigate, activeTab = 'template' }) => {
 
               {/* 下拉菜单 */}
               {isProfileOpen && (
-                <div className="absolute right-0 mt-2 w-48 content-card py-2 z-50">
+                <div className="absolute right-0 mt-2 w-48 py-2 z-50 dropdown-menu">
                   <button className="block w-full text-left px-4 py-2 dropdown-item">
                     Profile
                   </button>
@@ -88,6 +97,25 @@ const Header = ({ onNavigate, activeTab = 'template' }) => {
             </div>
           </div>
         </div>
+        {/* 移动端下拉菜单 */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden absolute left-0 right-0 top-16 z-50 dropdown-menu">
+            <nav className="flex flex-col items-start px-6 py-4 space-y-2">
+              <NavLink id="template">Templates</NavLink>
+              <NavLink id="platform">Platforms</NavLink>
+              <NavLink id="mcp">MCP</NavLink>
+              <button
+                className="roboto-mono-light btn-post btn-shimmer w-full text-left mt-2"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  onNavigate('publish');
+                }}
+              >
+                Publish
+              </button>
+            </nav>
+          </div>
+        )}
       </div>
     </header>
   );
