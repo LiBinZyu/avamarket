@@ -290,7 +290,7 @@ const HomePage = ({ onOpenDetail }) => {
               {Object.keys(categories).map((cat) => (
                 <button
                   key={cat}
-                  className={`nav-item flex items-center gap-1 min-w-[80px] px-3 py-2 rounded-card ${
+                  className={`nav-item flex flex-col items-center gap-1 min-w-[80px] px-3 py-2 rounded-card ${
                     selectedCategory === cat ? 'nav-item-active' : ''
                   }`}
                   onClick={() => {
