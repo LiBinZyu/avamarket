@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Workflow, ArrowLeft, ChevronRight, ShieldCheck, BadgeCheck, User as UserIcon, Download, Code, Eye } from 'lucide-react';
 import MarkdownPreview from '@uiw/react-markdown-preview';
 import Footer from '../components/Footer';
+import difysvg from '../assets/dify.ai.svg'; import n8nsvg from '../assets/n8n.io.svg';
 
 const DetailPage = ({ item, type = 'template', onBack }) => {
   const [selectedPlatform, setSelectedPlatform] = useState(
@@ -106,9 +107,9 @@ const DetailPage = ({ item, type = 'template', onBack }) => {
                       title={dsl.platformName}
                     >
                       {key === 'dify' ? (
-                        <img src="/src/assets/dify.ai.svg"  style={{height: 12}}/>
+                        <img src={difysvg}  style={{height: 12}}/>
                       ) : key === 'n8n' ? (
-                        <img src="/src/assets/n8n.io.svg" style={{height: 12}}/>
+                        <img src={n8nsvg} style={{height: 12}}/>
                       ) : (
                         dsl.platformName
                       )}
