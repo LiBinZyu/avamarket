@@ -27,12 +27,12 @@ const Header = ({ onNavigate, activeTab = 'template' }) => {
             {/* Logo + 圆球按钮 */}
             <div className="flex items-center select-none">
               <button
-                className="w-7 h-7 mr-2 flex items-center justify-center rounded-card shadow-card bg-[var(--primary-font)] text-white md:hidden"
+                className="w-7 h-7 mr-2 flex items-center justify-center block md:hidden"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 aria-label="Open menu"
                 style={{ minWidth: 28, minHeight: 28 }}
               >
-                <Circle size={20} />
+                <Menu size={20}  color="var(--primary-font)"/>
               </button>
               <span className="roboto-mono-bold text-lg text-primary-font tracking-tight">AvaMarket</span>
             </div>
@@ -44,14 +44,13 @@ const Header = ({ onNavigate, activeTab = 'template' }) => {
               <NavLink id="platform">Platforms</NavLink>
               <NavLink id="mcp">MCP</NavLink>
             </nav>
-            {/* 移动端汉堡按钮已由圆球按钮替代 */}
           </div>
 
           {/* 右侧操作 */}
           <div className="flex items-center space-x-4">
             {/* 桌面端 Publish 按钮 */}
             <button
-              className="roboto-mono-light btn-post btn-shimmer hidden md:inline-flex"
+              className="roboto-mono-light btn-primary h-8.5 items-center hidden md:inline-flex"
               onClick={() => onNavigate('publish')}
             >
               Publish
@@ -99,13 +98,13 @@ const Header = ({ onNavigate, activeTab = 'template' }) => {
         </div>
         {/* 移动端下拉菜单 */}
         {isMobileMenuOpen && (
-          <div className="md:hidden absolute left-0 right-0 top-16 z-50 dropdown-menu">
+          <div className="block md:hidden absolute left-0 right-0 top-16 z-50 dropdown-menu">
             <nav className="flex flex-col items-start px-6 py-4 space-y-2">
               <NavLink id="template">Templates</NavLink>
               <NavLink id="platform">Platforms</NavLink>
               <NavLink id="mcp">MCP</NavLink>
               <button
-                className="roboto-mono-light btn-post btn-shimmer w-full text-left mt-2"
+                className="roboto-mono-light btn-primary w-full text-left mt-2"
                 onClick={() => {
                   setIsMobileMenuOpen(false);
                   onNavigate('publish');
