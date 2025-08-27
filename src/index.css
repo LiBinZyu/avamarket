@@ -30,7 +30,8 @@
   --shadow-sm: 0 2px 4px rgba(25, 63, 185, 0.06);
   --shadow-md: 0 2px 8px rgba(25, 63, 185, 0.06);
   --shadow-lg: 0 4px 12px rgba(25, 63, 185, 0.06);
-  --shadow-xl: 0 12px 24px rgba(25, 63, 185, 0.06);
+  --shadow-xl: 0 8px 16px rgba(25, 63, 185, 0.2);
+  --shadow-left: -12px 0 20px rgba(25, 63, 185, 0.4);
   --shadow-input-focus: 0 0 0 3px rgba(25, 63, 185, 0.2);
 }
 
@@ -130,9 +131,11 @@ h3 {
   font-size: small;
   border: 1px solid var(--border-color);
   box-shadow: none;
-  transition: background 0.2s, color 0.2s;
+  transition-duration: 0.2s;
 }
-.btn-secondary:hover { background-color: var(--sidebar-bg);  border: 1px solid var(--LightBlue);}
+.btn-secondary:hover > *:not(:hover) {
+  animation: flyright-ease 1s 1;
+}
 
 @keyframes btn-shimmer {
   0% { transform: translateX(-100%) rotate(50deg); opacity: 0.85; }
@@ -181,6 +184,35 @@ h3 {
 }
 .category-card:hover { background: var(--sidebar-bg); box-shadow: none; }
 
+.categorybar-wrap { position: relative; }
+.categorybar-blur {
+  position: absolute;
+  right: -10px;
+  top: 0;
+  bottom: 0;
+  width: 48px;
+  pointer-events: none;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  backdrop-filter: blur(4px);
+  background-color: rgba(255, 255, 255, 0.0);
+  mask-image: linear-gradient(to right, rgba(1,1,1,0) 0%, rgba(1,1,1,1) 60%);
+  mask-size: 100% 100%;
+  z-index: 1;
+}
+.category-divider {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 2px;
+  margin-bottom: 0.5rem;
+  box-shadow: var(--shadow-xl);
+  border-bottom: 1px solid var(--border-color);
+  justify-content: flex-start;
+  width: 80%;
+}
+
 .input-field {
   width: 100%;
   padding: 0.5rem 0.9rem;
@@ -199,18 +231,22 @@ h3 {
 .tech-tag {
   display: inline-flex;
   align-items: center;
-  padding: 0.25rem 0.5rem; /* py-1 px-3 */
+  padding: 0.125rem 0.5rem;
   background-color: var(--LightBlue);
   color: var(--DifyBlue);
-  font-size: 0.75rem;
+  font-size: smaller;
   font-family: "Roboto Mono", monospace;
   font-weight: 400;
   border-radius: var(--radius-tag);
+  opacity: 0.6;
+  transition-duration: 0.2s;
+}
+.tech-tag:hover {
+  opacity: 1;
 }
 
 .category-tag {
-  display: inline-flex;
-  align-items: center;
+  display: inline-block;
   background-color: var(--primary-font-a05); 
   border: 1px solid var(--border-color);
   border-radius: var(--radius-input);
@@ -218,8 +254,13 @@ h3 {
   font-weight: 300;
   font-size: smaller;
   color: var(--secondary-font);
-  padding: 0.25rem 0.5rem;
-  transition: 0.18s;
+  padding: 0.25rem 1rem 0.25rem 0.5rem;
+  transition-duration: 0.2s;
+  max-width: 7.5em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
 }
 .category-tag:hover {
   background-color: var(--primary-font-a10);
@@ -262,8 +303,15 @@ h3 {
   font-weight: 300;
   text-decoration: none;
   display: inline-block;
-  transition: color .18s ease, font-size .25s ease;
+  transition-duration: 0.2s;
+  white-space: nowrap;
+  max-width: 100%;
 }
+
+.nav-link.shrink {
+  font-size: 0.85em;
+}
+
 .nav-link::after {
   content: "";
   position: absolute;
@@ -477,8 +525,14 @@ h3 {
 
 /* Card title font override */
 .card-title {
+  font-weight: 400;
+  color: var(--primary-font);
   font-size: medium;
   font-family: 'Inter', 'Poppins', 'Montserrat', 'Nunito Sans', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
 }
 svg { display: block; }
 
@@ -762,3 +816,45 @@ svg { display: block; }
   }
 }
 
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes flyup-ease {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  40% {
+    transform: translateY(-110%);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(110%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes flyright-ease {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  40% {
+    transform: translateX(50%);
+    opacity: 0;
+  }
+  60% {
+    transform: translateX(-30%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

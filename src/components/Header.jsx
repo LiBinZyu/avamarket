@@ -61,7 +61,7 @@ const Header = ({ onNavigate, activeTab = 'template' }) => {
                 }
               }}
             >
-              <Fan size={16} stroekeWidth={1} />
+              <Fan size={16} strokeWidth={1.5} style={{animation: 'spin 2s linear infinite' }} />
               Publish
             </button>
             {/* 个人中心/登录 */}
@@ -129,10 +129,14 @@ const Header = ({ onNavigate, activeTab = 'template' }) => {
                 className="roboto-mono-light btn-primary w-full text-left my-2 gap-2"
                 onClick={() => {
                   setIsMobileMenuOpen(false);
-                  onNavigate('publish');
+                  if (!isAuthenticated) {
+                    loginWithRedirect();
+                  } else {
+                    onNavigate('publish');
+                  }
                 }}
               >
-                <Fan size={16} stroekeWidth={1} />
+                <Fan size={16} strokeWidth={1.5} style={{animation: 'spin 2s linear infinite' }} />
                 Publish
               </button>
             </nav>

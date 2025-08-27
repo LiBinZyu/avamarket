@@ -8,6 +8,21 @@ const domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
 const audience = import.meta.env.VITE_AUTH0_AUDIENCE;
 
+/**
+ * 自动定时刷新页面：每小时自动刷新一次，避免长时间运行导致 preview 崩溃。
+ * 仅在前端页面层面生效，不影响后端或 dev server。
+ */
+try {
+    const now = new Date();
+    const hourKey = now.toISOString().slice(0, 13); // 'YYYY-MM-DDTHH'
+    if (localStorage.getItem('autoRefreshHour') !== hourKey) {
+      localStorage.setItem('autoRefreshHour', hourKey);
+      window.location.reload();
+    }
+  } catch (e) {
+    // ignore
+}
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>

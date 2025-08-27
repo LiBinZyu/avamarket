@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
 import { useProtectedApi } from '../utils/api';
-import { Search, Sparkles, Image as ImageIcon, Video, Text, Mic, Code, ChartBar, Palette, User, Filter, SortAsc, Briefcase, Server, Mail, BookOpen, LucideArrowLeftRight, ArrowRight, ChevronRight, ShieldCheck, BadgeCheck, User as UserIcon } from 'lucide-react';
+import { Search, Sparkles, Image as ImageIcon, Video, Text, Mic, Code, ChartBar, Palette, User, Filter, SortAsc, Briefcase, Server, Mail, BookOpen, LucideArrowLeftRight, ArrowRight, ChevronRight, ShieldCheck, BadgeCheck, User as UserIcon, X, ArrowDownToLine } from 'lucide-react';
 import ContentCard from '../components/ContentCard';
 import BentoGrid from '../components/BentoGrid';
 import PixelVignetteBackground from '../components/PixelVignetteBackground';
@@ -156,7 +156,7 @@ const HomePage = ({ onOpenDetail }) => {
     filteredResults = [...filteredResults].sort((a, b) => b.downloads - a.downloads);
 
     return (
-      <div className="w-full max-w-7xl mx-auto px-4">
+      <div className="w-full max-w-7xl px-4">
         <div className="flex items-center justify-between mb-6 w-full">
           <h2 className="text-primary-font">
             Results
@@ -175,7 +175,7 @@ const HomePage = ({ onOpenDetail }) => {
             </select>
           </div>
         </div>
-        <div className="divide-y divide-[var(--border-color)] content-card rounded-card shadow-card w-full">
+        <div className="divide-y divide-[var(--border-color)] content-card w-full">
           {filteredResults.length === 0 && (
             <div className="text-center py-12 w-full">
               <p className="text-secondary-font">No results found</p>
@@ -184,21 +184,21 @@ const HomePage = ({ onOpenDetail }) => {
           {filteredResults.map((item) => (
             <div
               key={item.id}
-              className="px-6 py-6 hover:bg-LightBlue transition-colors duration-150 cursor-pointer"
+              className="py-6"
               onClick={() => handleContentClick(item)}
             >
               {/* 内容区域 */}
-              <div className="w-full">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-lg font-semibold text-primary-font line-clamp-1 card-title">{item.title}</span>
+              <div className="w-full flex flex-col gap-4">
+                <div className="flex flex-grow gap-1 flex-wrap items-center">
+                  <span className="card-title">{item.title}</span>
                   {item.labels && item.labels.slice(0, 3).map((label, idx) => (
-                    <span key={idx} className="tech-tag text-xs">{label}</span>
+                    <span key={idx} className="tech-tag text-xs mr-1">{label}</span>
                   ))}
                   {item.labels && item.labels.length > 3 && (
-                    <span className="tech-tag text-xs">+{item.labels.length - 3}</span>
+                    <span className="tech-tag text-xs mr-1">+{item.labels.length - 3}</span>
                   )}
                 </div>
-                <div className="text-secondary-font text-sm mb-2 line-clamp-2">
+                <div className="text-secondary-font text-xs line-clamp-2 font-normal">
                   {item.description}
                 </div>
                 <div className="flex items-center gap-2 text-xs text-secondary-font">
@@ -214,7 +214,7 @@ const HomePage = ({ onOpenDetail }) => {
                   <span>·</span>
                   <span>{item.lastUpdate}</span>
                   <span>·</span>
-                  <span>{item.downloads.toLocaleString()} downloads</span>
+                  <span className="flex items-center gap-1"><ArrowDownToLine size={12} strokeWidth={1}/> {item.downloads.toLocaleString()} </span>
                 </div>
               </div>
             </div>
@@ -236,10 +236,14 @@ const HomePage = ({ onOpenDetail }) => {
             <div className="flex items-center gap-2 flex-1 min-w-0">
               {/* 第一个分类 */}
               {selectedCategory && (
-                <span className="category-tag gap-1 flex items-center">
-                  {/* <span className="h-2 inline-flex items-center leading-none">{categoryIconMap[selectedCategory]}</span> */}
-                  <span className="leading-none">{selectedCategory}</span>
+                <span className="inline-block whitespace-nowrap">
+                  <span className="category-tag flex items-center">
+                    {/* <span className="h-2 inline-flex items-center leading-none">{categoryIconMap[selectedCategory]}</span> */}
+                    <span>{selectedCategory}</span>
+                  </span>
                   <button
+                    className="ml-[-18px]"
+                    style={{ lineHeight: 1 }}
                     onClick={() => {
                       setSelectedCategory(null);
                       setSelectedSubcategory(null);
@@ -248,23 +252,27 @@ const HomePage = ({ onOpenDetail }) => {
                       setShowBentoGrid(true);
                     }}
                   >
-                    ×
+                    <X size={10} strokeWidth={1}/>
                   </button>
                 </span>
               )}
               {/* 第2个分类 */}
               {selectedSubcategory && selectedCategory && (
-                  <span className="category-tag gap-1 flex items-center">
+                  <span className="inline-block whitespace-nowrap">
                     {/* <span className="leading-none">{categories[selectedCategory].subcategories.find(s => s.name === selectedSubcategory)?.icon || ""}</span> */}
-                    <span className="leading-none">{selectedSubcategory}</span>
+                    <span className="category-tag flex items-center">
+                      <span>{selectedSubcategory}</span>
+                    </span>
                     <button
+                      className="ml-[-18px]"
+                      style={{ lineHeight: 1 }}
                       onClick={() => {
                         setSelectedSubcategory(null);
                         setCurrentView('categories');
                         setSearchResults(null);
                       }}
                     >
-                      ×
+                      <X size={10} strokeWidth={1}/>
                     </button>
                   </span>
               )}
@@ -297,28 +305,34 @@ const HomePage = ({ onOpenDetail }) => {
             <Search size={20} className="text-icon-hint" />
         </div>
           {/* 一级分类横向icon导航 */}
-          <div className="w-full flex justify-center">
-            <div className="max-w-7xl overflow-x-auto flex gap-2 mb-2 pt-6" style={{
-                scrollbarWidth: 'none', msOverflowStyle: 'none', }} >
-              {Object.keys(categories).map((cat) => (
-                <button
-                  key={cat}
-                  className={`nav-item flex flex-col items-center justify-center gap-1 min-w-[80px] flex-shrink-0 ${
-                    selectedCategory === cat ? 'nav-item-active' : ''
-                  }`}
-                  onClick={() => {
-                    setSelectedCategory(cat);
-                    setSelectedSubcategory(null);
-                    setCurrentView('categories');
-                    setSearchResults(null);
-                    setShowBentoGrid(false);
-                  }}
-                >
-                  <span className="inline-flex items-center leading-none">{categoryIconMap[cat]}</span>
-                  <span className="text-xs leading-none">{cat}</span>
-                </button>
-              ))}
+          <div className="w-full flex justify-center flex-col">
+            <div className="w-full flex flex-row justify-center  pt-4">
+              <div className="categorybar-wrap w-full flex flex-row justify-center">
+                <div className="max-w-7xl overflow-x-auto flex gap-2" 
+                  style={{scrollbarWidth: 'none', msOverflowStyle: 'none', }} >
+                {Object.keys(categories).map((cat) => (
+                  <button
+                    key={cat}
+                    className={`nav-item flex flex-col items-center justify-center gap-1 min-w-[80px] flex-shrink-0 ${
+                      selectedCategory === cat ? 'nav-item-active' : ''
+                    }`}
+                    onClick={() => {
+                      setSelectedCategory(cat);
+                      setSelectedSubcategory(null);
+                      setCurrentView('categories');
+                      setSearchResults(null);
+                      setShowBentoGrid(false);
+                    }}
+                  >
+                    <span className="inline-flex items-center leading-none">{categoryIconMap[cat]}</span>
+                    <span className="text-xs leading-none">{cat}</span>
+                  </button>
+                ))}
+                </div>
+                <span className="categorybar-blur"></span>
+              </div>
             </div>
+            <span className="category-divider"></span>
           </div>
           {/* 二级分类区，emoji+文字一排，紧凑 */}
           {selectedCategory && (

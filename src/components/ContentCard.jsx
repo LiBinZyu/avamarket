@@ -59,7 +59,7 @@ const ContentCard = ({ item, type = 'template', onClick }) => {
 
         {/* 下载量 */}
         <div className="flex items-center text-xs roboto-mono-light text-secondary-font flex-shrink-0">
-          <ArrowDownToLine size={12} color="var(--secondary-font)" />
+          <ArrowDownToLine size={12} strokeWidth={1} color="var(--secondary-font)" />
           {item.downloads.toLocaleString()}
         </div>
 
