@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useAuth0 } from "@auth0/auth0-react";
+import { useProtectedApi } from '../utils/api';
 import { Search, Sparkles, Image as ImageIcon, Video, Text, Mic, Code, ChartBar, Palette, User, Filter, SortAsc, Briefcase, Server, Mail, BookOpen, LucideArrowLeftRight, ArrowRight, ChevronRight, ShieldCheck, BadgeCheck, User as UserIcon } from 'lucide-react';
 import ContentCard from '../components/ContentCard';
 import BentoGrid from '../components/BentoGrid';
@@ -8,21 +10,28 @@ import Footer from '../components/Footer';
 import '../components/HomePageBackground.css';
 
 const categoryIconMap = {
-  "AI": <Sparkles size={16} strokeWidth={1.5} />,
-  "Sales": <Briefcase size={16} strokeWidth={1.5}/>,
-  "IT Ops": <Server size={16} strokeWidth={1.5}/>,
-  "Marketing": <Mail size={16} strokeWidth={1.5}/>,
-  "Document Ops": <BookOpen size={16}strokeWidth={1.5} />,
-  "Other": <Palette size={16} strokeWidth={1.5}/>,
-  "Support": <User size={16} strokeWidth={1.5}/>,
+  "AI": <Sparkles size={16} strokeWidth={2.5} />,
+  "Sales": <Briefcase size={16} strokeWidth={2.5}/>,
+  "IT Ops": <Server size={16} strokeWidth={2.5}/>,
+  "Marketing": <Mail size={16} strokeWidth={2.5}/>,
+  "Document Ops": <BookOpen size={16}strokeWidth={2.5} />,
+  "Other": <Palette size={16} strokeWidth={2.5}/>,
+  "Support": <User size={16} strokeWidth={2.5}/>,
 };
 
 const HomePage = ({ onOpenDetail }) => {
   const [selectedCategory, setSelectedCategory] = useState('AI');
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const [searchResults, setSearchResults] = useState(null);
   const [currentView, setCurrentView] = useState('categories');
   const [showBentoGrid, setShowBentoGrid] = useState(true);
+
+  // Auth0 受保护 API 示例
+  const { fetchProtected } = useProtectedApi();
+  const [protectedData, setProtectedData] = useState(null);
+  const [protectedLoading, setProtectedLoading] = useState(false);
+  const [protectedError, setProtectedError] = useState(null);
 
   const handleSearch = (searchTerm) => {
     if (!searchTerm.trim()) {
@@ -80,6 +89,10 @@ const HomePage = ({ onOpenDetail }) => {
   };
 
   const handleContentClick = (item) => {
+    if (!isAuthenticated) {
+      loginWithRedirect();
+      return;
+    }
     onOpenDetail(item);
   };
 
@@ -224,7 +237,7 @@ const HomePage = ({ onOpenDetail }) => {
               {/* 第一个分类 */}
               {selectedCategory && (
                 <span className="category-tag gap-1 flex items-center">
-                  <span className="h-2 inline-flex items-center leading-none">{categoryIconMap[selectedCategory]}</span>
+                  {/* <span className="h-2 inline-flex items-center leading-none">{categoryIconMap[selectedCategory]}</span> */}
                   <span className="leading-none">{selectedCategory}</span>
                   <button
                     onClick={() => {
@@ -242,7 +255,7 @@ const HomePage = ({ onOpenDetail }) => {
               {/* 第2个分类 */}
               {selectedSubcategory && selectedCategory && (
                   <span className="category-tag gap-1 flex items-center">
-                    <span className="leading-none">{categories[selectedCategory].subcategories.find(s => s.name === selectedSubcategory)?.icon || ""}</span>
+                    {/* <span className="leading-none">{categories[selectedCategory].subcategories.find(s => s.name === selectedSubcategory)?.icon || ""}</span> */}
                     <span className="leading-none">{selectedSubcategory}</span>
                     <button
                       onClick={() => {
@@ -290,7 +303,7 @@ const HomePage = ({ onOpenDetail }) => {
               {Object.keys(categories).map((cat) => (
                 <button
                   key={cat}
-                  className={`nav-item flex flex-col items-center gap-1 min-w-[80px] px-3 py-2 rounded-card ${
+                  className={`nav-item flex flex-col items-center justify-center gap-1 min-w-[80px] flex-shrink-0 ${
                     selectedCategory === cat ? 'nav-item-active' : ''
                   }`}
                   onClick={() => {
@@ -302,7 +315,7 @@ const HomePage = ({ onOpenDetail }) => {
                   }}
                 >
                   <span className="inline-flex items-center leading-none">{categoryIconMap[cat]}</span>
-                  <span className="text-sm leading-none">{cat}</span>
+                  <span className="text-xs leading-none">{cat}</span>
                 </button>
               ))}
             </div>

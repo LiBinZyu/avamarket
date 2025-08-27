@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Menu, Circle } from 'lucide-react';
+import { useAuth0 } from "@auth0/auth0-react";
+import { Menu, LogIn, Fan, LogOut } from 'lucide-react';
 
 const Header = ({ onNavigate, activeTab = 'template' }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { isAuthenticated, user, loginWithRedirect, logout, isLoading } = useAuth0();
 
   const NavLink = ({ id, children }) => (
     <button
@@ -50,48 +52,68 @@ const Header = ({ onNavigate, activeTab = 'template' }) => {
           <div className="flex items-center space-x-4">
             {/* 桌面端 Publish 按钮 */}
             <button
-              className="roboto-mono-light btn-primary h-8.5 items-center hidden md:inline-flex"
-              onClick={() => onNavigate('publish')}
+              className="roboto-mono-light btn-primary h-8.5 items-center gap-2 hidden md:inline-flex"
+              onClick={() => {
+                if (!isAuthenticated) {
+                  loginWithRedirect();
+                } else {
+                  onNavigate('publish');
+                }
+              }}
             >
+              <Fan size={16} stroekeWidth={1} />
               Publish
             </button>
-            {/* 个人中心 */}
+            {/* 个人中心/登录 */}
             <div className="relative">
-              <button
-                onClick={() => setIsProfileOpen(!isProfileOpen)}
-                className="dropdown-select flex items-center h-8.5"
-              >
-                <span
-                  className="truncate px-3 rounded-full text-sm"
-                  title={typeof userName === 'string' ? userName : 'User'}
-                  style={{ maxWidth: 128, display: 'inline-block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+              {!isLoading && !isAuthenticated ? (
+                <button
+                  className="btn-secondary h-8.5 flex items-center gap-2"
+                  onClick={() => loginWithRedirect()}
                 >
-                  {typeof userName === 'string'
-                    ? (userName.length > 16 ? userName.slice(0, 16) + '…' : userName)
-                    : 'JasperChen'}
-                </span>
-                <img
-                    src="https://api.dicebear.com/9.x/bottts/svg?seed=JasperChen"
-                    alt="Jasper Chen"
-                    className="w-7 h-7 rounded-full"
-                  />
-              </button>
-
-              {/* 下拉菜单 */}
-              {isProfileOpen && (
-                <div className="absolute right-0 mt-2 w-48 py-2 z-50 dropdown-menu">
-                  <button className="block w-full text-left px-4 py-2 dropdown-item">
-                    Profile
+                  <LogIn size={16} stroekeWidth={1} />
+                  Login
+                </button>
+              ) : (
+                <>
+                  <button
+                    onClick={() => setIsProfileOpen(!isProfileOpen)}
+                    className="dropdown-select flex items-center h-8.5"
+                  >
+                    <span
+                      className="truncate rounded-full text-sm"
+                      title={user?.name || user?.email || 'User'}
+                      style={{ maxWidth: 96, display: 'inline-block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                    >
+                      {user?.name
+                        ? (user.name.length > 16 ? user.name.slice(0, 16) + '…' : user.name)
+                        : (user?.email || 'User')}
+                    </span>
+                    <img
+                      src={user?.picture || "https://api.dicebear.com/9.x/bottts/svg?seed=User"}
+                      alt={user?.name || "User"}
+                      className="w-7 h-7 rounded-full"
+                    />
                   </button>
-                  <button className="dropdown-menu-item">
-                    My Posts
-                  </button>
-                  
-                  <hr className="dropdown-menu-divider" />
-                  <button className="dropdown-menu-item roboto-mono-semibold text-red-400 hover:text-red-500 hover:bg-red-50">
-                    Logout
-                  </button>
-                </div>
+                  {/* 下拉菜单 */}
+                  {isProfileOpen && (
+                    <div className="absolute right-0 mt-2 w-48 py-2 z-50 dropdown-menu">
+                      <button className="block w-full text-left px-4 py-2 dropdown-item">
+                        Profile
+                      </button>
+                      <button className="dropdown-menu-item">
+                        My Posts
+                      </button>
+                      <hr className="dropdown-menu-divider" />
+                      <button
+                        className="dropdown-menu-item roboto-mono-semibold text-red-400 hover:text-red-500 hover:bg-red-50"
+                        onClick={() => logout({ returnTo: window.location.origin })}
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>
@@ -104,12 +126,13 @@ const Header = ({ onNavigate, activeTab = 'template' }) => {
               <NavLink id="platform">Platforms</NavLink>
               <NavLink id="mcp">MCP</NavLink>
               <button
-                className="roboto-mono-light btn-primary w-full text-left mt-2"
+                className="roboto-mono-light btn-primary w-full text-left my-2 gap-2"
                 onClick={() => {
                   setIsMobileMenuOpen(false);
                   onNavigate('publish');
                 }}
               >
+                <Fan size={16} stroekeWidth={1} />
                 Publish
               </button>
             </nav>

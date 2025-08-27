@@ -14,7 +14,8 @@
   --primary-font-a05: rgba(17, 20, 45, 0.03);
   --primary-font-a80: rgba(17, 20, 45, 0.8);
   --primary-font-a40: rgba(17, 20, 45, 0.4);
-  --primary-font-a10: rgba(238, 238, 250, 0.1);
+  --primary-font-a20: rgba(17, 20, 45, 0.2);
+  --primary-font-a10: rgba(17, 20, 45, 0.1);
   --LightBlue: rgba(25, 63, 185, 0.05); /* 需要特别强调的地方使用的浅蓝色，常作为蓝底的文字颜色 */
   --NormalBlue: #3879D3; /* 需要特别强调的地方使用的蓝色，常作为按钮颜色 */
   --DifyBlue: #193FB9; /* 需要特别强调的地方使用的深蓝色，常作为按钮颜色或者border */
@@ -227,12 +228,14 @@ h3 {
 /* Unified nav item style for header/profile/nav */
 .nav-item {
   align-items: center;
-  color: var(--primary-font);
+  color: var(--icon-hint);
+  padding: 0.25rem;;
+  border-radius: var(--radius-button);
   background: transparent;
   transition: background 0.18s, color 0.18s;
   font-family: "Roboto Mono", monospace;
   font-size: medium;
-  font-weight: 300;
+  font-weight: 700;
   backdrop-filter: blur(4px);
   cursor: pointer;
 }
@@ -306,7 +309,7 @@ h3 {
 .dropdown-select {
   border: 1px solid var(--border-color);
   border-radius: var(--radius-input);
-  padding: 0.5rem 2.5rem 0.5rem 0.9rem;
+  padding: 0.5rem;
   font-family: "Roboto Mono", monospace;
   font-size: small;
   color: var(--primary-font);

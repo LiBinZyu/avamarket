@@ -12,7 +12,7 @@ export default function HomeBento() {
       <div className="bento-grid">
         {/* 左上大卡（深色背景图 + 3个 logo） */}
         <article className="bento bg-bento-hero col-span-8">
-          <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
+          <div >
             <div className="icon-pill"><Package size={18}/> All-in-one</div>
           </div>
           <h2 className="text-white">Seamless Cross-Platform Collaboration</h2>
@@ -29,7 +29,7 @@ export default function HomeBento() {
 
         {/* 右上 - 冰蓝到杏桃 + dotted 线 + 工作流 SVG */}
         <article className="bento grad-ice-to-peach col-span-4 lock-1x1 text-[var(--primary-font)] text-sm">
-          <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
+          <div >
             <h2><Workflow size={18} />Preview and Download Workflows</h2>
           </div>
           <p className="pb-40">
@@ -60,7 +60,7 @@ export default function HomeBento() {
 
         {/* 右上 - 柠黄到冰蓝 + 进度条 */}
           <article className="bento grad-sun-to-sky col-span-4 lock-1x1 text-[var(--primary-font)] text-sm">
-          <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
+          <div>
             <h2><ShoppingBag size={18}/> Welcome to the AI Market</h2>
           </div>
           <p>
@@ -70,7 +70,7 @@ export default function HomeBento() {
 
         {/* 右下 - 青绿到冰蓝 + CTA */}
         <article className="bento grad-teal-to-ice col-span-8 text-[var(--primary-font)] text-sm">
-          <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
+          <div >
             <h2><LayoutTemplate size={18}/>Explore Our Categories</h2>
           </div>
           <p>
