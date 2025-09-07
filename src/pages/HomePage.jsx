@@ -5,7 +5,9 @@ import { Search, Sparkles, Image as ImageIcon, Video, Text, Mic, Code, ChartBar,
 import ContentCard from '../components/ContentCard';
 import BentoGrid from '../components/BentoGrid';
 import PixelVignetteBackground from '../components/PixelVignetteBackground';
-import { categories, templates, platforms } from '../data/mockData';
+import { categories } from '../data/mockData';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchContentPage, resetContent } from '../store/slices/contentSlice';
 import Footer from '../components/Footer';
 import '../components/HomePageBackground.css';
 
@@ -27,6 +29,40 @@ const HomePage = ({ onOpenDetail }) => {
   const [currentView, setCurrentView] = useState('categories');
   const [showBentoGrid, setShowBentoGrid] = useState(true);
 
+  // Redux: 内容分页
+  const dispatch = useDispatch();
+  const {
+    contentList,
+    loadedCount,
+    totalCount,
+    currentPage,
+    pageSize,
+    loading: sceneLoading,
+    error: sceneError
+  } = useSelector(state => state.content);
+
+  // 首次加载
+  React.useEffect(() => {
+    dispatch(resetContent());
+    dispatch(fetchContentPage({ page: 1, pageSize, filters: {} }));
+  }, [dispatch, pageSize]);
+
+  // 无限滚动加载更多
+  const loaderRef = React.useRef();
+  React.useEffect(() => {
+    if (!loaderRef.current) return;
+    const observer = new window.IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting && !sceneLoading && loadedCount < totalCount) {
+          dispatch(fetchContentPage({ page: currentPage, pageSize, filters: {} }));
+        }
+      },
+      { threshold: 1 }
+    );
+    observer.observe(loaderRef.current);
+    return () => observer.disconnect();
+  }, [sceneLoading, loadedCount, totalCount, currentPage, pageSize, dispatch]);
+
   // Auth0 受保护 API 示例
   const { fetchProtected } = useProtectedApi();
   const [protectedData, setProtectedData] = useState(null);
@@ -41,16 +77,10 @@ const HomePage = ({ onOpenDetail }) => {
       return;
     }
 
-    const results = [
-      ...templates.filter(t => 
-        t.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        t.labels.some(label => label.toLowerCase().includes(searchTerm.toLowerCase()))
-      ),
-      ...platforms.filter(p => 
-        p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        p.labels.some(label => label.toLowerCase().includes(searchTerm.toLowerCase()))
-      )
-    ];
+    const results = contentList.filter(t =>
+      (t.title && t.title.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (Array.isArray(t.labels) && t.labels.some(label => label.toLowerCase().includes(searchTerm.toLowerCase())))
+    );
 
     setSearchResults(results);
     setCurrentView('results');
@@ -67,10 +97,7 @@ const HomePage = ({ onOpenDetail }) => {
 
   const handleSubcategoryClick = (subcategory) => {
     setSelectedSubcategory(subcategory.name);
-    const results = [
-      ...templates.filter(t => t.subcategory === subcategory.name),
-      ...platforms.filter(p => p.subcategory === subcategory.name)
-    ];
+    const results = contentList.filter(t => t.subcategory === subcategory.name);
     setSearchResults(results);
     setCurrentView('results');
     setShowBentoGrid(false);
@@ -79,21 +106,29 @@ const HomePage = ({ onOpenDetail }) => {
   // 新增：点击 explore more 跳转到该二级分类完整列表
   const handleExploreMore = (subcategoryName) => {
     setSelectedSubcategory(subcategoryName);
-    const results = [
-      ...templates.filter(t => t.subcategory === subcategoryName),
-      ...platforms.filter(p => p.subcategory === subcategoryName)
-    ];
+    const results = contentList.filter(t => t.subcategory === subcategoryName);
     setSearchResults(results);
     setCurrentView('results');
     setShowBentoGrid(false);
   };
 
-  const handleContentClick = (item) => {
+  const handleContentClick = async (item) => {
     if (!isAuthenticated) {
       loginWithRedirect();
       return;
     }
-    onOpenDetail(item);
+    // 拉取详情数据
+    try {
+      // 这里假设 item.id 为场景 id，userEmail 可用 isAuthenticated 用户邮箱或空字符串
+      const userEmail = ""; // 可根据实际登录信息获取
+      const detail = await getSceneDetail(item.id, userEmail);
+      // 只取第一个模板（如有多个可扩展）
+      const template = detail.templates?.[0] || {};
+      onOpenDetail(template);
+    } catch (err) {
+      // 可加错误提示
+      onOpenDetail(item); // fallback
+    }
   };
 
   
@@ -105,11 +140,8 @@ const HomePage = ({ onOpenDetail }) => {
     return (
       <div className="page-container flex flex-col gap-12">
         {subcategories.map((subcategory) => {
-          // 获取该二级分类下的所有模板和平台
-          const items = [
-            ...templates.filter(t => t.subcategory === subcategory.name),
-            ...platforms.filter(p => p.subcategory === subcategory.name)
-          ].slice(0, 6);
+          // 获取该二级分类下的所有场景
+          const items = contentList.filter(t => t.subcategory === subcategory.name).slice(0, 6);
 
           if (items.length === 0) return null;
 
@@ -129,7 +161,7 @@ const HomePage = ({ onOpenDetail }) => {
                     <ContentCard
                     key={item.id}
                     item={item}
-                    type={item.projectUrl ? 'platform' : 'template'}
+                    type={'template'}
                     svgPreview={item.dslFiles?.[0]?.svgPreview}
                     onClick={handleContentClick}
                   />
@@ -145,7 +177,7 @@ const HomePage = ({ onOpenDetail }) => {
   // 二级分类结果页/搜索结果页
   const renderResultsView = () => {
     // 结果筛选
-    let filteredResults = searchResults || [];
+    let filteredResults = searchResults || contentList;
     // 如果有 selectedSubcategory，且不是全局搜索，则只显示该二级分类
     if (selectedSubcategory) {
       filteredResults = filteredResults.filter(
@@ -153,7 +185,7 @@ const HomePage = ({ onOpenDetail }) => {
       );
     }
     // 排序（默认按下载量降序）
-    filteredResults = [...filteredResults].sort((a, b) => b.downloads - a.downloads);
+    filteredResults = [...filteredResults].sort((a, b) => (b.downloads || 0) - (a.downloads || 0));
 
     return (
       <div className="w-full max-w-7xl px-4">
@@ -202,19 +234,19 @@ const HomePage = ({ onOpenDetail }) => {
                   {item.description}
                 </div>
                 <div className="flex items-center gap-2 text-xs text-secondary-font">
-                  <img src={item.author.avatar} alt={item.author.name} className="w-5 h-5 rounded-full" />
-                  <span>{item.author.name}</span>
-                  {item.author.isOfficial ? (
+                  <img src={item.author?.avatar} alt={item.author?.name || item.author?.nickname} className="w-5 h-5 rounded-full" />
+                  <span>{item.author?.name || item.author?.nickname}</span>
+                  {item.author?.isOfficial ? (
                     <span className="badge badge-official" title="Official"><ShieldCheck className="badge-icon" /></span>
-                  ) : item.author.isVerified ? (
+                  ) : item.author?.isVerified ? (
                     <span className="badge badge-verified" title="Verified"><BadgeCheck className="badge-icon" /></span>
                   ) : (
                     <span></span>
                   )}
                   <span>·</span>
-                  <span>{item.lastUpdate}</span>
+                  <span>{item.lastUpdate || item.updatedAt || ""}</span>
                   <span>·</span>
-                  <span className="flex items-center gap-1"><ArrowDownToLine size={12} strokeWidth={1}/> {item.downloads.toLocaleString()} </span>
+                  <span className="flex items-center gap-1"><ArrowDownToLine size={12} strokeWidth={1}/> {(item.downloads || 0).toLocaleString()} </span>
                 </div>
               </div>
             </div>
@@ -369,6 +401,21 @@ const HomePage = ({ onOpenDetail }) => {
       {/* 内容区，宽度自适应一致 */}
       <div className="flex-1 flex flex-col w-full max-w-7xl mx-auto">
         {currentView === 'categories' ? renderCategoriesView() : renderResultsView()}
+        {/* 加载更多指示器 */}
+        <div ref={loaderRef} style={{ height: 40, textAlign: 'center', color: '#888' }}>
+          {sceneLoading
+            ? 'Loading...'
+            : loadedCount >= totalCount
+              ? ''
+              : ''}
+        {/* 数量显示 */}
+        <div className="flex items-center justify-end px-24 py-2 text-xs text-icon-font">
+          filtered: {loadedCount} / {totalCount}
+        </div>
+        </div>
+        {sceneError && (
+          <div className="text-red-500 text-center py-2">{sceneError}</div>
+        )}
       </div>
       <Footer />
       </div>

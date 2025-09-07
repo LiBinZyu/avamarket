@@ -507,3 +507,262 @@ export const platforms = [
     readme: "# Dify AI Platform\n\n## 平台特性\n- 可视化工作流\n- 多模型支持\n- 企业级功能"
   }
 ];
+
+// 新 mock 数据结构，严格对齐 API/SQL 设计
+
+export const mockLabels = [
+  { id: "label-1", name: "AI", level: 0, status: 2 },
+  { id: "label-2", name: "RAG", level: 1, status: 2 },
+  { id: "label-3", name: "Chatbot", level: 1, status: 2 },
+  { id: "label-4", name: "自动化", level: 10, status: 2 }
+];
+
+export const mockUsers = [
+  {
+    id: "user-1",
+    email: "alice@example.com",
+    password: "******",
+    accountType: "自注册",
+    name: "Alice",
+    avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Alice",
+    isVerified: true,
+    isOfficial: false,
+    permission: "user",
+    bio: "AI 爱好者",
+    createdAt: "2024/01/01"
+  },
+  {
+    id: "user-2",
+    email: "bob@example.com",
+    password: "******",
+    accountType: "Google",
+    name: "Bob",
+    avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Bob",
+    isVerified: false,
+    isOfficial: false,
+    permission: "user",
+    bio: "RAG 专家",
+    createdAt: "2024/02/01"
+  }
+];
+
+export const mockSceneListResponse = {
+  scenes: [
+    {
+      id: "scene-1",
+      title: "AI 智能助手",
+      mainLabel: "AI",
+      subcategory: "Featured AI templates",
+      labels: ["label-1", "label-3"],
+      typeId: { dify: "dify-1", n8n: "n8n-1" },
+      clicks: 1234,
+      downloads: 567,
+      status: 2,
+      createdAt: "2024-01-01T12:00:00Z",
+      createdBy: "user-1",
+      updatedAt: "2024-02-01T12:00:00Z",
+      updatedBy: "user-2",
+      author: {
+        name: "Alice",
+        avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Alice",
+        isVerified: true,
+        isOfficial: false
+      }
+    },
+    {
+      id: "scene-2",
+      title: "RAG 文档问答",
+      mainLabel: "RAG",
+      subcategory: "Featured AI templates",
+      labels: ["label-2", "label-4"],
+      typeId: { dify: "dify-2", n8n: "n8n-2" },
+      clicks: 888,
+      downloads: 222,
+      status: 2,
+      createdAt: "2024-03-01T12:00:00Z",
+      createdBy: "user-2",
+      updatedAt: "2024-03-10T12:00:00Z",
+      updatedBy: "user-2",
+      author: {
+        name: "Bob",
+        avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Bob",
+        isVerified: false,
+        isOfficial: false
+      }
+    },
+    {
+      id: "scene-3",
+      title: "销售自动化机器人",
+      mainLabel: "Sales",
+      subcategory: "Sales Automation",
+      labels: ["label-4"],
+      typeId: { dify: "dify-3", n8n: "n8n-3" },
+      clicks: 500,
+      downloads: 120,
+      status: 2,
+      createdAt: "2024-04-01T12:00:00Z",
+      createdBy: "user-1",
+      updatedAt: "2024-04-10T12:00:00Z",
+      updatedBy: "user-1",
+      author: {
+        name: "Alice",
+        avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Alice",
+        isVerified: true,
+        isOfficial: false
+      }
+    },
+    {
+      id: "scene-4",
+      title: "IT 系统监控助手",
+      mainLabel: "IT Ops",
+      subcategory: "System Monitoring",
+      labels: ["label-1"],
+      typeId: { dify: "dify-4", n8n: "n8n-4" },
+      clicks: 300,
+      downloads: 80,
+      status: 2,
+      createdAt: "2024-05-01T12:00:00Z",
+      createdBy: "user-2",
+      updatedAt: "2024-05-10T12:00:00Z",
+      updatedBy: "user-2",
+      author: {
+        name: "Bob",
+        avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Bob",
+        isVerified: false,
+        isOfficial: false
+      }
+    },
+    {
+      id: "scene-5",
+      title: "市场营销邮件生成器",
+      mainLabel: "Marketing",
+      subcategory: "Email Marketing",
+      labels: ["label-1", "label-4"],
+      typeId: { dify: "dify-5", n8n: "n8n-5" },
+      clicks: 200,
+      downloads: 60,
+      status: 2,
+      createdAt: "2024-06-01T12:00:00Z",
+      createdBy: "user-1",
+      updatedAt: "2024-06-10T12:00:00Z",
+      updatedBy: "user-1",
+      author: {
+        name: "Alice",
+        avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Alice",
+        isVerified: true,
+        isOfficial: false
+      }
+    },
+    {
+      id: "scene-6",
+      title: "文档自动化处理",
+      mainLabel: "Document Ops",
+      subcategory: "Document Automation",
+      labels: ["label-3"],
+      typeId: { dify: "dify-6", n8n: "n8n-6" },
+      clicks: 150,
+      downloads: 40,
+      status: 2,
+      createdAt: "2024-07-01T12:00:00Z",
+      createdBy: "user-2",
+      updatedAt: "2024-07-10T12:00:00Z",
+      updatedBy: "user-2",
+      author: {
+        name: "Bob",
+        avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Bob",
+        isVerified: false,
+        isOfficial: false
+      }
+    },
+    {
+      id: "scene-7",
+      title: "多模态情感分析",
+      mainLabel: "AI",
+      subcategory: "Multimodal AI",
+      labels: ["label-1", "label-2"],
+      typeId: { dify: "dify-7", n8n: "n8n-7" },
+      clicks: 100,
+      downloads: 30,
+      status: 2,
+      createdAt: "2024-08-01T12:00:00Z",
+      createdBy: "user-1",
+      updatedAt: "2024-08-10T12:00:00Z",
+      updatedBy: "user-1",
+      author: {
+        name: "Alice",
+        avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Alice",
+        isVerified: true,
+        isOfficial: false
+      }
+    },
+    {
+      id: "scene-8",
+      title: "客服工单系统",
+      mainLabel: "Support",
+      subcategory: "Ticket System",
+      labels: ["label-4"],
+      typeId: { dify: "dify-8", n8n: "n8n-8" },
+      clicks: 80,
+      downloads: 20,
+      status: 2,
+      createdAt: "2024-09-01T12:00:00Z",
+      createdBy: "user-2",
+      updatedAt: "2024-09-10T12:00:00Z",
+      updatedBy: "user-2",
+      author: {
+        name: "Bob",
+        avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Bob",
+        isVerified: false,
+        isOfficial: false
+      }
+    }
+  ],
+  count: 8,
+  total: 8,
+  page: 1,
+  totalPages: 1
+};
+
+export const mockSceneDetailResponse = {
+  templates: [
+    {
+      id: "scene-1",
+      title: "AI 智能助手",
+      author: {
+        name: "Alice",
+        user_email: "alice@example.com",
+        avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Alice",
+        isVerified: true,
+        isOfficial: false
+      },
+      downloads: 567,
+      category: "AI",
+      subcategory: "Featured AI templates",
+      labels: ["AI", "Chatbot"],
+      dslFiles: [
+        { platformName: "Dify", fileUrl: "https://example.com/dify-1.dsl", svgPreview: "https://example.com/dify-1.svg" },
+        { platformName: "n8n", fileUrl: "https://example.com/n8n-1.dsl", svgPreview: "https://example.com/n8n-1.svg" }
+      ],
+      readme: "# AI 智能助手\n\n- 支持多平台\n- 智能对话\n- 语音识别"
+    }
+  ]
+};
+
+export const mockUserInfo = {
+  id: "user-1",
+  email: "alice@example.com",
+  name: "Alice",
+  avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=Alice",
+  isVerified: true,
+  isOfficial: false,
+  permission: "user",
+  bio: "AI 爱好者",
+  createdAt: "2024/01/01"
+};
+
+export const mockTagList = [
+  { id: "label-1", name: "AI", level: 0, status: 2 },
+  { id: "label-2", name: "RAG", level: 1, status: 2 },
+  { id: "label-3", name: "Chatbot", level: 1, status: 2 },
+  { id: "label-4", name: "自动化", level: 10, status: 2 }
+];

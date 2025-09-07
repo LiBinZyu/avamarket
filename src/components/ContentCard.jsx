@@ -27,7 +27,7 @@ const ContentCard = ({ item, type = 'template', onClick }) => {
 
   return (
     <div
-      className="content-card cursor-pointer transition-transform duration-200 hover:shadow-lg hover:-translate-y-1 hover:border-NormalBlue border border-transparent flex flex-col h-40 min-w-0"
+      className="content-card cursor-pointer transition-transform duration-200 hover:shadow-lg hover:-translate-y-1 hover:border-NormalBlue border border-transparent flex flex-col h-40 min-w-68"
       onClick={() => onClick(item)}
     >
       {/* 技术栈标签 */}

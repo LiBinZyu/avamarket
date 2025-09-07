@@ -1,3 +1,176 @@
+# AvaMarket API & Schema
+
+## SQL Schema
+
+```sql
+-- 场景表
+CREATE TABLE scene (
+  id UUID PRIMARY KEY,                -- 场景唯一ID
+  title VARCHAR(255),                 -- 标题
+  main_label VARCHAR(64),             -- 主标签
+  labels UUID[],                      -- 标签（标签ID数组）
+  type_id JSONB,                      -- 类型ID { "dify": "...", "n8n": "..." }
+  clicks INT,                         -- 点击次数
+  downloads INT,                      -- 下载总数
+  status INT,                         -- 发布状态（0编辑,1申请发布,2已发布,3隐藏,4删除）
+  created_at TIMESTAMP,               -- 创建时间
+  created_by UUID,                    -- 创建人ID
+  updated_at TIMESTAMP,               -- 更新时间
+  updated_by UUID                     -- 更新人ID
+);
+
+-- 场景详细信息表
+CREATE TABLE scene_detail (
+  scene_id UUID PRIMARY KEY,          -- 场景唯一ID
+  detail_id UUID,                     -- 详细信息ID
+  svg_url TEXT,                       -- 矢量图URL, 可以为null, 前端需增加一种null状态的渲染风格
+  dsl_url TEXT,                       -- DSL下载路径
+  downloads INT,                      -- 下载次数
+  readme_url TEXT,                    -- 简介(MD url)
+  type VARCHAR(32),                   -- 类型（dify、n8n、coze、a1）
+  created_at TIMESTAMP,               -- 创建时间
+  created_by UUID,                    -- 创建人ID
+  updated_at TIMESTAMP,               -- 更新时间
+  updated_by UUID                     -- 更新人ID
+);
+
+-- 用户信息表
+CREATE TABLE user_info (
+  id UUID PRIMARY KEY,                -- 用户ID
+  email VARCHAR(255) UNIQUE,          -- 邮箱
+  password VARCHAR(255),              -- 密码（加密）
+  account_type VARCHAR(32),           -- 账号类型（自注册、Google、Apple、Github）采用Auth0 方案
+  name VARCHAR(64),               -- 昵称
+  avatar TEXT,                        -- 头像URL
+  is_verified BOOLEAN,                -- 是否认证
+  is_official BOOLEAN,                -- 是否官方
+  permission VARCHAR(32),             -- 权限
+  bio TEXT,                           -- 个人简介
+  created_at DATE                     -- 注册时间
+);
+
+-- 用户文档表
+CREATE TABLE user_doc (
+  user_id UUID,                       -- 用户ID
+  scene_id UUID                       -- 场景唯一ID
+);
+
+-- 标签表
+CREATE TABLE tag (
+  id UUID PRIMARY KEY,                -- 标签ID
+  name VARCHAR(64),                   -- 标签名
+  level INT,                          -- 标签等级（0一级，1二级，10自定标签）
+  status INT                          -- 标签状态（0编辑,1申请发布,2已发布,3隐藏,4删除）
+);
+```
+
+## API Specification
+
+```http
+POST /api/scene/list
+Content-Type: application/json
+
+{
+  "labels": ["标签ID"],      // 标签筛选
+  "string": "标题关键字",     // 标题模糊搜索
+  "count": 10,               // 每页数量
+  "page": 1,                 // 页码
+  "user_email": "xxx@xx.com" // 用户邮箱,optional, 用于渲染 user > my posts
+}
+```
+> ### 返回场景Summary Search接口
+> 场景列表（含id、title、labels、downloads、author、数量、总数量、当前页数、总页数等）  
+
+
+```http
+GET /api/scene/detail?sceneId={id}&userEmail={email}
+
+// 根据email判断当前用户是否可以编辑这个场景
+```
+> ### 返回场景详情接口 
+> ```
+> {
+>   "templates": [
+>     {
+>       "id": "template-1",
+>       "title": "模板标题",
+>       "author": { "name": "作者名", "user_email": "作者邮箱", "avatar": "头像URL", "isVerified": true, "isOfficial": false },
+>       "downloads": 2345,
+>       "category": "AI",
+>       "subcategory": "Featured AI templates",
+>       "labels": ["标签1", "标签2"],
+>       "dslFiles": [
+>         { "platformName": "Dify", "fileUrl": "Dify平台DSL文件URL", "svgPreview": "Dify平台SVG预览图URL" },
+>         { "platformName": "n8n", "fileUrl": "n8n平台DSL文件URL", "svgPreview": "n8n平台SVG预览图URL" }
+>       ],
+>       "readme": "Markdown内容"
+>     }
+>   ]
+> }
+> ```
+
+
+```http
+GET /api/user/info
+Authorization: Bearer <token>
+```
+> // 用户信息展示接口
+
+```http
+POST /api/user/edit
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  // 用户信息字段
+}
+```
+> // 用户信息编辑接口
+
+```http
+POST /api/user/doc
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "user_id": "xxx",
+  "scene_id": "xxx"
+}
+```
+> // 文档编写接口
+
+```http
+POST /api/user/doc/review
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  // 审查内容
+}
+```
+> // 文档审查接口
+
+```http
+GET /api/tag/list
+```
+> // 标签表接口
+
+```http
+PATCH /api/user/profile
+Authorization: Bearer <token>
+Content-Type: multipart/form-data
+
+{
+  "name": "新昵称",         // 可选，字符串
+  "avatar": (file),            // 可选，图片文件
+  "bio": "新的个人简介"         // 可选，字符串
+}
+```
+> // 用户资料编辑接口，仅允许修改昵称、头像（图片上传）、个人简介。邮箱、密码、认证等字段不可修改。
+> // 返回：更新后的用户信息对象
+
+---
+
 # **AvaMarket - 模板市场前端系统**
 
 ## **系统概述**
@@ -69,236 +242,40 @@ AvaMarket 是一个现代化的模板市场前端系统，专注于 AI 工作流
 - **图标库**: Lucide React
 - **Markdown渲染**: @uiw/react-markdown-preview
 
-### **状态管理**
-- **路由状态**: 基于useState的简单路由管理
-- **组件状态**: 各页面独立的状态管理
-- **数据流**: 从mockData到组件的单向数据流
+### **目录结构建议（补充）**
+- `src/pages/ProfilePage.jsx`：用户中心页面
+- `src/store/slices/userSlice.js`：用户信息相关 Redux slice
 
-### **样式系统**
-- **CSS变量**: 统一的颜色、字体、间距、圆角定义
-- **组件类**: 预定义的按钮、卡片、输入框等组件样式
-- **响应式设计**: 支持不同屏幕尺寸的适配
-- **高级动画**: CSS keyframes动画，支持SVG预览刷新和按钮光效
-- **伪元素**: 使用::after伪元素实现复杂的视觉效果
-- **混合模式**: 支持mix-blend-mode等高级CSS特性
-
-## **数据结构**
-
-### **分类数据结构**
-```javascript
-categories: {
-  "AI": {
-    name: "AI",
-    subcategories: [
-      { id: "ai-featured", name: "Featured AI templates" },
-      { id: "ai-chatbot", name: "AI Chatbot" },
-      // ... 更多二级分类
-    ]
-  }
-  // ... 更多主分类
-}
-```
-
-### **内容数据结构**
-```javascript
-templates: [
-  {
-    id: "template-1",
-    title: "模板标题",
-    author: { name: "作者名", avatar: "头像URL", isVerified: true, isOfficial: false },
-    downloads: 2345,
-    category: "AI",
-    subcategory: "Featured AI templates",
-    labels: ["标签1", "标签2"],
-    dslFiles: [
-      // 支持多平台，每个平台一个对象，三者成套
-      { platformName: "Dify", fileUrl: "Dify平台DSL文件URL", svgPreview: "Dify平台SVG预览图URL" },
-      { platformName: "n8n", fileUrl: "n8n平台DSL文件URL", svgPreview: "n8n平台SVG预览图URL" }
-    ],
-    readme: "Markdown内容"
-  }
-]
-```
+### **组件通信与数据流规范（补充）**
+- ProfilePage 通过 Redux 获取和更新用户信息，所有编辑操作（含头像上传）均通过 dispatch 异步 action 实现
+- 头像上传建议用 form-data 方式，上传成功后自动更新 Redux 中的用户信息
 
 ---
 
-## **前端接口设计（生产环境）**
+## **文件说明（src/ 目录主要文件）**
 
-AvaMarket 前端页面所需的主要接口如下，便于后端开发和联调：
-
-### 1. 分类与子分类接口
-
-- **用途**：首页分类导航、二级分类展示
-- **接口**：`GET /api/categories`
-- **返回示例**：
-  ```json
-  [
-    {
-      "name": "AI",
-      "subcategories": [
-        { "id": "ai-featured", "name": "Featured AI templates", "description": "精选AI模板", "icon": "🤖" }
-        // ...
-      ]
-    }
-    // ...
-  ]
-  ```
-
-### 2. 内容列表（模板/平台）检索接口
-
-- **用途**：首页内容卡片、搜索、分类/子分类筛选
-- **接口**：`GET /api/contents`
-- **请求参数**：
-  - `category`（可选）：一级分类名，如 "AI"
-  - `subcategory`（可选）：二级分类名，如 "AI Chatbot"
-  - `search`（可选）：搜索关键词
-  - `type`（可选）："template" 或 "platform"
-  - `sort`（可选）："relevancy"、"downloads"、"latest"
-  - `page`、`pageSize`（可选）：分页
-- **返回示例**：
-  ```json
-  [
-    {
-      "id": "template-1",
-      "title": "Angie, Personal AI Assistant with Telegram Voice and Text",
-      "author": { "name": "Alice", "avatar": "...", "isVerified": true, "isOfficial": false },
-      "downloads": 2345,
-      "category": "AI",
-      "subcategory": "Featured AI templates",
-      "labels": ["Telegram", "OpenAI", ...],
-      "svgPreview": "...",
-      "description": "...",
-      "lastUpdate": "1 week ago",
-      "dslFiles": [{ "platformName": "Dify", "fileUrl": "..." }, ...],
-      "readme": "..." // 可选，详情页用
-    }
-    // ...
-  ]
-  ```
-
-### 3. 内容详情接口
-
-- **用途**：详情页展示模板/平台详细信息
-- **接口**：`GET /api/contents/{id}`
-- **返回示例**：同上单条内容结构，包含所有字段（如 dslFiles、readme、author、downloads、labels、category、subcategory、lastUpdate 等）
-
-### 4. 发布内容接口
-
-- **用途**：发布模板/平台（PublishPage.jsx）
-- **接口**：`POST /api/contents`
-- **请求体**（以模板为例）：
-  ```json
-  {
-    "type": "template", // 或 "platform"
-    "title": "xxx",
-    "labels": ["OpenAI", "Google Sheets"],
-    "category": "AI",
-    "subcategory": "AI Chatbot",
-    "svgPreview": "...", // 可选
-    "dslFiles": [{ "platformName": "Dify", "fileUrl": "..." }],
-    "projectUrl": "", // 平台类型时必填
-    "readme": "markdown内容"
-  }
-  ```
-- **返回**：新建内容的 id 或完整内容对象
-
-### 5. 技术标签接口（可选）
-
-- **用途**：标签选择器自动补全
-- **接口**：`GET /api/tech-labels`
-- **返回**：`["Google Sheets", "OpenAI", ...]`
-
-#### 接口清单表格
-
-| 接口路径              | 方法 | 说明         | 主要参数/字段         |
-|----------------------|------|--------------|----------------------|
-| /api/categories      | GET  | 获取分类     | -                    |
-| /api/contents        | GET  | 内容检索     | category, subcategory, search, type, sort, page, pageSize |
-| /api/contents/{id}   | GET  | 内容详情     | id                   |
-| /api/contents        | POST | 发布内容     | type, title, labels, category, subcategory, dslFiles, projectUrl, readme |
-| /api/tech-labels     | GET  | 技术标签     | -                    |
-
-> 所有内容（模板/平台）结构字段以 mockData.js 为准，生产环境需后端返回一致结构。  
-> **dslFiles 字段为数组，支持多平台（如 Dify、n8n、Coze），每个平台一个对象，包含 platformName（平台名，限定可选）、fileUrl（DSL 文件）、svgPreview（SVG 预览图，三者成套）。**  
-> 内容卡片和详情页根据 dslFiles[0]?.svgPreview 或当前平台 svgPreview 展示预览图。  
-> readme 字段为 markdown 文本，支持详情页渲染和下载，发布页支持本地 .md 文件上传自动填充。  
-> 分类、子分类、标签等建议由后端统一维护，前端仅做展示和选择。
-
----
-
-## **特色功能**
-
-### **1. SVG预览系统**
-- **交互式预览**: 支持拖拽和缩放操作
-- **加载状态**: 优雅的加载动画和状态提示
-- **刷新动画**: 左上到右下的对角线刷新效果
-
-### **2. 认证徽章系统**
-- **官方认证**: 蓝色盾牌图标，表示官方内容
-- **用户认证**: 绿色对勾图标，表示认证用户
-- **社区用户**: 无特殊标识的普通用户
-
-### **3. 平台集成支持**
-- **多平台DSL**: 支持Dify、n8n等平台的配置文件
-- **动态切换**: 用户可在不同平台间切换查看
-- **文件下载**: 支持DSL文件的直接下载
-
-### **4. 高级UI组件**
-- **SVG预览窗口**: 自定义的window组件，包含标题、加载状态和刷新动画
-- **内发光效果**: 窗口组件支持内发光效果，增强视觉层次
-- **刷新动画**: 左上到右下的对角线白光扫过效果，支持循环播放
-- **按钮发光**: Publish按钮支持内发光和悬停时的光效动画
-
-## **开发与部署**
-
-### **开发环境**
-```bash
-# 安装依赖
-npm install
-
-# 启动开发服务器
-npm run dev
-
-# 构建生产版本
-npm run build
-```
-
-### **项目结构**
-```
-src/
-├── components/          # 可复用组件
-│   ├── Header.jsx      # 顶部导航栏
-│   ├── ContentCard.jsx # 内容卡片组件
-│   ├── CategoryFilter.jsx # 分类筛选器
-│   └── SubcategoryCard.jsx # 二级分类卡片
-├── pages/              # 页面组件
-│   ├── HomePage.jsx    # 主页
-│   ├── DetailPage.jsx  # 内容详情页
-│   └── PublishPage.jsx # 内容发布页
-├── data/               # 模拟数据和配置
-│   ├── mockData.js     # 模拟数据
-│   └── mockReadme.md   # 示例README文件
-├── assets/             # 静态资源
-│   ├── dify.ai.svg     # Dify平台图标
-│   └── n8n.io.svg      # n8n平台图标
-└── index.css           # 全局样式和CSS变量
-```
-
-### **自定义配置**
-- **主题变量**: 在`:root`中定义的颜色、字体、间距等变量
-- **组件样式**: 预定义的按钮、卡片、输入框等样式类
-- **响应式断点**: 基于Tailwind CSS的响应式设计系统
-
-## **未来扩展计划**
-
-### **功能增强**
-- **用户认证系统**: 完整的登录注册流程
-- **内容管理**: 用户发布内容的编辑和删除
-- **评论系统**: 用户对内容的评价和讨论
-- **收藏功能**: 用户收藏感兴趣的内容
-
-### **技术升级**
-- **状态管理**: 引入Redux或Zustand进行状态管理
-- **路由系统**: 使用React Router进行更完善的路由管理
-- **API集成**: 连接后端API，替换模拟数据
-- **测试覆盖**: 添加单元测试和集成测试
+- `src/App.jsx`：应用主入口，路由和全局布局
+- `src/main.jsx`：React 应用挂载入口，注入 Provider、Router 等
+- `src/pages/`：页面组件目录
+  - `HomePage.jsx`：首页，内容卡片、分类、搜索、无限滚动
+  - `DetailPage.jsx`：内容详情页，展示模板/平台详细信息
+  - `PublishPage.jsx`：内容发布页，表单、DSL上传、README编辑
+  - `ProfilePage.jsx`：用户中心页，资料展示与编辑
+- `src/components/`：复用 UI 组件
+  - `Header.jsx`：顶部导航栏
+  - `Footer.jsx`：底部信息栏
+  - `ContentCard.jsx`：内容卡片
+  - `CategoryFilter.jsx`：分类筛选器
+  - `BentoGrid.jsx`：首页 Bento 风格背景
+  - 其它 UI 组件
+- `src/store/`：Redux 全局状态管理
+  - `index.js`：store 配置
+  - `slices/contentSlice.js`：内容分页、加载、筛选
+  - `slices/userSlice.js`：用户信息、登录、编辑
+- `src/data/`：模拟数据和配置
+  - `mockData.js`：mock 场景、标签、用户等数据
+  - `mockReadme.md`：示例 README 文本
+- `src/utils/`：工具函数和 API 封装
+  - `api.js`：所有后端/Mock API 请求封装
+- `src/assets/`：静态资源（图片、SVG、平台图标等）
+- `src/index.css`、`src/fonts.css`：全局样式、字体
