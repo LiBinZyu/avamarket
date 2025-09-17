@@ -107,27 +107,47 @@ const PublishPage = () => {
                     <option key={platform} value={platform}>{platform}</option>
                   ))}
                 </select>
-                <input type="file" className="btn-secondary bg-LightBlue flex-1" accept=".json,.yaml,.yml" />
+  
                 {formData.dslFiles.length > 1 && (
                   <button type="button" onClick={() => removeDslFile(index)} className="btn-secondary text-red-500 bg-red-50">Delete</button>
                 )}
               </div>
-              <div className="flex items-center gap-3">
-              <span className="block text-xs text-secondary-font">SVG:</span>
-                <input
-                  type="file"
-                  accept=".svg"
-                  onChange={e => handleDslSvgPreviewUpload(index, e)}
-                  className="btn-secondary bg-LightBlue"
-                  title="Upload SVG Preview"
-                />
-                <span className="block text-xs text-secondary-font">Preview</span>
-                {dsl.svgPreview ? (
-                  <img src={dsl.svgPreview} alt="Preview" className="w-12 h-12" />
-                ) : (
-                  <span className="text-xs text-secondary-font">none</span>
-                )}
+              <div className="flex flex-0 items-center gap-3">
+                <span className="block text-xs text-secondary-font">DSL:</span>
+                  <label className="btn-secondary bg-LightBlue cursor-pointer">
+                    {dsl.fileUrl
+                      ? dsl.fileUrl.slice(0, 10)
+                      : 'Upload DSL'}
+                    <input
+                      type="file"
+                      accept=".json,.yaml,.yml,.png"
+                      style={{ display: 'none' }}
+                      title=""
+                    />
+                  </label>
+                  
+
+                <span className="block text-xs text-secondary-font">SVG:</span>
+                <label className="btn-secondary bg-LightBlue cursor-pointer">
+                    {dsl.svgPreview
+                      ? dsl.svgPreview.slice(0, 10)
+                      : 'Upload SVG'}
+                    <input
+                      type="file"
+                      accept=".svg,.png"
+                      onChange={e => handleDslSvgPreviewUpload(index, e)}
+                      style={{ display: 'none' }}
+                      title=""
+                    />
+                  </label>
                 
+                  {/* <span className="block text-xs text-secondary-font">Preview</span>
+                  {dsl.svgPreview ? (
+                    <img src={dsl.svgPreview} alt="Preview" className="w-12 h-12" />
+                  ) : (
+                    <span className="text-xs text-secondary-font">none</span>
+                  )} */}
+                  
               </div>
             </div>
           ))}
